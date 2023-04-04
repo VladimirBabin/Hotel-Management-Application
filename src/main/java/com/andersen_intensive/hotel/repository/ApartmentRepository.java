@@ -7,7 +7,7 @@ public interface ApartmentRepository {
 
     void updateApartmentPrice(Apartment apartment, double price);
 
-    List<Appartment> getListOfApartments();
+    List<Apartment> getListOfApartments();
 
     void deleteApartment(Apartment apartment);
 

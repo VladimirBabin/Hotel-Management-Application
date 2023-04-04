@@ -16,7 +16,7 @@ public class ApartmentRepositoryImpl implements ApartmentRepository {
     }
 
     @Override
-    public List<Appartment> getListOfApartments() {
+    public List<Apartment> getListOfApartments() {
         return null;
     }
 
