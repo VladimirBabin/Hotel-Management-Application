@@ -1,5 +1,7 @@
 package com.andersen_intensive.hotel.repository;
 
+import com.andersen_intensive.hotel.models.Client;
+
 import java.util.ArrayList;
 import java.util.List;
 

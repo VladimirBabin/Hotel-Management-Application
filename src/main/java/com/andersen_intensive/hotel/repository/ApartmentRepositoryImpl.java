@@ -1,5 +1,7 @@
 package com.andersen_intensive.hotel.repository;
 
+import com.andersen_intensive.hotel.models.Apartment;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +28,7 @@ public class ApartmentRepositoryImpl implements ApartmentRepository {
     }
 
     @Override
-    public List<String> getListOfApartments() {
+    public List<Apartment> getListOfApartments() {
         return null;
     }
 

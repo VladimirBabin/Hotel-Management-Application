@@ -1,5 +1,7 @@
 package com.andersen_intensive.hotel.repository;
 
+import com.andersen_intensive.hotel.models.Reservation;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDateTime;
@@ -28,16 +30,6 @@ public class ReservationRepositoryImpl implements ReservationRepository {
 
     @Override
     public void addServiceForReservation() {
-
-    }
-
-    @Override
-    public void checkInApartmentForClient(Apartment apartment, Client client, LocalDateTime checkInDate) {
-
-    }
-
-    @Override
-    public void checkOutOfApartmentForClient(Apartment apartment, Client client, LocalDateTime checkOutDate) {
 
     }
 }

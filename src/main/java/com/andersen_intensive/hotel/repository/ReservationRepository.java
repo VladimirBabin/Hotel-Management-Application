@@ -1,5 +1,7 @@
 package com.andersen_intensive.hotel.repository;
 
+import com.andersen_intensive.hotel.models.Reservation;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -12,8 +14,4 @@ public interface ReservationRepository {
     List<Reservation> getReservationsByApartment();
 
     void addServiceForReservation();
-
-    void checkInApartmentForClient(Apartment apartment, Client client, LocalDateTime checkInDate);
-
-    void checkOutOfApartmentForClient(Apartment apartment, Client client, LocalDateTime checkOutDate);
 }
