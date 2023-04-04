@@ -1,0 +1,15 @@
+package com.andersen_intensive.hotel.repository;
+
+public interface ApartmentRepository {
+    void addApartment(Apartment apartment);
+
+    Apartment getApartment(int number);
+
+    void updateApartmentPrice(Apartment apartment, double price);
+
+    List<Appartment> getListOfApartments();
+
+    void deleteApartment(Apartment apartment);
+
+    void setUnavailable(Apartment apartment);
+}

@@ -1,0 +1,10 @@
+package com.andersen_intensive.hotel.repository;
+
+public interface ClientRepository {
+
+    void addClient(Client client);
+
+    Client getClientByPhoneNumber(int phoneNumber);
+
+    List<Client> getListOfClients();
+}
