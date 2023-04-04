@@ -1,11 +1,19 @@
 package com.andersen_intensive.hotel.repository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.time.LocalDateTime;
 
 public class ReservationRepositoryImpl implements ReservationRepository {
-    @Override
-    public void addReservation(Client client, Apartment apartment, LocalDateTime checkInDate, LocalDateTime checkOutDate) {
 
+    List<Reservation> reservations;
+
+    @Override
+    public void addReservation(Reservation reservation) {
+        if (reservations == null) {
+            reservations = new ArrayList<Reservation>();
+        }
+        reservations.add(reservation);
     }
 
     @Override

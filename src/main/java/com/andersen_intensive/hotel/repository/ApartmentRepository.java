@@ -1,5 +1,7 @@
 package com.andersen_intensive.hotel.repository;
 
+import java.util.List;
+
 public interface ApartmentRepository {
     void addApartment(Apartment apartment);
 
