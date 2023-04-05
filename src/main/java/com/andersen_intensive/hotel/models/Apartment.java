@@ -21,7 +21,7 @@ public class Apartment {
         this.apartmentNumber = apartmentNumber;
     }
 
-    public Double getPrice() {
+    public Double getApartmentPrice() {
         return price;
     }
 
