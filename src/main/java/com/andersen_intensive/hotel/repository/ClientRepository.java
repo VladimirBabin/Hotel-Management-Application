@@ -3,7 +3,6 @@ package com.andersen_intensive.hotel.repository;
 import com.andersen_intensive.hotel.models.Client;
 
 import java.util.List;
-import java.util.Map;
 
 public interface ClientRepository { //CRUD repo Create Read Update Delete
     //подключить драйвер бд

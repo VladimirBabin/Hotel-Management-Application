@@ -10,9 +10,13 @@ import com.andersen_intensive.hotel.service.ClientServiceImpl;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
+
 import com.andersen_intensive.hotel.models.ApartmentType;
+
 public class ConsoleInteraction {
 
     private static final String MENU = "Menu:" + "\n" +
@@ -21,14 +25,13 @@ public class ConsoleInteraction {
             "3. Apartment management" + "\n" +
             "4. Service management" + "\n" +
             "5. Check-in" + "\n" +
-            "6. Check-out" + "\n"+      //Sv
+            "6. Check-out" + "\n" +      //Sv
             "7. Get the current price for client's stay" + "\n" +
             "0. Exit program" + "\n";
 
-    private ClientServiceImpl clientService;
-
     static void showMainMenu() {
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))) {
+            ClientService clientService = new ClientServiceImpl(new ClientRepositoryImpl());
             while (true) {
                 System.out.println(MENU);
                 String input = bufferedReader.readLine();
@@ -36,10 +39,10 @@ public class ConsoleInteraction {
                     case "0":
                         return;
                     case "1":
-                        registerNewClient(bufferedReader);
+                        registerNewClient(bufferedReader, clientService);
                         break;
                     case "2":
-                        showListOfClients(bufferedReader);
+                        showListOfClients(bufferedReader, clientService);
                         break;
                     case "3":
                         ApartmentManagement.showApartmentManagementMenu(bufferedReader);
@@ -63,10 +66,8 @@ public class ConsoleInteraction {
         }
     }
 
-//    Mary
-    static void registerNewClient(BufferedReader bufferedReader) throws IOException {
-
-        ClientService clientService = new ClientServiceImpl(new ClientRepositoryImpl());
+    //    Mary
+    static void registerNewClient(BufferedReader bufferedReader, ClientService clientService) throws IOException {
 
         System.out.println("Client's name:");
         String name = bufferedReader.readLine();
@@ -79,34 +80,33 @@ public class ConsoleInteraction {
         System.out.println("Client created: " + clientCreated.toString());
     }
 
-//    Mary
-    static void showListOfClients(BufferedReader bufferedReader) throws IOException {
-
-        final ClientService clientService = new ClientServiceImpl(new ClientRepositoryImpl());
+    //    Mary
+    static void showListOfClients(BufferedReader bufferedReader, ClientService clientService) throws IOException {
 
         System.out.println("1. List of clients\n" +
                 "2. Sort list of clients by last name");
 
         String input = bufferedReader.readLine();
-        switch (input) {
-            case "1":
-                clientService.getClientList(false);
-                break;
-            case "2":
-                clientService.getClientList(true);
-                break;
+        List<Client> clients = new ArrayList<>();
+                switch (input) {
+                    case "1" -> clients = clientService.getClientList(false);
+                    case "2" -> clients = clientService.getClientList(true);
+                }
+        for (Client client: clients) {
+            System.out.println("=========================================");
+            System.out.println(client.toString());
         }
     }
 
-//    Vova
+    //    Vova
     static private void checkIn(BufferedReader bufferedReader) {
     }
 
-//    Vova
+    //    Vova
     static private void checkOut(BufferedReader bufferedReader) {
     }
 
-//    ?
+    //    ?
     static private void getCurrentPriceForClient(BufferedReader bufferedReader) {
     }
 }
