@@ -10,7 +10,7 @@ import java.util.*;
 @Slf4j
 public class ClientRepositoryImpl implements ClientRepository {
 
-    private Map<Integer, Client> clients = new HashMap<>();
+    private final Map<Integer, Client> clients = new HashMap<>();
 
     @Override
     public Client addClient(Client client) {
