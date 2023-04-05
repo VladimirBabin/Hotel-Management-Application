@@ -1,13 +1,13 @@
 package com.andersen_intensive.hotel.repository;
 
 import com.andersen_intensive.hotel.models.Client;
-import lombok.extern.slf4j.Slf4j;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-// аннотация репозитория
 
-@Slf4j
 public class ClientRepositoryImpl implements ClientRepository {
 
     private final Map<Integer, Client> clients = new HashMap<>();
@@ -19,52 +19,25 @@ public class ClientRepositoryImpl implements ClientRepository {
     }
 
     @Override
-    public Client getClientById(int id) {
-        for (Map.Entry<Integer, Client> entry : clients.entrySet()) {
-            if (entry.getKey().equals(id)) {
-                return entry.getValue();
-            }
-        }
-        return null;
+    public Client getClientById(Integer id) {
+        return clients.get(id);
     }
 
     @Override
-    public void getAllClients() {
-        for (Map.Entry<Integer, Client> entry : clients.entrySet()) {
-            System.out.println(entry.getKey() + " : " + entry.getValue().getFirstName() + " " + entry.getValue().getLastName() +
-                    " " + entry.getValue().getPhoneNumber());
-        }
+    public List<Client> getAllClients() {
+        return new ArrayList<>(clients.values());
     }
 
     @Override
-    public void updateClient(Client client) {
-        for (int i = 0; i < clients.size(); i++) {
-            if (clients.get(i).getPersonalID() == client.getPersonalID()) {
-                clients.put(clients.get(i).getPersonalID(), client);
-                break;
-            }
-        }
+    public Client updateClient(Client client) {
+        Integer id = client.getPersonalID();
+        clients.put(id, client);
+        Client updatedClient = clients.get(id);
+        return updatedClient;
     }
 
     @Override
     public void deleteClient(int id) {
-        for (int i = 0; i < clients.size(); i++) {
-            if (clients.get(i).getPersonalID() == id) {
-                clients.remove(i);
-                break;
-            }
-        }
-    }
-
-    public Map<Integer, Client> alphabeticalSorting(Map<Integer, Client> clients) {
-        Map<Integer, Client> sortedClients = new LinkedHashMap<>();
-        clients.entrySet()
-                .stream()
-                .filter(entry -> entry.getValue().getLastName() != null)
-                .filter(entry -> entry.getValue().getFirstName() != null)
-                .sorted(Comparator.comparing(entry -> entry.getValue().getLastName()))
-                .forEach(entry -> sortedClients.put(entry.getKey(), entry.getValue()));
-
-        return sortedClients;
+        clients.remove(id);
     }
 }

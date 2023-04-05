@@ -3,8 +3,8 @@ package com.andersen_intensive.hotel.service;
 import com.andersen_intensive.hotel.models.Client;
 import com.andersen_intensive.hotel.repository.ClientRepository;
 
-import java.util.Map;
-
+import java.util.Comparator;
+import java.util.List;
 
 public class ClientServiceImpl implements ClientService {
 
@@ -26,8 +26,12 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void getClientList(Map<Integer, Client> clientMap) {
-        clientRepository.getAllClients();
+    public List<Client> getClientList(boolean sortByLastName) {
+        List<Client> clients = clientRepository.getAllClients();
+        if (sortByLastName) {
+            clients.sort(Comparator.comparing(Client::getLastName));
+        }
+        return clients;
     }
 
     @Override
@@ -36,7 +40,8 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void updateClient(Client client) {
-        clientRepository.updateClient(client);
+    public Client updateClient(Client clientToUpdate) {
+        Client updatedClient = clientRepository.updateClient(clientToUpdate);
+        return updatedClient;
     }
 }
