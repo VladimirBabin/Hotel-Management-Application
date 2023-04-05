@@ -75,13 +75,21 @@ public class ConsoleInteraction {
         String lastName = bufferedReader.readLine();
         System.out.println("Client's phone number:");
         String phoneNumber = bufferedReader.readLine();
-
         Client clientCreated = clientService.createClient(name, lastName, phoneNumber);
-        System.out.println("Client created: " + clientCreated.toString());
+
+        while (true) {
+            System.out.println("Client created: " + clientCreated.toString() + "\n\n" +
+                    "To go back type 1");
+            String input = bufferedReader.readLine();
+            switch (input) {
+                case "1" -> {return;}
+            }
+        }
     }
 
     //    Mary
     static void showListOfClients(BufferedReader bufferedReader, ClientService clientService) throws IOException {
+
 
         System.out.println("1. List of clients\n" +
                 "2. Sort list of clients by last name");
@@ -95,6 +103,15 @@ public class ConsoleInteraction {
         for (Client client: clients) {
             System.out.println("=========================================");
             System.out.println(client.toString());
+        }
+
+        System.out.println("\n\n" +
+                "To go back type 1");
+        while (true) {
+            input = bufferedReader.readLine();
+            if (input.equals("1")) {
+                return;
+            }
         }
     }
 
