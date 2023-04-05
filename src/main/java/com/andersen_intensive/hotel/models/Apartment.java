@@ -1,16 +1,16 @@
 package com.andersen_intensive.hotel.models;
 
-public class Apartment {
+public class Apartment implements IApartment {
     private int apartmentNumber;
     private Double price;
     private ApartmentType apartmentType;
     private ApartmentStatus apartmentStatus;
 
-    public Apartment(int apartmentNumber, Double price, ApartmentType apartmentType, ApartmentStatus apartmentStatus) {
+    public Apartment(int apartmentNumber, Double price, ApartmentType apartmentType) {
         this.apartmentNumber = apartmentNumber;
         this.price = price;
         this.apartmentType = apartmentType;
-        this.apartmentStatus = apartmentStatus;
+        this.apartmentStatus = ApartmentStatus.AVAILABLE;
     }
 
     public int getApartmentNumber() {
