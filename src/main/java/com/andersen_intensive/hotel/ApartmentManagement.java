@@ -1,10 +1,15 @@
 package com.andersen_intensive.hotel;
 
 import com.andersen_intensive.hotel.models.Apartment;
+import com.andersen_intensive.hotel.models.ApartmentStatus;
 import com.andersen_intensive.hotel.models.ApartmentType;
+import com.andersen_intensive.hotel.repository.ApartmentRepositoryImpl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 // Sveta
 public class ApartmentManagement {
@@ -40,7 +45,7 @@ public class ApartmentManagement {
         }
     }
 
-    private static void addApartment(BufferedReader bufferedReader) throws IOException {     //Sv
+    private static void addApartment(BufferedReader bufferedReader) throws IOException {
 
         System.out.println("Enter apartment number:");
         int apartmentNumber = Integer.parseInt(bufferedReader.readLine());
@@ -52,34 +57,69 @@ public class ApartmentManagement {
         ApartmentType apartmentType = enterApartmentType(bufferedReader);
 
         Apartment apartment = new Apartment(apartmentNumber, apartmentPrice, apartmentType);
+        System.out.println(apartment);
+        ApartmentRepositoryImpl apartmentMap = ApartmentRepositoryImpl.getInstance();
+        apartmentMap.addApartment(apartment);
+        apartmentMap.getAllApartments();
 
-//здесь нужно добавить апартаменты в общий Лист
-
+        List<Apartment> apartments = apartmentMap.getAllApartments();
         System.out.println("Apartment added successfully!");
-
-
+        System.out.println();
     }
 
     static void showListOfAvailableApartments(BufferedReader bufferedReader) throws IOException {
-        System.out.println("List of available apartments" + "\n" + "\n" +
-                "To go back type 1");
-        while (true) {
-            String input = bufferedReader.readLine();
-            if (input.equals("1")) {
-                return;
-            }
+        System.out.println("List of available apartments" + "\n") ;
+        ApartmentRepositoryImpl apartmentMap = ApartmentRepositoryImpl.getInstance();
+        List<Apartment> apartments = apartmentMap.getAllApartments();
+        if(apartments.isEmpty()) {
+            System.out.println("No apartments found.");
+        } else {
+        for (Apartment ap : apartments) {
+            System.out.println(ap);
         }
+        }
+
     }
-
     private static void changeApartmentStatusToBeUnavailable(BufferedReader bufferedReader) throws IOException {
+        System.out.println("Enter apartment number:");
+        int apartmentNumber = Integer.parseInt(bufferedReader.readLine());
 
+        ApartmentRepositoryImpl apartmentRepository = ApartmentRepositoryImpl.getInstance();
+        Apartment apartment = apartmentRepository.getApartmentByNumber(apartmentNumber);
+
+        if (apartment == null) {
+            System.out.println("Apartment not found!");
+            return;
+        }
+
+        apartment.setApartmentStatus(ApartmentStatus.UNAVAILABLE);
+        apartmentRepository.updateApartment(apartment);
+
+        System.out.println("Apartment status has been updated to unavailable.");
     }
 
     private static void changeApartmentPrice(BufferedReader bufferedReader) throws IOException {
+        System.out.println("Enter apartment number:");
+        int apartmentNumber = Integer.parseInt(bufferedReader.readLine());
 
+        ApartmentRepositoryImpl apartmentRepository = ApartmentRepositoryImpl.getInstance();
+        Apartment apartment = apartmentRepository.getApartmentByNumber(apartmentNumber);
+
+        if (apartment == null) {
+            System.out.println("Apartment not found!");
+            return;
+        }
+
+        System.out.println("Enter new price per night:");
+        double newPrice = enterApartmentPrice(bufferedReader);
+
+        apartment.setPrice(newPrice);
+        apartmentRepository.updateApartment(apartment);
+
+        System.out.println("Apartment price has been updated.");
     }
 
-    private static ApartmentType enterApartmentType(BufferedReader bufferedReader) {        //Sv
+    private static ApartmentType enterApartmentType(BufferedReader bufferedReader) {
         try {
             return ApartmentType.valueOfLabel(bufferedReader.readLine());
         } catch (IllegalArgumentException | IOException exp) {
@@ -88,7 +128,7 @@ public class ApartmentManagement {
         }
     }
 
-    private static double enterApartmentPrice(BufferedReader bufferedReader) {      //Sv
+    private static double enterApartmentPrice(BufferedReader bufferedReader) {
         try {
             return Double.parseDouble(bufferedReader.readLine());
         } catch (NumberFormatException | IOException exp) {
