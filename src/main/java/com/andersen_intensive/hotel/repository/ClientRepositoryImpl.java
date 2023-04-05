@@ -1,61 +1,70 @@
 package com.andersen_intensive.hotel.repository;
 
 import com.andersen_intensive.hotel.models.Client;
+import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
+// аннотация репозитория
+
+@Slf4j
 public class ClientRepositoryImpl implements ClientRepository {
 
-    private List<Client> clients;
+    private Map<Integer, Client> clients = new HashMap<>();
 
-    public void ClientList() {
-        if (clients == null) {
-            clients = new ArrayList<>();
-        }
+    @Override
+    public Client addClient(Client client) {
+        clients.put(client.getPersonalID(), client);
+        return client;
     }
 
     @Override
-    public void addClient(Client client) {
-        clients.add(client);
-    }
-
-    @Override
-    public boolean clientExist(Client client) {
-        for (Client c : clients) {
-            if (c.getPhoneNumber() == client.getPhoneNumber()) {
-                return true;
+    public Client getClientById(int id) {
+        for (Map.Entry<Integer, Client> entry : clients.entrySet()) {
+            if (entry.getKey().equals(id)) {
+                return entry.getValue();
             }
         }
-        return false;
+        return null;
     }
 
     @Override
-    public void removeClient(Client client) {
-        clients.remove(client);
+    public void getAllClients() {
+        for (Map.Entry<Integer, Client> entry : clients.entrySet()) {
+            System.out.println(entry.getKey() + " : " + entry.getValue().getFirstName() + " " + entry.getValue().getLastName() +
+                    " " + entry.getValue().getPhoneNumber());
+        }
     }
 
     @Override
-    public void getClientByPhoneNumber(int phoneNumber) {
-        for (Client client : clients) {
-            if (client.getPhoneNumber() == (phoneNumber)) {
-                System.out.println(client.getFirstName() + " " + client.getLastName());;
-            } else {
-                System.out.println("No result");
+    public void updateClient(Client client) {
+        for (int i = 0; i < clients.size(); i++) {
+            if (clients.get(i).getPersonalID() == client.getPersonalID()) {
+                clients.put(clients.get(i).getPersonalID(), client);
+                break;
             }
         }
     }
 
     @Override
-    public void getListOfClients() {
-        if (clients.size() > 0) {
-            System.out.println("List of clients:");
-            for (Client client : clients) {
-                System.out.println(client.getPersonalID() + " 1. " + client.getFirstName() + " " + client.getLastName() +
-                        " - " + client.getPhoneNumber());
+    public void deleteClient(int id) {
+        for (int i = 0; i < clients.size(); i++) {
+            if (clients.get(i).getPersonalID() == id) {
+                clients.remove(i);
+                break;
             }
-        } else {
-            System.out.println("No clients in system!");
         }
+    }
+
+    public Map<Integer, Client> alphabeticalSorting(Map<Integer, Client> clients) {
+        Map<Integer, Client> sortedClients = new LinkedHashMap<>();
+        clients.entrySet()
+                .stream()
+                .filter(entry -> entry.getValue().getLastName() != null)
+                .filter(entry -> entry.getValue().getFirstName() != null)
+                .sorted(Comparator.comparing(entry -> entry.getValue().getLastName()))
+                .forEach(entry -> sortedClients.put(entry.getKey(), entry.getValue()));
+
+        return sortedClients;
     }
 }

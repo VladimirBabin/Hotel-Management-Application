@@ -1,47 +1,25 @@
 package com.andersen_intensive.hotel.models;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.Objects;
+
+@Getter
+@Setter
 public class Client {
+
     private String firstName;
     private String lastName;
-    private int personalID;
-    private int phoneNumber;
+    private Integer personalID;
+    private String phoneNumber;
+    private static Integer count = 0;
 
-    public Client(String firstName, String lastName, int personalID, int phoneNumber) {
+    public Client(String firstName, String lastName, String phoneNumber) {
+        count++;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.personalID = personalID;
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public int getPersonalID() {
-        return personalID;
-    }
-
-    public void setPersonalID(int personalID) {
-        this.personalID = personalID;
-    }
-
-    public int getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(int phoneNumber) {
+        this.personalID = count;
         this.phoneNumber = phoneNumber;
     }
 
@@ -59,7 +37,7 @@ public class Client {
             return false;
         }
         return this.firstName.equals(other.getFirstName()) && this.lastName.equals(other.getLastName())
-                && this.personalID == (other.getPersonalID()) && this.phoneNumber == (other.getPhoneNumber());
+                && Objects.equals(this.personalID, other.getPersonalID()) && Objects.equals(this.phoneNumber, other.getPhoneNumber());
     }
 
     @Override

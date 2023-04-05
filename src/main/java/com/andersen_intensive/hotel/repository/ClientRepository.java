@@ -2,15 +2,22 @@ package com.andersen_intensive.hotel.repository;
 
 import com.andersen_intensive.hotel.models.Client;
 
-public interface ClientRepository {
+import java.util.Map;
 
-    void addClient(Client client);
+public interface ClientRepository { //CRUD repo Create Read Update Delete
+    //подключить драйвер бд
 
-    boolean clientExist (Client client);
+    // create
+    Client addClient(Client client);
 
-    void removeClient (Client client);
+    // read
+    Client getClientById(int id);
 
-    void getClientByPhoneNumber(int phoneNumber);
+    void getAllClients();
 
-    void getListOfClients();
+    // update
+    void updateClient(Client client);
+
+    // delete
+    void deleteClient(int id);
 }
