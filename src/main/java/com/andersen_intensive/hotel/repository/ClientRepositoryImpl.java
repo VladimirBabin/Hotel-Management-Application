@@ -12,6 +12,13 @@ public class ClientRepositoryImpl implements ClientRepository {
 
     private final Map<Integer, Client> clients = new HashMap<>();
 
+    private static final ClientRepositoryImpl SINGLETON = new ClientRepositoryImpl();
+
+    public static ClientRepositoryImpl getInstance() {
+        return SINGLETON;
+    }
+
+
     @Override
     public Client addClient(Client client) {
         clients.put(client.getPersonalID(), client);

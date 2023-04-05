@@ -14,6 +14,14 @@ public class Reservation {
     private LocalDate checkIn;
     private LocalDate checkOut;
 
+//    when creating a reservation first time we need an option without check-out date
+    public Reservation(Client client, Apartment apartment, LocalDate checkIn) {
+        this.id = ++count;
+        this.client = client;
+        this.apartment = apartment;
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
+    }
     public Reservation(Client client, Apartment apartment, LocalDate checkIn, LocalDate checkOut) {
         this.id = ++count;
         this.client = client;
