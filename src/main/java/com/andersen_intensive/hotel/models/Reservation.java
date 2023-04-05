@@ -65,7 +65,7 @@ public class Reservation {
     public double getPrice() {
         double summary = 0;
         long daysBetween = ChronoUnit.DAYS.between(this.checkIn, this.checkOut);
-        summary = daysBetween * this.apartment.getPrice();
+        summary = daysBetween * this.apartment.getApartmentPrice();
         for (Service service : services) {
             summary += service.getPrice();
         }

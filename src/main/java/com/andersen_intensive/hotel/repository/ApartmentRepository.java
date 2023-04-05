@@ -5,15 +5,14 @@ import com.andersen_intensive.hotel.models.Apartment;
 import java.util.List;
 
 public interface ApartmentRepository {
-    void addApartment(Apartment apartment);
+    Apartment addApartment(Apartment apartment);
 
-    Apartment getApartment(int number);
+    //    наверное стоит переименовать в getApartmentByNumber?
+    Apartment getApartmentById(int number);
 
-    void updateApartmentPrice(Apartment apartment, double price);
+    Apartment updateApartment(Apartment apartment);
 
-    List<Apartment> getListOfApartments();
+    List<Apartment> getAllApartments();
 
     void deleteApartment(Apartment apartment);
-
-    void setUnavailable(Apartment apartment);
 }
