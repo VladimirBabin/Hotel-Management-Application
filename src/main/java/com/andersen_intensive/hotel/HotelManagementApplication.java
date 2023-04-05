@@ -8,7 +8,6 @@ public class HotelManagementApplication {
 
     public static void main(String[] args) {
 
-        ConsoleInteraction consoleInteraction = new ConsoleInteraction();
-        consoleInteraction.mainMenuStart();
+        ConsoleInteraction.showMainMenu();
     }
 }

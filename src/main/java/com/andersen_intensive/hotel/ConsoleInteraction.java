@@ -13,17 +13,19 @@ import java.util.Scanner;
 import com.andersen_intensive.hotel.models.ApartmentType;
 public class ConsoleInteraction {
 
-    private final String MENU = "Menu:" + "\n" +
+    private static final String MENU = "Menu:" + "\n" +
             "1. Register a client" + "\n" +
-            "2. List of available apartments" + "\n" +
-            "3. Reservations" + "\n" +
-            "4. Price management" + "\n" +
-            "5. Show info about current reservation" + "\n" +
-            "6. Add new apartment" + "\n"+      //Sv
+            "2. List of clients" + "\n" +
+            "3. Apartment management" + "\n" +
+            "4. Service management" + "\n" +
+            "5. Check-in" + "\n" +
+            "6. Check-out" + "\n"+      //Sv
+            "7. Get the current price for client's stay" + "\n" +
             "0. Exit program" + "\n";
+
     private ClientServiceImpl clientService;
 
-    void mainMenuStart() {
+    static void showMainMenu() {
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))) {
             while (true) {
                 System.out.println(MENU);
@@ -32,18 +34,25 @@ public class ConsoleInteraction {
                     case "0":
                         return;
                     case "1":
+                        registerNewClient(bufferedReader);
                         break;
                     case "2":
-                        showListOfAvailableApartments(bufferedReader);
+                        showListOfClients(bufferedReader);
                         break;
                     case "3":
+                        ApartmentManagement.showApartmentManagementMenu(bufferedReader);
                         break;
                     case "4":
+                        ServiceManagement.showServiceManagementMenu(bufferedReader);
                         break;
                     case "5":
+                        checkIn(bufferedReader);
                         break;
-                    case "6":           //Sv
-                        addApartment(bufferedReader);
+                    case "6":
+                        checkOut(bufferedReader);
+                        break;
+                    case "7":
+                        getCurrentPriceForClient(bufferedReader);
                         break;
                 }
             }
@@ -51,47 +60,9 @@ public class ConsoleInteraction {
             exception.printStackTrace();
         }
     }
-    private static void addApartment(BufferedReader bufferedReader) throws IOException{     //Sv
 
-        System.out.println("Enter apartment number:");
-        int apartmentNumber = Integer.parseInt(bufferedReader.readLine());
-
-        System.out.println("Enter price per night:");
-        double apartmentPrice = enterApartmentPrice(bufferedReader);
-
-        System.out.println("Enter room type: 1 for single bed, 2 for double bed:");
-        ApartmentType apartmentType = enterApartmentType(bufferedReader);
-
-        Apartment apartment = new Apartment(apartmentNumber, apartmentPrice, apartmentType);
-
-//здесь нужно добавить апартаменты в общий Лист
-
-        System.out.println("Apartment added successfully!");
-
-
-    }
-
-    private static ApartmentType enterApartmentType(BufferedReader bufferedReader) {        //Sv
-        try {
-            return ApartmentType.valueOfLabel(bufferedReader.readLine());
-        } catch (IllegalArgumentException | IOException exp) {
-            System.out.println("Invalid apartment type! Please, choose 1 for single bed or 2 for double bed:");
-            return enterApartmentType(bufferedReader);
-        }
-    }
-
-    private static double enterApartmentPrice(BufferedReader bufferedReader) {      //Sv
-        try {
-            return Double.parseDouble(bufferedReader.readLine());
-        } catch (NumberFormatException | IOException exp) {
-            System.out.println("Invalid apartment price! Please, enter a valid double number. " +
-                    "Decimals should be separated by point (.)");
-            return enterApartmentPrice(bufferedReader);
-        }
-    }
-
-
-    void registerNewClient(BufferedReader bufferedReader) throws IOException {
+//    Mary
+    static void registerNewClient(BufferedReader bufferedReader) throws IOException {
         System.out.println("Client's name:");
         String name = bufferedReader.readLine();
         System.out.println("Clients last name:");
@@ -99,31 +70,24 @@ public class ConsoleInteraction {
         System.out.println("Client's phone number:");
         String phoneNumber = bufferedReader.readLine();
 
-        Client client = new Client(name, lastName, phoneNumber);
-        clientService.save();
+//        Client client = new Client(name, lastName, phoneNumber);
+//        clientService.save();
     }
 
-    void showListOfAvailableApartments(BufferedReader bufferedReader) throws IOException {
-        System.out.println("List of available apartments" + "\n" + "\n" +
-                "To go back type 1");
-        while (true) {
-            String input = bufferedReader.readLine();
-            if (input.equals("1")) {
-                break;
-            }
-        }
-    }
-
-    void startReservation() {
+//    Mary
+    static void showListOfClients(BufferedReader bufferedReader) throws IOException {
 
     }
 
-    void priceManagement() {
-
+//    Vova
+    static private void checkIn(BufferedReader bufferedReader) {
     }
 
-    void showInformationOnReservation() {
-
+//    Vova
+    static private void checkOut(BufferedReader bufferedReader) {
     }
 
+//    ?
+    static private void getCurrentPriceForClient(BufferedReader bufferedReader) {
+    }
 }
