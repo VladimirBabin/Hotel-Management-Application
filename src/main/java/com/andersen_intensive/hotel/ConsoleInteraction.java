@@ -3,6 +3,8 @@ package com.andersen_intensive.hotel;
 import com.andersen_intensive.hotel.models.Apartment;
 import com.andersen_intensive.hotel.models.Client;
 import com.andersen_intensive.hotel.repository.ApartmentRepositoryImpl;
+import com.andersen_intensive.hotel.repository.ClientRepositoryImpl;
+import com.andersen_intensive.hotel.service.ClientService;
 import com.andersen_intensive.hotel.service.ClientServiceImpl;
 
 import java.io.BufferedReader;
@@ -63,20 +65,37 @@ public class ConsoleInteraction {
 
 //    Mary
     static void registerNewClient(BufferedReader bufferedReader) throws IOException {
+
+        ClientService clientService = new ClientServiceImpl(new ClientRepositoryImpl());
+
         System.out.println("Client's name:");
         String name = bufferedReader.readLine();
-        System.out.println("Clients last name:");
+        System.out.println("Client's last name:");
         String lastName = bufferedReader.readLine();
         System.out.println("Client's phone number:");
         String phoneNumber = bufferedReader.readLine();
 
-//        Client client = new Client(name, lastName, phoneNumber);
-//        clientService.save();
+        Client clientCreated = clientService.createClient(name, lastName, phoneNumber);
+        System.out.println("Client created: " + clientCreated.toString());
     }
 
 //    Mary
     static void showListOfClients(BufferedReader bufferedReader) throws IOException {
 
+        final ClientService clientService = new ClientServiceImpl(new ClientRepositoryImpl());
+
+        System.out.println("1. List of clients\n" +
+                "2. Sort list of clients by last name");
+
+        String input = bufferedReader.readLine();
+        switch (input) {
+            case "1":
+                clientService.getClientList(false);
+                break;
+            case "2":
+                clientService.getClientList(true);
+                break;
+        }
     }
 
 //    Vova

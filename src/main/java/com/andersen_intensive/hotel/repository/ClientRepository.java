@@ -2,6 +2,7 @@ package com.andersen_intensive.hotel.repository;
 
 import com.andersen_intensive.hotel.models.Client;
 
+import java.util.List;
 import java.util.Map;
 
 public interface ClientRepository { //CRUD repo Create Read Update Delete
@@ -11,12 +12,12 @@ public interface ClientRepository { //CRUD repo Create Read Update Delete
     Client addClient(Client client);
 
     // read
-    Client getClientById(int id);
+    Client getClientById(Integer id);
 
-    void getAllClients();
+    List<Client> getAllClients();
 
     // update
-    void updateClient(Client client);
+    Client updateClient(Client client);
 
     // delete
     void deleteClient(int id);
