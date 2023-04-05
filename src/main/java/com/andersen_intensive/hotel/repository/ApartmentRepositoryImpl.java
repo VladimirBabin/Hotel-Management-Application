@@ -3,52 +3,49 @@ package com.andersen_intensive.hotel.repository;
 import com.andersen_intensive.hotel.models.Apartment;
 import com.andersen_intensive.hotel.models.ApartmentStatus;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class ApartmentRepositoryImpl implements ApartmentRepository {
 
-    private List<Apartment> apartments;
+    private static final ApartmentRepositoryImpl SINGLETON = new ApartmentRepositoryImpl();
 
-    @Override
-    public void addApartment(Apartment apartment) {
-        if (apartments == null) {
-            apartments = new ArrayList<Apartment>();
-        }
-        apartments.add(apartment);
+    private static Map<Integer, Apartment> apartments = new HashMap<>();
+
+    public static ApartmentRepositoryImpl getInstance() {
+        return SINGLETON;
     }
 
     @Override
-    public Apartment getApartment(int number) {
-        for (Apartment apartment : apartments) {
-            if (apartment.getApartmentNumber() == number) {
-                return apartment;
-            }
-        }
-        return null;
+    public Apartment addApartment(Apartment apartment) {
+        apartments.put(apartment.getApartmentNumber(), apartment);
+        return apartment;
     }
 
     @Override
-    public void updateApartmentPrice(Apartment apartment, double price) {
-        apartment.setPrice(price);
+    public Apartment getApartmentById(int id) {
+        return apartments.get(id);
     }
 
     @Override
-    public List<Apartment> getListOfApartments() { //may be
-
-        List<Apartment> apartmentsList = new ArrayList<>(apartments);//
-        apartmentsList.sort(Comparator.comparing(Apartment::getApartmentPrice));//
-        return apartmentsList;
+    public Apartment updateApartment(Apartment apartment) {
+        apartments.put(apartment.getApartmentNumber(), apartment);
+        return apartment;
     }
+
+    @Override
+    public List<Apartment> getAllApartments() {
+        return (List) apartments.values();
+    }
+
 
     @Override
     public void deleteApartment(Apartment apartment) {
-        if (apartments.contains(apartment)) {
+        if (apartments.containsValue(apartment)) {
             apartments.remove(apartment);
         }
     }
-    @Override
+
+
     public void setUnavailable(Apartment apartment) {
         apartment.setApartmentStatus(ApartmentStatus.UNAVAILABLE);
     }
