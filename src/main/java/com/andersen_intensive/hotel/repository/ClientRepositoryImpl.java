@@ -6,23 +6,56 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClientRepositoryImpl implements ClientRepository {
-    List<Client> clients;
+
+    private List<Client> clients;
+
+    public void ClientList() {
+        if (clients == null) {
+            clients = new ArrayList<>();
+        }
+    }
 
     @Override
     public void addClient(Client client) {
-        if (client == null) {
-            clients = new ArrayList<Client>();
-        }
         clients.add(client);
     }
 
     @Override
-    public Client getClientByPhoneNumber(int phoneNumber) {
-        return null;
+    public boolean clientExist(Client client) {
+        for (Client c : clients) {
+            if (c.getPhoneNumber() == client.getPhoneNumber()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
-    public List<Client> getListOfClients() {
-        return null;
+    public void removeClient(Client client) {
+        clients.remove(client);
+    }
+
+    @Override
+    public void getClientByPhoneNumber(int phoneNumber) {
+        for (Client client : clients) {
+            if (client.getPhoneNumber() == (phoneNumber)) {
+                System.out.println(client.getFirstName() + " " + client.getLastName());;
+            } else {
+                System.out.println("No result");
+            }
+        }
+    }
+
+    @Override
+    public void getListOfClients() {
+        if (clients.size() > 0) {
+            System.out.println("List of clients:");
+            for (Client client : clients) {
+                System.out.println(client.getPersonalID() + " 1. " + client.getFirstName() + " " + client.getLastName() +
+                        " - " + client.getPhoneNumber());
+            }
+        } else {
+            System.out.println("No clients in system!");
+        }
     }
 }

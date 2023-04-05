@@ -2,13 +2,15 @@ package com.andersen_intensive.hotel.repository;
 
 import com.andersen_intensive.hotel.models.Client;
 
-import java.util.List;
-
 public interface ClientRepository {
 
     void addClient(Client client);
 
-    Client getClientByPhoneNumber(int phoneNumber);
+    boolean clientExist (Client client);
 
-    List<Client> getListOfClients();
+    void removeClient (Client client);
+
+    void getClientByPhoneNumber(int phoneNumber);
+
+    void getListOfClients();
 }
