@@ -7,7 +7,8 @@ import java.util.List;
 public interface ApartmentRepository {
     Apartment addApartment(Apartment apartment);
 
-    Apartment getApartmentById(int id);
+    //    наверное стоит переименовать в getApartmentByNumber?
+    Apartment getApartmentById(int number);
 
     Apartment updateApartment(Apartment apartment);
 

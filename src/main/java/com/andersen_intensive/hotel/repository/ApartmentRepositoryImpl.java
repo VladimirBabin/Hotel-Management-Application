@@ -21,9 +21,10 @@ public class ApartmentRepositoryImpl implements ApartmentRepository {
         return apartment;
     }
 
+//    наверное стоит переименовать в getApartmentByNumber?
     @Override
-    public Apartment getApartmentById(int id) {
-        return apartments.get(id);
+    public Apartment getApartmentById(int number) {
+        return apartments.get(number);
     }
 
     @Override

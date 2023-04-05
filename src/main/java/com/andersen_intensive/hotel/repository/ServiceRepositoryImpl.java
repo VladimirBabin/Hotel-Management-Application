@@ -2,33 +2,56 @@ package com.andersen_intensive.hotel.repository;
 
 import com.andersen_intensive.hotel.models.Service;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ServiceRepositoryImpl implements ServiceRepository {
 
-    List<Service> services;
+    private static final ServiceRepositoryImpl SINGLETON = new ServiceRepositoryImpl();
 
-    @Override
-    public void addService(Service service) {
-        if (services == null) {
-            services = new ArrayList<Service>();
-        }
-        services.add(service);
+    private static Map<Integer, Service> services = new HashMap<>();
+
+    public static ServiceRepositoryImpl getInstance() {
+        return SINGLETON;
     }
 
     @Override
-    public List<Service> getListOfServices() {
-        return null;
+    public Service addService(Service service) {
+        services.put(service.getId(), service);
+        return service;
     }
 
     @Override
-    public void changeServicePrice(double price) {
+    public Service getServiceById(int id) {
+        return services.get(id);
+    }
 
+    @Override
+    public Service updateService(Service service) {
+        services.put(service.getId(), service);
+        return service;
+    }
+
+    @Override
+    public List<Service> getAllServices() {
+        return (List) services.values();
     }
 
     @Override
     public Service getByName(String name) {
+        for (Map.Entry<Integer, Service> entry : services.entrySet()) {
+            if (entry.getValue().getName().equals(name)) {
+                return entry.getValue();
+            }
+        }
         return null;
+    }
+
+    @Override
+    public void deleteService(Service service) {
+        if (services.containsValue(service)) {
+            services.remove(service);
+        }
     }
 }

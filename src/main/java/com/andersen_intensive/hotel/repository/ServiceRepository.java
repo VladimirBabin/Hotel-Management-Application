@@ -6,11 +6,15 @@ import java.util.List;
 
 public interface ServiceRepository {
 
-    void addService(Service service);
+    Service addService(Service service);
 
-    List<Service> getListOfServices();
+    Service getServiceById(int id);
 
-    void changeServicePrice(double price);
+    Service updateService(Service service);
+
+    List<Service> getAllServices();
 
     Service getByName(String name);
+
+    void deleteService(Service service);
 }
