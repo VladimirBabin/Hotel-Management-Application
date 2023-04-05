@@ -2,17 +2,22 @@ package com.andersen_intensive.hotel.service;
 
 import com.andersen_intensive.hotel.models.Client;
 import com.andersen_intensive.hotel.repository.ClientRepository;
+import com.andersen_intensive.hotel.repository.ClientRepositoryImpl;
 
-import java.util.Map;
-
+import java.util.Comparator;
+import java.util.List;
 
 public class ClientServiceImpl implements ClientService {
 
-    private final ClientRepository clientRepository;
+    private final ClientRepositoryImpl clientRepository = ClientRepositoryImpl.getInstance();
 
-    public ClientServiceImpl(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
-    }
+    private static final ClientServiceImpl SINGLETON = new ClientServiceImpl();
+
+//    public ClientServiceImpl(ClientRepository clientRepository) {
+//        this.clientRepository = clientRepository;
+//    }
+//    private final ClientRepository clientRepository;
+
 
     @Override
     public Client createClient(String firstName, String lastName, String phoneNumber) {
@@ -26,8 +31,12 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void getClientList(Map<Integer, Client> clientMap) {
-        clientRepository.getAllClients();
+    public List<Client> getClientList(boolean sortByLastName) {
+        List<Client> clients = clientRepository.getAllClients();
+        if (sortByLastName) {
+            clients.sort(Comparator.comparing(Client::getLastName));
+        }
+        return clients;
     }
 
     @Override
@@ -36,7 +45,8 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void updateClient(Client client) {
-        clientRepository.updateClient(client);
+    public Client updateClient(Client clientToUpdate) {
+        Client updatedClient = clientRepository.updateClient(clientToUpdate);
+        return updatedClient;
     }
 }

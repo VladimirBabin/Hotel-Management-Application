@@ -2,26 +2,22 @@ package com.andersen_intensive.hotel.service;
 
 import com.andersen_intensive.hotel.models.Client;
 
-import java.util.Map;
+import java.util.List;
 
 public interface ClientService {
 
     //create client
-
     Client createClient(String firstName, String lastName, String phoneNumber);
 
     //read
-
     Client getClientByID(int id);
 
-    void getClientList(Map<Integer, Client> clientMap);
+    List<Client> getClientList(boolean sortByLastName);
 
     //delete
-
-    void removeClient (int id);
+    void removeClient(int id);
 
     //update
-
-    void updateClient(Client client);
+    Client updateClient(Client client);
 
 }
