@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 // Sveta
@@ -16,7 +17,7 @@ public class ApartmentManagement {
 
     private static final String APARTMENT_MANAGEMENT_MENU = "1. Add apartment" + "\n" +
             "2. Show list of apartments" + "\n" +
-            "3. Change apartment status to be unavailable" + "\n" +
+            "3. Change apartment status" + "\n" +
             "4. Change apartment price" + "\n" + "\n" +
             "To go back type 0";
 
@@ -35,7 +36,7 @@ public class ApartmentManagement {
                         showListOfAvailableApartments(bufferedReader);
                         break;
                     case "3":
-                        changeApartmentStatusToBeUnavailable(bufferedReader);
+                        changeApartmentStatus(bufferedReader);
                         break;
                     case "4":
                         changeApartmentPrice(bufferedReader);
@@ -64,40 +65,63 @@ public class ApartmentManagement {
 
         List<Apartment> apartments = apartmentMap.getAllApartments();
         System.out.println("Apartment added successfully!");
-        System.out.println();
+        System.out.println(" ");
     }
-
-    static void showListOfAvailableApartments(BufferedReader bufferedReader) throws IOException {
-        System.out.println("List of available apartments" + "\n") ;
+    private static void showListOfAvailableApartments(BufferedReader bufferedReader) throws IOException {
+        System.out.println("List of available apartments:" + "\n");
         ApartmentRepositoryImpl apartmentMap = ApartmentRepositoryImpl.getInstance();
         List<Apartment> apartments = apartmentMap.getAllApartments();
-        if(apartments.isEmpty()) {
+
+        if (apartments.isEmpty()) {
             System.out.println("No apartments found.");
         } else {
-        for (Apartment ap : apartments) {
-            System.out.println(ap);
-        }
-        }
+            System.out.println("Sort by: 1 - price, 2 - status, 3 - type, 4 - no sorting");
+            int sortOption = Integer.parseInt(bufferedReader.readLine());
 
+            switch (sortOption) {
+                case 1:
+                    apartments.sort(Comparator.comparingDouble(Apartment::getApartmentPrice));
+                    break;
+                case 2:
+                    apartments.sort((a1, a2) -> a1.getApartmentStatus().compareTo(a2.getApartmentStatus()));
+                    break;
+                case 3:
+                    apartments.sort((a1, a2) -> a1.getApartmentType().compareTo(a2.getApartmentType()));
+                    break;
+                default:
+                    break;
+            }
+
+            for (Apartment ap : apartments) {
+                System.out.println(ap);
+            }
+        }
+        System.out.println(" ");
     }
-    private static void changeApartmentStatusToBeUnavailable(BufferedReader bufferedReader) throws IOException {
-        System.out.println("Enter apartment number:");
-        int apartmentNumber = Integer.parseInt(bufferedReader.readLine());
 
-        ApartmentRepositoryImpl apartmentRepository = ApartmentRepositoryImpl.getInstance();
-        Apartment apartment = apartmentRepository.getApartmentByNumber(apartmentNumber);
 
-        if (apartment == null) {
-            System.out.println("Apartment not found!");
-            return;
-        }
+   private static void changeApartmentStatus(BufferedReader bufferedReader) throws IOException {
+       System.out.println("Enter apartment number:");
+       int apartmentNumber = Integer.parseInt(bufferedReader.readLine());
 
-        apartment.setApartmentStatus(ApartmentStatus.UNAVAILABLE);
-        apartmentRepository.updateApartment(apartment);
+       ApartmentRepositoryImpl apartmentRepository = ApartmentRepositoryImpl.getInstance();
+       Apartment apartment = apartmentRepository.getApartmentByNumber(apartmentNumber);
 
-        System.out.println("Apartment status has been updated to unavailable.");
-    }
+       if (apartment == null) {
+           System.out.println("Apartment not found!");
+           return;
+       }
 
+       System.out.println("Enter new status (1 for available, 2 for occupied, 3 for unavailable):");
+       String statusStr = bufferedReader.readLine();
+       ApartmentStatus newStatus = ApartmentStatus.valueOfLabel(statusStr);
+
+       apartment.setApartmentStatus(newStatus);
+       apartmentRepository.updateApartment(apartment);
+
+       System.out.println("Apartment status has been updated to " + newStatus.name().toLowerCase() + ".");
+       System.out.println(" ");
+   }
     private static void changeApartmentPrice(BufferedReader bufferedReader) throws IOException {
         System.out.println("Enter apartment number:");
         int apartmentNumber = Integer.parseInt(bufferedReader.readLine());
@@ -117,6 +141,7 @@ public class ApartmentManagement {
         apartmentRepository.updateApartment(apartment);
 
         System.out.println("Apartment price has been updated.");
+        System.out.println(" ");
     }
 
     private static ApartmentType enterApartmentType(BufferedReader bufferedReader) {

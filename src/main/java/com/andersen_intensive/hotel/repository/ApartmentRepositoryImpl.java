@@ -46,8 +46,4 @@ public class ApartmentRepositoryImpl implements ApartmentRepository {
         }
     }
 
-
-    public void setUnavailable(Apartment apartment) {
-        apartment.setApartmentStatus(ApartmentStatus.UNAVAILABLE);
-    }
 }

@@ -1,13 +1,11 @@
 package com.andersen_intensive.hotel;
 
 import com.andersen_intensive.hotel.models.*;
+import com.andersen_intensive.hotel.repository.ApartmentRepository;
 import com.andersen_intensive.hotel.repository.ApartmentRepositoryImpl;
 import com.andersen_intensive.hotel.repository.ClientRepositoryImpl;
 import com.andersen_intensive.hotel.repository.ReservationRepositoryImpl;
-import com.andersen_intensive.hotel.service.ApartmentService;
-import com.andersen_intensive.hotel.service.ClientService;
-import com.andersen_intensive.hotel.service.ClientServiceImpl;
-import com.andersen_intensive.hotel.service.ReservationServiceImpl;
+import com.andersen_intensive.hotel.service.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,8 +20,6 @@ import java.util.Scanner;
 public class ConsoleInteraction {
 
     static final ClientService clientService = new ClientServiceImpl();
-//    не хватает реализации ApartmentService
-    private static ApartmentService apartmentService;
 
     private static ReservationServiceImpl reservationService;
 
@@ -125,9 +121,10 @@ public class ConsoleInteraction {
     }
 
     //    Vova
-    static private void checkIn(BufferedReader bufferedReader) throws IOException {
-        int id;
+    static private void checkIn(BufferedReader bufferedReader) throws IOException { // Мы нигде не фиксируем дату заезда
+        int id;                                                                     //наверно нужно проверять свободен-ли номер при заселении
         int number;
+
         while (true) {
             System.out.println("Client's id:");
             String clientId = bufferedReader.readLine();
@@ -151,6 +148,9 @@ public class ConsoleInteraction {
         }
 
         Client client = clientService.getClientByID(id);
+
+        ApartmentRepository apartmentRepository = new ApartmentRepositoryImpl(); //Sv
+        ApartmentService apartmentService = new ApartmentServiceImpl(apartmentRepository);
         Apartment apartment = apartmentService.getApartmentByNumber(number);
         apartment.setApartmentStatus(ApartmentStatus.OCCUPIED);
         apartmentService.update(apartment);
@@ -170,7 +170,7 @@ public class ConsoleInteraction {
     }
 
     //    Vova
-    static private void checkOut(BufferedReader bufferedReader) throws IOException {
+    static private void checkOut(BufferedReader bufferedReader) throws IOException { //Дата отъезда,  в апартаментах менять статус
 
 //        Ищем бронирование по юзер айди
         int id;
