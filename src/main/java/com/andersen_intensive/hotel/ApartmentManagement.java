@@ -138,7 +138,6 @@ public class ApartmentManagement {
         System.out.println("Enter apartment number:");
         int apartmentNumber = Integer.parseInt(bufferedReader.readLine());
 
-        // Получаем объект апартаментов через сервис
         ApartmentService apartmentService = ApartmentServiceImpl.getInstance();
         Apartment apartment = apartmentService.getApartmentByNumber(apartmentNumber);
 
@@ -152,7 +151,7 @@ public class ApartmentManagement {
 
         apartment.setPrice(newPrice);
 
-        // Вызываем метод сервиса для обновления данных об апартаментах
+
         apartmentService.updateApartmentPrice(apartmentNumber, newPrice);
 
         System.out.println("Apartment price has been updated.");
