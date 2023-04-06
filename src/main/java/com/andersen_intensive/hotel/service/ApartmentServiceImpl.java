@@ -46,4 +46,17 @@ public class ApartmentServiceImpl implements ApartmentService {
         apartmentRepository.updateApartment(apartment);
 
     }
+    @Override
+    public boolean checkIfAvailable(Apartment apartment) {
+        if (apartment.getApartmentStatus() == ApartmentStatus.AVAILABLE) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    @Override
+    public boolean isValidApartment(int apartmentNumber) {
+        Apartment apartment = apartmentRepository.getApartmentByNumber(apartmentNumber);
+        return apartment != null;
+    }
 }

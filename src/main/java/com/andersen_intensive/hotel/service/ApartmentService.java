@@ -10,4 +10,6 @@ public interface ApartmentService {
 
     void setApartmentStatus(int apartmentNumber, ApartmentStatus status);
     void updateApartmentPrice(int apartmentNumber, double newPrice);
+    boolean checkIfAvailable(Apartment apartment);
+    boolean isValidApartment(int apartmentNumber);
 }
