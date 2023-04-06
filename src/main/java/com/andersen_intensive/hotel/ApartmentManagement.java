@@ -4,6 +4,7 @@ import com.andersen_intensive.hotel.models.Apartment;
 import com.andersen_intensive.hotel.models.ApartmentStatus;
 import com.andersen_intensive.hotel.models.ApartmentType;
 import com.andersen_intensive.hotel.repository.ApartmentRepositoryImpl;
+import com.andersen_intensive.hotel.service.ApartmentService;
 import com.andersen_intensive.hotel.service.ApartmentServiceImpl;
 
 import java.io.BufferedReader;
@@ -101,15 +102,13 @@ public class ApartmentManagement {
         }
         System.out.println(" ");
     }
-
-
-   private static void changeApartmentStatus(BufferedReader bufferedReader) throws IOException {
+      private static void changeApartmentStatus(BufferedReader bufferedReader) throws IOException {
        System.out.println("Enter apartment number:");
        int apartmentNumber = Integer.parseInt(bufferedReader.readLine());
 
-//       Эти операции нужно выполнять через вызов сервиса
-       ApartmentRepositoryImpl apartmentRepository = ApartmentRepositoryImpl.getInstance();
-       Apartment apartment = apartmentRepository.getApartmentByNumber(apartmentNumber);
+       ApartmentService apartmentService = ApartmentServiceImpl.getInstance();
+
+       Apartment apartment = apartmentService.getApartmentByNumber(apartmentNumber);
 
        if (apartment == null) {
            System.out.println("Apartment not found!");
@@ -120,13 +119,13 @@ public class ApartmentManagement {
        String statusStr = bufferedReader.readLine();
        ApartmentStatus newStatus = ApartmentStatus.valueOfLabel(statusStr);
 
-       apartment.setApartmentStatus(newStatus);
-       apartmentRepository.updateApartment(apartment);
+       apartmentService.setApartmentStatus(apartmentNumber, newStatus);
 
        System.out.println("Apartment status has been updated to " + newStatus.name().toLowerCase() + ".");
        System.out.println(" ");
    }
-    private static void changeApartmentPrice(BufferedReader bufferedReader) throws IOException {
+
+    /*private static void changeApartmentPrice(BufferedReader bufferedReader) throws IOException {
         System.out.println("Enter apartment number:");
         int apartmentNumber = Integer.parseInt(bufferedReader.readLine());
 
@@ -148,7 +147,32 @@ public class ApartmentManagement {
 
         System.out.println("Apartment price has been updated.");
         System.out.println(" ");
+    }*/
+    private static void changeApartmentPrice(BufferedReader bufferedReader) throws IOException {
+        System.out.println("Enter apartment number:");
+        int apartmentNumber = Integer.parseInt(bufferedReader.readLine());
+
+        // Получаем объект апартаментов через сервис
+        ApartmentService apartmentService = ApartmentServiceImpl.getInstance();
+        Apartment apartment = apartmentService.getApartmentByNumber(apartmentNumber);
+
+        if (apartment == null) {
+            System.out.println("Apartment not found!");
+            return;
+        }
+
+        System.out.println("Enter new price per night:");
+        double newPrice = enterApartmentPrice(bufferedReader);
+
+        apartment.setPrice(newPrice);
+
+        // Вызываем метод сервиса для обновления данных об апартаментах
+        apartmentService.updateApartmentPrice(apartmentNumber, newPrice);
+
+        System.out.println("Apartment price has been updated.");
+        System.out.println(" ");
     }
+
 
     private static ApartmentType enterApartmentType(BufferedReader bufferedReader) {
         try {

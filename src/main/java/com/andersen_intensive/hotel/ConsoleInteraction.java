@@ -150,10 +150,6 @@ public class ConsoleInteraction {
         Apartment apartment = apartmentService.getApartmentByNumber(number);
         apartment.setApartmentStatus(ApartmentStatus.OCCUPIED);
         apartmentService.update(apartment);
-
-        //Reservation reservation = new Reservation(client, apartment, LocalDate.now());
-       // reservationService.updateReservation(reservation);
-
         System.out.println("Information about the reservation:");
 
         System.out.println("\n\n" +

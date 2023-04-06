@@ -1,9 +1,10 @@
 package com.andersen_intensive.hotel.service;
 
 import com.andersen_intensive.hotel.models.Apartment;
+import com.andersen_intensive.hotel.models.ApartmentStatus;
 import com.andersen_intensive.hotel.repository.ApartmentRepository;
 import com.andersen_intensive.hotel.repository.ApartmentRepositoryImpl;
-import com.andersen_intensive.hotel.repository.ServiceRepositoryImpl;
+
 
 public class ApartmentServiceImpl implements ApartmentService {
 
@@ -27,5 +28,22 @@ public class ApartmentServiceImpl implements ApartmentService {
     public void update(Apartment apartment) {
         apartmentRepository.updateApartment(apartment);
     }
+    @Override
+    public void setApartmentStatus(int apartmentNumber, ApartmentStatus status) {
+        Apartment apartment = apartmentRepository.getApartmentByNumber(apartmentNumber);
+        if (apartment != null) {
+            apartment.setApartmentStatus(status);
+            apartmentRepository.updateApartment(apartment);
+        }
+    }
+    public void updateApartmentPrice(int apartmentNumber, double newPrice) {
+        Apartment apartment = apartmentRepository.getApartmentByNumber(apartmentNumber);
+        if (apartment == null) {
+            System.out.println("Apartment not found!");
+            return;
+        }
+        apartment.setPrice(newPrice);
+        apartmentRepository.updateApartment(apartment);
 
+    }
 }
