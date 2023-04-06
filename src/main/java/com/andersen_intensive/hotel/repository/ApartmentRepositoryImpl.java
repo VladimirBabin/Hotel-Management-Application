@@ -44,9 +44,8 @@ public class ApartmentRepositoryImpl implements ApartmentRepository {
 
     @Override
     public void deleteApartment(Apartment apartment) {
-        if (apartments.containsValue(apartment)) {
-            apartments.remove(apartment);
-        }
+        apartments.values().removeIf(a -> a.equals(apartment));
+
     }
 
 }

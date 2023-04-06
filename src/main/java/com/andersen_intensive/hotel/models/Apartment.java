@@ -1,5 +1,7 @@
 package com.andersen_intensive.hotel.models;
 
+import java.util.Objects;
+
 public class Apartment implements IApartment {
     private int apartmentNumber;
     private Double price;
@@ -54,4 +56,16 @@ public class Apartment implements IApartment {
                 "status: " + apartmentStatus + "\n" ;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Apartment apartment = (Apartment) o;
+        return apartmentNumber == apartment.apartmentNumber;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(apartmentNumber);
+    }
 }
