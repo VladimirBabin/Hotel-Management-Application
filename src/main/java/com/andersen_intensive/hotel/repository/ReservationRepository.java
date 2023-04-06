@@ -7,11 +7,12 @@ import java.util.List;
 
 public interface ReservationRepository {
 
-    void addReservation(Reservation reservation);
+    Reservation addReservation(Reservation reservation);
 
-    List<Reservation> getReservationsByClient();
+    Reservation getReservationById(int id);
 
-    List<Reservation> getReservationsByApartment();
+    Reservation updateReservation(Reservation reservation);
 
-    void addServiceForReservation();
+    void deleteReservation(Reservation reservation);
+
 }

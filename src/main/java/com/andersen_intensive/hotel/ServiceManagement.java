@@ -37,8 +37,8 @@ public class ServiceManagement {
 
     private static void changeServicePrice(BufferedReader bufferedReader) {
     }
-
-    private static void showListOfServices(BufferedReader bufferedReader) {
+//  leave it package private, so we can call it from ConsoleInteraction
+    static void showListOfServices(BufferedReader bufferedReader) {
     }
 
     private static void applyServiceForClient(BufferedReader bufferedReader) {

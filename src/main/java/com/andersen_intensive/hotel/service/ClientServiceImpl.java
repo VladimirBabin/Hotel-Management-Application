@@ -2,17 +2,22 @@ package com.andersen_intensive.hotel.service;
 
 import com.andersen_intensive.hotel.models.Client;
 import com.andersen_intensive.hotel.repository.ClientRepository;
+import com.andersen_intensive.hotel.repository.ClientRepositoryImpl;
 
 import java.util.Comparator;
 import java.util.List;
 
 public class ClientServiceImpl implements ClientService {
 
-    private final ClientRepository clientRepository;
+    private final ClientRepositoryImpl clientRepository = ClientRepositoryImpl.getInstance();
 
-    public ClientServiceImpl(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
-    }
+    private static final ClientServiceImpl SINGLETON = new ClientServiceImpl();
+
+//    public ClientServiceImpl(ClientRepository clientRepository) {
+//        this.clientRepository = clientRepository;
+//    }
+//    private final ClientRepository clientRepository;
+
 
     @Override
     public Client createClient(String firstName, String lastName, String phoneNumber) {

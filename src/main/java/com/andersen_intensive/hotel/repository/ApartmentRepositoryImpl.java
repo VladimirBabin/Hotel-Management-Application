@@ -21,9 +21,8 @@ public class ApartmentRepositoryImpl implements ApartmentRepository {
         return apartment;
     }
 
-//    наверное стоит переименовать в getApartmentByNumber?
     @Override
-    public Apartment getApartmentById(int number) {
+    public Apartment getApartmentByNumber(int number) {
         return apartments.get(number);
     }
 
@@ -34,10 +33,11 @@ public class ApartmentRepositoryImpl implements ApartmentRepository {
     }
 
     @Override
-    public List<Apartment> getAllApartments() {
-        return (List) apartments.values();
-    }
 
+    public List<Apartment> getAllApartments() {
+        return new ArrayList<>(apartments.values());
+
+    }
 
     @Override
     public void deleteApartment(Apartment apartment) {
@@ -46,8 +46,4 @@ public class ApartmentRepositoryImpl implements ApartmentRepository {
         }
     }
 
-
-    public void setUnavailable(Apartment apartment) {
-        apartment.setApartmentStatus(ApartmentStatus.UNAVAILABLE);
-    }
 }

@@ -1,23 +1,28 @@
 package com.andersen_intensive.hotel;
 
-import com.andersen_intensive.hotel.models.Apartment;
-import com.andersen_intensive.hotel.models.Client;
+import com.andersen_intensive.hotel.models.*;
+import com.andersen_intensive.hotel.repository.ApartmentRepository;
 import com.andersen_intensive.hotel.repository.ApartmentRepositoryImpl;
 import com.andersen_intensive.hotel.repository.ClientRepositoryImpl;
-import com.andersen_intensive.hotel.service.ClientService;
-import com.andersen_intensive.hotel.service.ClientServiceImpl;
+import com.andersen_intensive.hotel.repository.ReservationRepositoryImpl;
+import com.andersen_intensive.hotel.service.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-import com.andersen_intensive.hotel.models.ApartmentType;
-
 public class ConsoleInteraction {
+
+    static final ClientService clientService = new ClientServiceImpl();
+
+    private static ReservationServiceImpl reservationService;
+
 
     private static final String MENU = "Menu:" + "\n" +
             "1. Register a client" + "\n" +
@@ -31,7 +36,7 @@ public class ConsoleInteraction {
 
     static void showMainMenu() {
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))) {
-            ClientService clientService = new ClientServiceImpl(new ClientRepositoryImpl());
+//            ClientService clientService = new ClientServiceImpl(new ClientRepositoryImpl());
             while (true) {
                 System.out.println(MENU);
                 String input = bufferedReader.readLine();
@@ -116,11 +121,83 @@ public class ConsoleInteraction {
     }
 
     //    Vova
-    static private void checkIn(BufferedReader bufferedReader) {
+    static private void checkIn(BufferedReader bufferedReader) throws IOException { // Мы нигде не фиксируем дату заезда
+        int id;                                                                     //наверно нужно проверять свободен-ли номер при заселении
+        int number;
+
+        while (true) {
+            System.out.println("Client's id:");
+            String clientId = bufferedReader.readLine();
+            try {
+                id = Integer.parseInt(clientId);
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Please type a valid number");
+            }
+        }
+
+        while (true) {
+            System.out.println("Number of Apartment:");
+            String apartmentNumber = bufferedReader.readLine();
+            try {
+                number = Integer.parseInt(apartmentNumber);
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Please type a valid number");
+            }
+        }
+
+        Client client = clientService.getClientByID(id);
+
+        ApartmentRepository apartmentRepository = new ApartmentRepositoryImpl(); //Sv
+        ApartmentService apartmentService = new ApartmentServiceImpl(apartmentRepository);
+        Apartment apartment = apartmentService.getApartmentByNumber(number);
+        apartment.setApartmentStatus(ApartmentStatus.OCCUPIED);
+        apartmentService.update(apartment);
+        Reservation reservation = new Reservation(client, apartment, LocalDate.now());
+        reservationService.updateReservation(reservation);
+
+        System.out.println("Information about the reservation:");
+
+        System.out.println("\n\n" +
+                "To go back type 1");
+        while (true) {
+            String input = bufferedReader.readLine();
+            if (input.equals("1")) {
+                return;
+            }
+        }
     }
 
     //    Vova
-    static private void checkOut(BufferedReader bufferedReader) {
+    static private void checkOut(BufferedReader bufferedReader) throws IOException { //Дата отъезда,  в апартаментах менять статус
+
+//        Ищем бронирование по юзер айди
+        int id;
+        while (true) {
+            System.out.println("Client's id:");
+            String clientId = bufferedReader.readLine();
+            try {
+                id = Integer.parseInt(clientId);
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Please type a valid number");
+            }
+        }
+        Reservation reservation = reservationService.findByUserId(id);
+
+        reservation.setCheckOut(LocalDate.now());
+        reservationService.updateReservation(reservation);
+        System.out.println("Information about the reservation:");
+
+        System.out.println("\n\n" +
+                "To go back type 1");
+        while (true) {
+            String input = bufferedReader.readLine();
+            if (input.equals("1")) {
+                return;
+            }
+        }
     }
 
     //    ?
