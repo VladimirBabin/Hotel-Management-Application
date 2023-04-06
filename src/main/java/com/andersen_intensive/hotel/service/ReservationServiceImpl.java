@@ -23,4 +23,8 @@ public class ReservationServiceImpl {
     public Reservation findByUserId(int id) {
         return reservationRepository.findByUserId(id);
     }
+
+    public boolean checkIfExists(int id) {
+        return false;
+    }
 }
