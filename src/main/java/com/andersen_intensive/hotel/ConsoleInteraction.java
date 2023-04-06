@@ -11,17 +11,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Scanner;
 
 public class ConsoleInteraction {
 
-    static final ClientService clientService = new ClientServiceImpl();
-
-    private static ReservationServiceImpl reservationService;
+    private static final ClientServiceImpl clientService = ClientServiceImpl.getInstance();
+    private static final ReservationServiceImpl reservationService = ReservationServiceImpl.getInstance();
+    private static final ApartmentServiceImpl apartmentService = ApartmentServiceImpl.getInstance();
+    private static final ServiceServiceImpl serviceService = ServiceServiceImpl.getInstance();
 
 
     private static final String MENU = "Menu:" + "\n" +
@@ -149,11 +147,10 @@ public class ConsoleInteraction {
 
         Client client = clientService.getClientByID(id);
 
-        ApartmentRepository apartmentRepository = new ApartmentRepositoryImpl(); //Sv
-        ApartmentService apartmentService = new ApartmentServiceImpl(apartmentRepository);
         Apartment apartment = apartmentService.getApartmentByNumber(number);
         apartment.setApartmentStatus(ApartmentStatus.OCCUPIED);
         apartmentService.update(apartment);
+
         //Reservation reservation = new Reservation(client, apartment, LocalDate.now());
        // reservationService.updateReservation(reservation);
 

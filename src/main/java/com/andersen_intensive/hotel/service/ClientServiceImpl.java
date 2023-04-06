@@ -3,6 +3,7 @@ package com.andersen_intensive.hotel.service;
 import com.andersen_intensive.hotel.models.Client;
 import com.andersen_intensive.hotel.repository.ClientRepository;
 import com.andersen_intensive.hotel.repository.ClientRepositoryImpl;
+import com.andersen_intensive.hotel.repository.ServiceRepositoryImpl;
 
 import java.util.Comparator;
 import java.util.List;
@@ -11,7 +12,14 @@ public class ClientServiceImpl implements ClientService {
 
     private final ClientRepositoryImpl clientRepository = ClientRepositoryImpl.getInstance();
 
-    private static final ClientServiceImpl SINGLETON = new ClientServiceImpl();
+    private static ClientServiceImpl INSTANCE;
+
+    public static ClientServiceImpl getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new ClientServiceImpl();
+        }
+        return INSTANCE;
+    }
 
 //    public ClientServiceImpl(ClientRepository clientRepository) {
 //        this.clientRepository = clientRepository;

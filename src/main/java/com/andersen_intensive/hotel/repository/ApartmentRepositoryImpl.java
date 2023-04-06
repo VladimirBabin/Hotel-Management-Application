@@ -7,12 +7,15 @@ import java.util.*;
 
 public class ApartmentRepositoryImpl implements ApartmentRepository {
 
-    private static final ApartmentRepositoryImpl SINGLETON = new ApartmentRepositoryImpl();
-
     private static Map<Integer, Apartment> apartments = new HashMap<>();
 
+    private static ApartmentRepositoryImpl INSTANCE;
+
     public static ApartmentRepositoryImpl getInstance() {
-        return SINGLETON;
+        if (INSTANCE == null) {
+            INSTANCE = new ApartmentRepositoryImpl();
+        }
+        return INSTANCE;
     }
 
     @Override

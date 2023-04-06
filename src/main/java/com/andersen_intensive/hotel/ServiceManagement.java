@@ -1,10 +1,14 @@
 package com.andersen_intensive.hotel;
 
+import com.andersen_intensive.hotel.service.ServiceServiceImpl;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 
 // Georgi
 public class ServiceManagement {
+
+    private static final ServiceServiceImpl serviceService = ServiceServiceImpl.getInstance();
 
     private static final String SERVICE_MANAGEMENT_MENU = "1. Add service" + "\n" +
             "2. Apply a service for client" + "\n" +

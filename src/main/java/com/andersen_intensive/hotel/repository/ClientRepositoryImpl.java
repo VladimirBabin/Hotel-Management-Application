@@ -12,10 +12,13 @@ public class ClientRepositoryImpl implements ClientRepository {
 
     private final Map<Integer, Client> clients = new HashMap<>();
 
-    private static final ClientRepositoryImpl SINGLETON = new ClientRepositoryImpl();
+    private static ClientRepositoryImpl INSTANCE;
 
     public static ClientRepositoryImpl getInstance() {
-        return SINGLETON;
+        if (INSTANCE == null) {
+            INSTANCE = new ClientRepositoryImpl();
+        }
+        return INSTANCE;
     }
 
 

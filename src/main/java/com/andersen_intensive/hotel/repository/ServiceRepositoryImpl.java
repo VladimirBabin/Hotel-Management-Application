@@ -8,12 +8,16 @@ import java.util.Map;
 
 public class ServiceRepositoryImpl implements ServiceRepository {
 
-    private static final ServiceRepositoryImpl SINGLETON = new ServiceRepositoryImpl();
-
     private static Map<Integer, Service> services = new HashMap<>();
 
+    private static ServiceRepositoryImpl INSTANCE;
+
     public static ServiceRepositoryImpl getInstance() {
-        return SINGLETON;
+
+        if (INSTANCE == null) {
+            INSTANCE = new ServiceRepositoryImpl();
+        }
+        return INSTANCE;
     }
 
     @Override

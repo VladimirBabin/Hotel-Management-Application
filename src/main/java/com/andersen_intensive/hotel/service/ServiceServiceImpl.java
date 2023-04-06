@@ -1,17 +1,24 @@
 package com.andersen_intensive.hotel.service;
 
 import com.andersen_intensive.hotel.models.Service;
+import com.andersen_intensive.hotel.repository.ReservationRepositoryImpl;
 import com.andersen_intensive.hotel.repository.ServiceRepository;
+import com.andersen_intensive.hotel.repository.ServiceRepositoryImpl;
 
 import java.util.Comparator;
 import java.util.List;
 
 public class ServiceServiceImpl implements ServiceService {
 
-    private final ServiceRepository serviceRepository;
+    private final ServiceRepositoryImpl serviceRepository = ServiceRepositoryImpl.getInstance();
 
-    public ServiceServiceImpl(ServiceRepository serviceRepository) {
-        this.serviceRepository = serviceRepository;
+    private static ServiceServiceImpl INSTANCE;
+
+    public static ServiceServiceImpl getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new ServiceServiceImpl();
+        }
+        return INSTANCE;
     }
 
     @Override

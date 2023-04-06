@@ -4,6 +4,7 @@ import com.andersen_intensive.hotel.models.Apartment;
 import com.andersen_intensive.hotel.models.ApartmentStatus;
 import com.andersen_intensive.hotel.models.ApartmentType;
 import com.andersen_intensive.hotel.repository.ApartmentRepositoryImpl;
+import com.andersen_intensive.hotel.service.ApartmentServiceImpl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,6 +15,8 @@ import java.util.List;
 
 // Sveta
 public class ApartmentManagement {
+
+    private static final ApartmentServiceImpl apartmentService = ApartmentServiceImpl.getInstance();
 
     private static final String APARTMENT_MANAGEMENT_MENU = "1. Add apartment" + "\n" +
             "2. Show list of apartments" + "\n" +
@@ -104,6 +107,7 @@ public class ApartmentManagement {
        System.out.println("Enter apartment number:");
        int apartmentNumber = Integer.parseInt(bufferedReader.readLine());
 
+//       Эти операции нужно выполнять через вызов сервиса
        ApartmentRepositoryImpl apartmentRepository = ApartmentRepositoryImpl.getInstance();
        Apartment apartment = apartmentRepository.getApartmentByNumber(apartmentNumber);
 
@@ -126,6 +130,7 @@ public class ApartmentManagement {
         System.out.println("Enter apartment number:");
         int apartmentNumber = Integer.parseInt(bufferedReader.readLine());
 
+        //       Эти операции нужно выполнять через вызов сервиса
         ApartmentRepositoryImpl apartmentRepository = ApartmentRepositoryImpl.getInstance();
         Apartment apartment = apartmentRepository.getApartmentByNumber(apartmentNumber);
 
@@ -138,6 +143,7 @@ public class ApartmentManagement {
         double newPrice = enterApartmentPrice(bufferedReader);
 
         apartment.setPrice(newPrice);
+        //       Эти операции нужно выполнять через вызов сервиса
         apartmentRepository.updateApartment(apartment);
 
         System.out.println("Apartment price has been updated.");
