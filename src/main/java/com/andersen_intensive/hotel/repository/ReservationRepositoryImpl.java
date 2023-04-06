@@ -1,6 +1,5 @@
 package com.andersen_intensive.hotel.repository;
 
-import com.andersen_intensive.hotel.models.Client;
 import com.andersen_intensive.hotel.models.Reservation;
 
 import java.util.HashMap;
@@ -33,7 +32,8 @@ public class ReservationRepositoryImpl implements ReservationRepository {
 
     @Override
     public Reservation updateReservation(Reservation reservation) {
-        return null;
+        reservations.put(reservation.getId(), reservation);
+        return reservation;
     }
 
     @Override
@@ -41,8 +41,22 @@ public class ReservationRepositoryImpl implements ReservationRepository {
         reservations.remove(reservation.getId());
     }
 
-    public Reservation findByUserId(int id) {
-
+    public Reservation findByUserId(int userId) {
+        for(Reservation reservation: reservations.values()) {
+            if (reservation.getClient().getPersonalID() == userId) {
+                return reservation;
+            }
+        }
         return null;
     }
+
+//    public boolean checkIfOpenReservationExistsForClient(int userId) {
+//        for(Reservation reservation: reservations.values()) {
+//            if ((reservation.getClient().getPersonalID() == userId)
+//                    && reservation.getCheckOut() == null) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 }

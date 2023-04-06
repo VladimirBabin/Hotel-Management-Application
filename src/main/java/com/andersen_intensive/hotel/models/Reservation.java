@@ -88,7 +88,7 @@ public class Reservation {
                 ", apartment=" + apartment +
                 ", services=" + services +
                 ", checkIn=" + checkIn +
-                ", checkOut=" + checkOut +
+                ", checkOut=" + (checkOut == null ? "haven't checked out yet" : checkOut) +
                 '}';
     }
 }

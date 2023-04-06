@@ -1,10 +1,6 @@
 package com.andersen_intensive.hotel;
 
 import com.andersen_intensive.hotel.models.*;
-import com.andersen_intensive.hotel.repository.ApartmentRepository;
-import com.andersen_intensive.hotel.repository.ApartmentRepositoryImpl;
-import com.andersen_intensive.hotel.repository.ClientRepositoryImpl;
-import com.andersen_intensive.hotel.repository.ReservationRepositoryImpl;
 import com.andersen_intensive.hotel.service.*;
 
 import java.io.BufferedReader;
@@ -174,7 +170,7 @@ public class ConsoleInteraction {
         }
 
         Reservation reservation = new Reservation(client, apartment, LocalDate.now());
-        reservationService.updateReservation(reservation);
+        reservationService.addReservation(reservation);
 
         System.out.println("Information about the reservation:");
         System.out.println(reservation);
@@ -193,35 +189,42 @@ public class ConsoleInteraction {
     static private void checkOut(BufferedReader bufferedReader) throws IOException { //Дата отъезда,  в апартаментах менять статус
 
 //        Ищем бронирование по юзер айди
-        int id;
+        int clientId;
         while (true) {
             System.out.println("Client's id:");
-            String clientId = bufferedReader.readLine();
+            String readLine = bufferedReader.readLine();
             try {
-                id = Integer.parseInt(clientId);
+                clientId = Integer.parseInt(readLine);
                 break;
             } catch (NumberFormatException e) {
                 System.out.println("Please type a valid number");
             }
         }
-        if (!reservationService.checkIfExists(id)) {
-            while(true) {
-                System.out.println("There are now reservations for the user \n\n");
-                System.out.println("To go back type 1");
-                String input = bufferedReader.readLine();
-                if (input.equals("1")) {
-                    return;
-                }
+//        if (!reservationService.checkIfOpenReservationExistsForClient(clientId)) {
+//            while(true) {
+//                System.out.println("There are no unfinished reservations for the user \n\n");
+//                System.out.println("To go back type 1");
+//                String input = bufferedReader.readLine();
+//                if (input.equals("1")) {
+//                    return;
+//                }
+//            }
+//        }
+        Reservation reservation = reservationService.findByUserId(clientId);
+        if (reservation == null) {
+            System.out.println("No such user was found");
+        } else {
+            if(reservationService.checkIfReservationIsOpen(reservation)) {
+                reservation.setCheckOut(LocalDate.now());
+                reservationService.updateReservation(reservation);
+                System.out.println("Information about the reservation:");
+                System.out.println(reservation);
+                System.out.println("\n\n" +
+                        "To go back type 1");
+            } else {
+                System.out.println("User has no open reservations");
             }
         }
-        Reservation reservation = reservationService.findByUserId(id);
-
-        reservation.setCheckOut(LocalDate.now());
-        reservationService.updateReservation(reservation);
-        System.out.println("Information about the reservation:");
-
-        System.out.println("\n\n" +
-                "To go back type 1");
         while (true) {
             String input = bufferedReader.readLine();
             if (input.equals("1")) {

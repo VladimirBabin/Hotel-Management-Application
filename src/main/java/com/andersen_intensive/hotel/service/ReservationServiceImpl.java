@@ -16,6 +16,11 @@ public class ReservationServiceImpl {
         return INSTANCE;
     }
 
+
+    public void addReservation(Reservation reservation) {
+        reservationRepository.addReservation(reservation);
+    }
+
     public void updateReservation(Reservation reservation) {
         reservationRepository.updateReservation(reservation);
     }
@@ -24,7 +29,15 @@ public class ReservationServiceImpl {
         return reservationRepository.findByUserId(id);
     }
 
-    public boolean checkIfExists(int id) {
+    public boolean checkIfReservationIsOpen(Reservation reservation) {
+        if (reservation.getCheckOut() == null) {
+            return true;
+        }
         return false;
     }
+//
+//    public boolean checkIfOpenReservationExistsForClient(int userId) {
+//        return reservationRepository.checkIfOpenReservationExistsForClient(userId);
+//    }
+
 }
