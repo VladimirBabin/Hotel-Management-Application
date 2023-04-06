@@ -119,8 +119,8 @@ public class ConsoleInteraction {
     }
 
     //    Vova
-    static private void checkIn(BufferedReader bufferedReader) throws IOException { // Мы нигде не фиксируем дату заезда
-        int id;                                                                     //наверно нужно проверять свободен-ли номер при заселении
+    static private void checkIn(BufferedReader bufferedReader) throws IOException {
+        int id;
         int number;
 
         while (true) {
@@ -202,6 +202,16 @@ public class ConsoleInteraction {
                 break;
             } catch (NumberFormatException e) {
                 System.out.println("Please type a valid number");
+            }
+        }
+        if (!reservationService.checkIfExists(id)) {
+            while(true) {
+                System.out.println("There are now reservations for the user \n\n");
+                System.out.println("To go back type 1");
+                String input = bufferedReader.readLine();
+                if (input.equals("1")) {
+                    return;
+                }
             }
         }
         Reservation reservation = reservationService.findByUserId(id);
