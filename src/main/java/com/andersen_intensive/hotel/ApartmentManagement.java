@@ -3,6 +3,7 @@ package com.andersen_intensive.hotel;
 import com.andersen_intensive.hotel.models.Apartment;
 import com.andersen_intensive.hotel.models.ApartmentStatus;
 import com.andersen_intensive.hotel.models.ApartmentType;
+import com.andersen_intensive.hotel.repository.ApartmentRepository;
 import com.andersen_intensive.hotel.repository.ApartmentRepositoryImpl;
 import com.andersen_intensive.hotel.service.ApartmentService;
 import com.andersen_intensive.hotel.service.ApartmentServiceImpl;
@@ -54,6 +55,13 @@ public class ApartmentManagement {
 
         System.out.println("Enter apartment number:");
         int apartmentNumber = Integer.parseInt(bufferedReader.readLine());
+
+        ApartmentService apartmentService = ApartmentServiceImpl.getInstance();
+        if (apartmentService.isValidApartment(apartmentNumber)) {
+            System.out.println("Apartment with such number already exists!");
+            System.out.println(" ");
+            return;
+        }
 
         System.out.println("Enter price per night:");
         double apartmentPrice = enterApartmentPrice(bufferedReader);
@@ -125,29 +133,7 @@ public class ApartmentManagement {
        System.out.println(" ");
    }
 
-    /*private static void changeApartmentPrice(BufferedReader bufferedReader) throws IOException {
-        System.out.println("Enter apartment number:");
-        int apartmentNumber = Integer.parseInt(bufferedReader.readLine());
 
-        //       Эти операции нужно выполнять через вызов сервиса
-        ApartmentRepositoryImpl apartmentRepository = ApartmentRepositoryImpl.getInstance();
-        Apartment apartment = apartmentRepository.getApartmentByNumber(apartmentNumber);
-
-        if (apartment == null) {
-            System.out.println("Apartment not found!");
-            return;
-        }
-
-        System.out.println("Enter new price per night:");
-        double newPrice = enterApartmentPrice(bufferedReader);
-
-        apartment.setPrice(newPrice);
-        //       Эти операции нужно выполнять через вызов сервиса
-        apartmentRepository.updateApartment(apartment);
-
-        System.out.println("Apartment price has been updated.");
-        System.out.println(" ");
-    }*/
     private static void changeApartmentPrice(BufferedReader bufferedReader) throws IOException {
         System.out.println("Enter apartment number:");
         int apartmentNumber = Integer.parseInt(bufferedReader.readLine());

@@ -48,10 +48,10 @@ public class Apartment implements IApartment {
     @Override
     public String toString() {
         return "Apartment number" +
-                apartmentNumber +
-                ", price: $" + price +
-                ", type apartment: " + apartmentType +
-                ", status: " + apartmentStatus ;
+                apartmentNumber + "\n" +
+                "price: $" + price + "\n" +
+                "type apartment: " + apartmentType + "\n" +
+                "status: " + apartmentStatus + "\n" ;
     }
 
 }
