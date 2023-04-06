@@ -22,12 +22,13 @@ public class ReservationRepositoryImpl implements ReservationRepository {
 
     @Override
     public Reservation addReservation(Reservation reservation) {
-        return null;
+        reservations.put(reservation.getId(), reservation);
+        return reservation;
     }
 
     @Override
     public Reservation getReservationById(int id) {
-        return null;
+        return reservations.get(id);
     }
 
     @Override
@@ -37,7 +38,7 @@ public class ReservationRepositoryImpl implements ReservationRepository {
 
     @Override
     public void deleteReservation(Reservation reservation) {
-
+        reservations.remove(reservation.getId());
     }
 
     public Reservation findByUserId(int id) {
