@@ -147,10 +147,37 @@ public class ConsoleInteraction {
 
         Client client = clientService.getClientByID(id);
 
+
+        if (!apartmentService.isValidApartment(number)) {
+            while(true) {
+                System.out.println("The apartment doesn't exist \n\n");
+                System.out.println("To go back type 1");
+                String input = bufferedReader.readLine();
+                if (input.equals("1")) {
+                    return;
+                }
+            }
+        }
         Apartment apartment = apartmentService.getApartmentByNumber(number);
-        apartment.setApartmentStatus(ApartmentStatus.OCCUPIED);
-        apartmentService.update(apartment);
+
+        if (apartmentService.checkIfAvailable(apartment)) {
+            apartmentService.update(apartment);
+        } else {
+            while(true) {
+                System.out.println("The apartment is unavailable \n\n");
+                System.out.println("To go back type 1");
+                String input = bufferedReader.readLine();
+                if (input.equals("1")) {
+                    return;
+                }
+            }
+        }
+
+        Reservation reservation = new Reservation(client, apartment, LocalDate.now());
+        reservationService.updateReservation(reservation);
+
         System.out.println("Information about the reservation:");
+        System.out.println(reservation);
 
         System.out.println("\n\n" +
                 "To go back type 1");

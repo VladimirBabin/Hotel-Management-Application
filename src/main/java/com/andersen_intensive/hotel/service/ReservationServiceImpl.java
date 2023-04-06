@@ -17,9 +17,10 @@ public class ReservationServiceImpl {
     }
 
     public void updateReservation(Reservation reservation) {
+        reservationRepository.updateReservation(reservation);
     }
 
     public Reservation findByUserId(int id) {
-        return null;
+        return reservationRepository.findByUserId(id);
     }
 }
