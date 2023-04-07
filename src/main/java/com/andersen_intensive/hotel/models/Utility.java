@@ -1,12 +1,12 @@
 package com.andersen_intensive.hotel.models;
 
-public class Service {
+public class Utility {
     private static int count = 0;
     private int id;
     private String name;
     private double price;
 
-    public Service(String name, double price) {
+    public Utility(String name, double price) {
         this.id = ++count;
         this.name = name;
         this.price = price;

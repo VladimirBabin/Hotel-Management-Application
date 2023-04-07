@@ -6,13 +6,14 @@ import java.util.List;
 
 public interface ApartmentRepository {
 
-    Apartment addApartment(Apartment apartment);
+    Apartment add(Apartment apartment);
 
-    Apartment getApartmentByNumber(int number);
+    Apartment getById(int id);
 
-    Apartment updateApartment(Apartment apartment);
+    void update(Apartment apartment);
 
-    List<Apartment> getAllApartments();
+    List<Apartment> getAll();
 
-    void deleteApartment(Apartment apartment);
+
+    void delete(Apartment apartment);
 }

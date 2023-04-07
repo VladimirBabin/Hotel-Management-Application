@@ -6,8 +6,7 @@ import com.andersen_intensive.hotel.models.ApartmentType;
 import com.andersen_intensive.hotel.repository.ApartmentRepository;
 
 import java.math.BigDecimal;
-
-import java.math.BigDecimal;
+import java.util.List;
 
 
 public class ApartmentServiceImpl implements ApartmentService {
@@ -19,49 +18,58 @@ public class ApartmentServiceImpl implements ApartmentService {
     }
 
     @Override
-    public Apartment createApartment(int apartmentNumber, BigDecimal price, ApartmentType apartmentType) {
-        Apartment apartment = new Apartment(apartmentNumber, price, apartmentType);
-        return apartmentRepository.addApartment(apartment);
+    public Apartment create(int apartmentId, BigDecimal price, ApartmentType apartmentType) {
+        Apartment apartment = new Apartment(apartmentId, price, apartmentType);
+        return apartmentRepository.add(apartment);
     }
 
     @Override
-    public Apartment getApartmentByNumber(int number) {
-        return apartmentRepository.getApartmentByNumber(number);
+    public Apartment getById(int id) {
+        return apartmentRepository.getById(id);
     }
 
     @Override
     public void update(Apartment apartment) {
-        apartmentRepository.updateApartment(apartment);
+        apartmentRepository.update(apartment);
     }
+
     @Override
-    public void setApartmentStatus(int apartmentNumber, ApartmentStatus status) {
-        Apartment apartment = apartmentRepository.getApartmentByNumber(apartmentNumber);
+    public void setStatus(int apartmentId, ApartmentStatus status) {
+        Apartment apartment = apartmentRepository.getById(apartmentId);
         if (apartment != null) {
             apartment.setApartmentStatus(status);
-            apartmentRepository.updateApartment(apartment);
+            apartmentRepository.update(apartment);
         }
     }
-    public void updateApartmentPrice(int apartmentNumber, BigDecimal newPrice) {
-        Apartment apartment = apartmentRepository.getApartmentByNumber(apartmentNumber);
+
+    public void updatePrice(int apartmentId, BigDecimal newPrice) {
+        Apartment apartment = apartmentRepository.getById(apartmentId);
         if (apartment == null) {
             System.out.println("Apartment not found!");
             return;
         }
         apartment.setPrice(newPrice);
-        apartmentRepository.updateApartment(apartment);
+        apartmentRepository.update(apartment);
 
     }
+
     @Override
     public boolean checkIfAvailable(Apartment apartment) {
-        if (apartment.getApartmentStatus() == ApartmentStatus.AVAILABLE) {
-            return true;
-        } else {
-            return false;
-        }
+        return apartment.getApartmentStatus() == ApartmentStatus.AVAILABLE;
     }
+
     @Override
-    public boolean isValidApartment(int apartmentNumber) {
-        Apartment apartment = apartmentRepository.getApartmentByNumber(apartmentNumber);
+    public boolean isValid(int apartmentId) {
+        Apartment apartment = apartmentRepository.getById(apartmentId);
         return apartment != null;
+    }
+
+    @Override
+    public List<Apartment> getAll() {
+        return apartmentRepository.getAll();
+    }
+
+    public void add(Apartment apartment) {
+        apartmentRepository.add(apartment);
     }
 }

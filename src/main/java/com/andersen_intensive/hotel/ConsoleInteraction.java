@@ -4,7 +4,7 @@ import com.andersen_intensive.hotel.models.*;
 import com.andersen_intensive.hotel.repository.ApartmentRepositoryImpl;
 import com.andersen_intensive.hotel.repository.ClientRepositoryImpl;
 import com.andersen_intensive.hotel.repository.ReservationRepositoryImpl;
-import com.andersen_intensive.hotel.repository.ServiceRepositoryImpl;
+import com.andersen_intensive.hotel.repository.UtilityRepositoryImpl;
 import com.andersen_intensive.hotel.service.*;
 
 import java.io.BufferedReader;
@@ -19,7 +19,7 @@ public class ConsoleInteraction {
     static final ClientService clientService = new ClientServiceImpl(new ClientRepositoryImpl());
     static final ReservationService reservationService = new ReservationServiceImpl(new ReservationRepositoryImpl());
     static final ApartmentService apartmentService = new ApartmentServiceImpl(new ApartmentRepositoryImpl());
-    static final ServiceService serviceService = new ServiceServiceImpl(new ServiceRepositoryImpl());
+    static final UtilityService utilityService = new UtilityServiceImpl(new UtilityRepositoryImpl());
 
     private static final String MENU = "Menu:" + "\n" +
             "1. Register a client" + "\n" +
@@ -47,10 +47,10 @@ public class ConsoleInteraction {
                         showListOfClients(bufferedReader);
                         break;
                     case "3":
-                        ApartmentManagement.showApartmentManagementMenu(bufferedReader, apartmentService);
+                        ApartmentManagement.showApartmentManagementMenu(bufferedReader);
                         break;
                     case "4":
-                        ServiceManagement.showServiceManagementMenu(bufferedReader);
+                        UtilityManagement.showUtilityManagementMenu(bufferedReader, utilityService);
                         break;
                     case "5":
                         checkIn(bufferedReader);
@@ -180,7 +180,7 @@ public class ConsoleInteraction {
         Client client = clientService.getClientByID(id);
 
 
-        if (!apartmentService.isValidApartment(number)) {
+        if (!apartmentService.isValid(number)) {
             while (true) {
                 System.out.println("The apartment doesn't exist \n\n");
                 System.out.println("To go back type 1");
@@ -190,7 +190,7 @@ public class ConsoleInteraction {
                 }
             }
         }
-        Apartment apartment = apartmentService.getApartmentByNumber(number);
+        Apartment apartment = apartmentService.getById(number);
 
         if (apartmentService.checkIfAvailable(apartment)) {
             apartmentService.update(apartment);
