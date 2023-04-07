@@ -10,16 +10,6 @@ public class ServiceRepositoryImpl implements ServiceRepository {
 
     private static Map<Integer, Service> services = new HashMap<>();
 
-    private static ServiceRepositoryImpl INSTANCE;
-
-    public static ServiceRepositoryImpl getInstance() {
-
-        if (INSTANCE == null) {
-            INSTANCE = new ServiceRepositoryImpl();
-        }
-        return INSTANCE;
-    }
-
     @Override
     public Service addService(Service service) {
         services.put(service.getId(), service);

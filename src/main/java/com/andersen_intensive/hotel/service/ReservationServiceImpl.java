@@ -1,23 +1,58 @@
 package com.andersen_intensive.hotel.service;
 
+import com.andersen_intensive.hotel.models.Client;
 import com.andersen_intensive.hotel.models.Reservation;
 import com.andersen_intensive.hotel.repository.*;
 
-public class ReservationServiceImpl {
+import java.util.Comparator;
+import java.util.List;
 
-    private final ReservationRepositoryImpl reservationRepository = ReservationRepositoryImpl.getInstance();
+public class ReservationServiceImpl implements ReservationService {
 
-    private static ReservationServiceImpl INSTANCE;
+    private final ReservationRepository reservationRepository;
 
-    public static ReservationServiceImpl getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new ReservationServiceImpl();
+    public ReservationServiceImpl(ReservationRepository reservationRepository) {
+        this.reservationRepository = reservationRepository;
+    }
+
+    @Override
+    public Reservation createReservation(Reservation newReservation) {
+        return reservationRepository.addReservation(newReservation);
+    }
+
+    @Override
+    public Reservation getReservationByID(int id) {
+        return reservationRepository.getReservationById(id);
+    }
+
+    @Override
+    public List<Reservation> getReservationList(boolean sortByID) {
+        List<Reservation> reservations = reservationRepository.getAllReservationsList();
+        if (sortByID) {
+            reservations.sort(Comparator.comparing(Reservation::getId));
         }
-        return INSTANCE;
+        return reservations;
+    }
+
+    @Override
+    public void removeReservation(int id) {
+        reservationRepository.deleteReservation(id);
+    }
+
+    @Override
+    public void updateReservation(Reservation reservationToUpdate) {
+        reservationRepository.updateReservation(reservationToUpdate);
+    }
+
+    public boolean checkIfReservationIsOpen(Reservation reservation) {
+        if (reservation.getCheckOut() == null) {
+            return true;
+        }
+        return false;
     }
 
 
-    public void addReservation(Reservation reservation) {
+    /*public void addReservation(Reservation reservation) {
         reservationRepository.addReservation(reservation);
     }
 
@@ -34,7 +69,7 @@ public class ReservationServiceImpl {
             return true;
         }
         return false;
-    }
+    }*/
 //
 //    public boolean checkIfOpenReservationExistsForClient(int userId) {
 //        return reservationRepository.checkIfOpenReservationExistsForClient(userId);

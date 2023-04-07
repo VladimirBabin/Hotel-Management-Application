@@ -2,22 +2,14 @@ package com.andersen_intensive.hotel.repository;
 
 import com.andersen_intensive.hotel.models.Reservation;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ReservationRepositoryImpl implements ReservationRepository {
 
     private final Map<Integer, Reservation> reservations = new HashMap<>();
-
-    private static ReservationRepositoryImpl INSTANCE;
-
-    public static ReservationRepositoryImpl getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new ReservationRepositoryImpl();
-        }
-        return INSTANCE;
-    }
-
 
     @Override
     public Reservation addReservation(Reservation reservation) {
@@ -31,14 +23,19 @@ public class ReservationRepositoryImpl implements ReservationRepository {
     }
 
     @Override
+    public List<Reservation> getAllReservationsList() {
+        return new ArrayList<>(reservations.values());
+    }
+
+    @Override
     public Reservation updateReservation(Reservation reservation) {
         reservations.put(reservation.getId(), reservation);
         return reservation;
     }
 
     @Override
-    public void deleteReservation(Reservation reservation) {
-        reservations.remove(reservation.getId());
+    public void deleteReservation(int id) {
+        reservations.remove(id);
     }
 
     public Reservation findByUserId(int userId) {
