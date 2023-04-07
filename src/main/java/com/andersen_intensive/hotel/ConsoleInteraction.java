@@ -16,10 +16,10 @@ import java.util.List;
 
 public class ConsoleInteraction {
 
-    static ClientService clientService = new ClientServiceImpl(new ClientRepositoryImpl());
-    static ReservationService reservationService = new ReservationServiceImpl(new ReservationRepositoryImpl());
-    static ApartmentService apartmentService = new ApartmentServiceImpl(new ApartmentRepositoryImpl());
-    static ServiceService serviceService = new ServiceServiceImpl(new ServiceRepositoryImpl());
+    static final ClientService clientService = new ClientServiceImpl(new ClientRepositoryImpl());
+    static final ReservationService reservationService = new ReservationServiceImpl(new ReservationRepositoryImpl());
+    static final ApartmentService apartmentService = new ApartmentServiceImpl(new ApartmentRepositoryImpl());
+    static final ServiceService serviceService = new ServiceServiceImpl(new ServiceRepositoryImpl());
 
     private static final String MENU = "Menu:" + "\n" +
             "1. Register a client" + "\n" +
@@ -27,7 +27,7 @@ public class ConsoleInteraction {
             "3. Apartment management" + "\n" +
             "4. Service management" + "\n" +
             "5. Check-in" + "\n" +
-            "6. Check-out" + "\n" +      //Sv
+            "6. Check-out" + "\n" +
             "7. Get the current price for client's stay" + "\n" +
             "0. Exit program" + "\n";
 
@@ -41,22 +41,22 @@ public class ConsoleInteraction {
                     case "0":
                         return;
                     case "1":
-                        registerNewClient(bufferedReader, clientService);
+                        clientManagement(bufferedReader);
                         break;
                     case "2":
-                        showListOfClients(bufferedReader, clientService);
+                        showListOfClients(bufferedReader);
                         break;
                     case "3":
-                        ApartmentManagement.showApartmentManagementMenu(bufferedReader);
+                        ApartmentManagement.showApartmentManagementMenu(bufferedReader, apartmentService);
                         break;
                     case "4":
                         ServiceManagement.showServiceManagementMenu(bufferedReader);
                         break;
                     case "5":
-                        checkIn(bufferedReader, clientService, reservationService, apartmentService);
+                        checkIn(bufferedReader);
                         break;
                     case "6":
-                        checkOut(bufferedReader, reservationService);
+                        checkOut(bufferedReader);
                         break;
                     case "7":
                         getCurrentPriceForClient(bufferedReader);
@@ -69,7 +69,7 @@ public class ConsoleInteraction {
     }
 
     //    Mary
-    static void registerNewClient(BufferedReader bufferedReader, ClientService clientService) throws IOException {
+    static void clientManagement(BufferedReader bufferedReader) throws IOException {
 
         while (true) {
             System.out.println("\n" + "To create a new client type 1" + "\n" +
@@ -90,6 +90,7 @@ public class ConsoleInteraction {
                 }
                 case "2" -> {
                     System.out.println("Write client's id:");
+                    // проверка
                     int id = Integer.parseInt(bufferedReader.readLine());
                     clientService.removeClient(id);
                     System.out.println("Client " + clientService.getClientByID(id).getLastName() + " " +
@@ -97,6 +98,7 @@ public class ConsoleInteraction {
                 }
                 case "3" -> {
                     System.out.println("\nWrite client's id:");
+                    // проверка
                     int id = Integer.parseInt(bufferedReader.readLine());
 
                     System.out.println("Client's name:");
@@ -121,7 +123,7 @@ public class ConsoleInteraction {
     }
 
     //    Mary
-    static void showListOfClients(BufferedReader bufferedReader, ClientService clientService) throws IOException {
+    static void showListOfClients(BufferedReader bufferedReader) throws IOException {
 
 
         System.out.println("\n1. List of clients\n" +
@@ -149,8 +151,7 @@ public class ConsoleInteraction {
     }
 
     //    Vova
-    static private void checkIn(BufferedReader bufferedReader, ClientService clientService, ReservationService reservationService,
-                                ApartmentService apartmentService) throws IOException {
+    static private void checkIn(BufferedReader bufferedReader) throws IOException {
         int id;
         int number;
 
@@ -221,13 +222,14 @@ public class ConsoleInteraction {
     }
 
     //    Vova
-    static private void checkOut(BufferedReader bufferedReader, ReservationService reservationService) throws IOException { //Дата отъезда,  в апартаментах менять статус
+    static private void checkOut(BufferedReader bufferedReader) throws IOException { //Дата отъезда,  в апартаментах менять статус
 
 //        Ищем бронирование по юзер айди
         int clientId;
         while (true) {
             System.out.println("Client's id:");
             String readLine = bufferedReader.readLine();
+            // wrapping with try catch in case the user enters a different from number value
             try {
                 clientId = Integer.parseInt(readLine);
                 break;

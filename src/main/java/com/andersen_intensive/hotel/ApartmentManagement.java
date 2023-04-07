@@ -3,20 +3,15 @@ package com.andersen_intensive.hotel;
 import com.andersen_intensive.hotel.models.Apartment;
 import com.andersen_intensive.hotel.models.ApartmentStatus;
 import com.andersen_intensive.hotel.models.ApartmentType;
-import com.andersen_intensive.hotel.repository.ApartmentRepositoryImpl;
 import com.andersen_intensive.hotel.service.ApartmentService;
-import com.andersen_intensive.hotel.service.ApartmentServiceImpl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Comparator;
 import java.util.List;
 
 // Sveta
 public class ApartmentManagement {
-
-    private static final ApartmentServiceImpl apartmentService = ApartmentServiceImpl.getInstance();
 
     private static final String APARTMENT_MANAGEMENT_MENU = "1. Add apartment" + "\n" +
             "2. Show list of apartments" + "\n" +
@@ -24,7 +19,7 @@ public class ApartmentManagement {
             "4. Change apartment price" + "\n" + "\n" +
             "To go back type 0";
 
-    static void showApartmentManagementMenu(BufferedReader bufferedReader) throws IOException {
+    static void showApartmentManagementMenu(BufferedReader bufferedReader, ApartmentService apartmentService) throws IOException {
         while (true) {
             while (true) {
                 System.out.println(APARTMENT_MANAGEMENT_MENU);
@@ -33,28 +28,27 @@ public class ApartmentManagement {
                     case "0":
                         return;
                     case "1":
-                        addApartment(bufferedReader);
+                        addApartment(bufferedReader, apartmentService);
                         break;
                     case "2":
-                        showListOfAvailableApartments(bufferedReader);
+                        showListOfAvailableApartments(bufferedReader, apartmentService);
                         break;
                     case "3":
-                        changeApartmentStatus(bufferedReader);
+                        changeApartmentStatus(bufferedReader,apartmentService);
                         break;
                     case "4":
-                        changeApartmentPrice(bufferedReader);
+                        changeApartmentPrice(bufferedReader, apartmentService);
                         break;
                 }
             }
         }
     }
 
-    private static void addApartment(BufferedReader bufferedReader) throws IOException {
+    private static void addApartment(BufferedReader bufferedReader, ApartmentService apartmentService) throws IOException {
 
         System.out.println("Enter apartment number:");
         int apartmentNumber = Integer.parseInt(bufferedReader.readLine());
 
-        ApartmentService apartmentService = ApartmentServiceImpl.getInstance();
         if (apartmentService.isValidApartment(apartmentNumber)) {
             System.out.println("Apartment with such number already exists!");
             System.out.println(" ");
@@ -69,6 +63,9 @@ public class ApartmentManagement {
 
         Apartment apartment = new Apartment(apartmentNumber, apartmentPrice, apartmentType);
         System.out.println(apartment);
+//        В методы класса теперь передается единственный объект сервиса на все приложение, созданный в классе
+//        ConsoleInteraction. Репозиторий тут не должен использоваться. Перепиши пожалуйста так, чтобы
+//        все действия через объект сервиса осуществлялись. Если нужно добавь соответсвующий метод в ApartmentService
         ApartmentRepositoryImpl apartmentMap = ApartmentRepositoryImpl.getInstance();
         apartmentMap.addApartment(apartment);
         apartmentMap.getAllApartments();
@@ -77,8 +74,11 @@ public class ApartmentManagement {
         System.out.println("Apartment added successfully!");
         System.out.println(" ");
     }
-    private static void showListOfAvailableApartments(BufferedReader bufferedReader) throws IOException {
+    private static void showListOfAvailableApartments(BufferedReader bufferedReader, ApartmentService apartmentService) throws IOException {
         System.out.println("List of available apartments:" + "\n");
+//        В методы класса теперь передается единственный объект сервиса на все приложение, созданный в классе
+//        ConsoleInteraction. Репозиторий тут не должен вообще использоваться. Перепиши пожалуйста так, чтобы
+//        все действия через объект сервиса осуществлялись. Если нужно добавь соответсвующий метод в ApartmentService
         ApartmentRepositoryImpl apartmentMap = ApartmentRepositoryImpl.getInstance();
         List<Apartment> apartments = apartmentMap.getAllApartments();
 
@@ -108,11 +108,9 @@ public class ApartmentManagement {
         }
         System.out.println(" ");
     }
-      private static void changeApartmentStatus(BufferedReader bufferedReader) throws IOException {
+      private static void changeApartmentStatus(BufferedReader bufferedReader, ApartmentService apartmentService) throws IOException {
        System.out.println("Enter apartment number:");
        int apartmentNumber = Integer.parseInt(bufferedReader.readLine());
-
-       ApartmentService apartmentService = ApartmentServiceImpl.getInstance();
 
        Apartment apartment = apartmentService.getApartmentByNumber(apartmentNumber);
 
@@ -132,11 +130,10 @@ public class ApartmentManagement {
    }
 
 
-    private static void changeApartmentPrice(BufferedReader bufferedReader) throws IOException {
+    private static void changeApartmentPrice(BufferedReader bufferedReader, ApartmentService apartmentService) throws IOException {
         System.out.println("Enter apartment number:");
         int apartmentNumber = Integer.parseInt(bufferedReader.readLine());
 
-        ApartmentService apartmentService = ApartmentServiceImpl.getInstance();
         Apartment apartment = apartmentService.getApartmentByNumber(apartmentNumber);
 
         if (apartment == null) {
