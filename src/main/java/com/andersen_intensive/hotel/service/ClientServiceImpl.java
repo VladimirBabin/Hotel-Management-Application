@@ -10,22 +10,11 @@ import java.util.List;
 
 public class ClientServiceImpl implements ClientService {
 
-    private final ClientRepositoryImpl clientRepository = ClientRepositoryImpl.getInstance();
+    private final ClientRepository clientRepository;
 
-    private static ClientServiceImpl INSTANCE;
-
-    public static ClientServiceImpl getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new ClientServiceImpl();
-        }
-        return INSTANCE;
+    public ClientServiceImpl(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
     }
-
-//    public ClientServiceImpl(ClientRepository clientRepository) {
-//        this.clientRepository = clientRepository;
-//    }
-//    private final ClientRepository clientRepository;
-
 
     @Override
     public Client createClient(String firstName, String lastName, String phoneNumber) {

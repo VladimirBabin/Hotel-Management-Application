@@ -1,6 +1,10 @@
 package com.andersen_intensive.hotel;
 
 import com.andersen_intensive.hotel.models.*;
+import com.andersen_intensive.hotel.repository.ApartmentRepositoryImpl;
+import com.andersen_intensive.hotel.repository.ClientRepositoryImpl;
+import com.andersen_intensive.hotel.repository.ReservationRepositoryImpl;
+import com.andersen_intensive.hotel.repository.ServiceRepositoryImpl;
 import com.andersen_intensive.hotel.service.*;
 
 import java.io.BufferedReader;
@@ -12,11 +16,10 @@ import java.util.List;
 
 public class ConsoleInteraction {
 
-    private static final ClientServiceImpl clientService = ClientServiceImpl.getInstance();
-    private static final ReservationServiceImpl reservationService = ReservationServiceImpl.getInstance();
-    private static final ApartmentServiceImpl apartmentService = ApartmentServiceImpl.getInstance();
-    private static final ServiceServiceImpl serviceService = ServiceServiceImpl.getInstance();
-
+    static ClientService clientService = new ClientServiceImpl(new ClientRepositoryImpl());
+    static ReservationService reservationService = new ReservationServiceImpl(new ReservationRepositoryImpl());
+    static ApartmentService apartmentService = new ApartmentServiceImpl(new ApartmentRepositoryImpl());
+    static ServiceService serviceService = new ServiceServiceImpl(new ServiceRepositoryImpl());
 
     private static final String MENU = "Menu:" + "\n" +
             "1. Register a client" + "\n" +
@@ -30,7 +33,7 @@ public class ConsoleInteraction {
 
     static void showMainMenu() {
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))) {
-//            ClientService clientService = new ClientServiceImpl(new ClientRepositoryImpl());
+
             while (true) {
                 System.out.println(MENU);
                 String input = bufferedReader.readLine();
@@ -50,10 +53,10 @@ public class ConsoleInteraction {
                         ServiceManagement.showServiceManagementMenu(bufferedReader);
                         break;
                     case "5":
-                        checkIn(bufferedReader);
+                        checkIn(bufferedReader, clientService, reservationService, apartmentService);
                         break;
                     case "6":
-                        checkOut(bufferedReader);
+                        checkOut(bufferedReader, reservationService);
                         break;
                     case "7":
                         getCurrentPriceForClient(bufferedReader);
@@ -68,20 +71,51 @@ public class ConsoleInteraction {
     //    Mary
     static void registerNewClient(BufferedReader bufferedReader, ClientService clientService) throws IOException {
 
-        System.out.println("Client's name:");
-        String name = bufferedReader.readLine();
-        System.out.println("Client's last name:");
-        String lastName = bufferedReader.readLine();
-        System.out.println("Client's phone number:");
-        String phoneNumber = bufferedReader.readLine();
-        Client clientCreated = clientService.createClient(name, lastName, phoneNumber);
-
         while (true) {
-            System.out.println("Client created: " + clientCreated.toString() + "\n\n" +
-                    "To go back type 1");
+            System.out.println("\n" + "To create a new client type 1" + "\n" +
+                    "To delete client from base type 2" + "\n" +
+                    "To update client's information type 3" + "\n" +
+                    "Type 4 to go back" + "\n");
             String input = bufferedReader.readLine();
             switch (input) {
-                case "1" -> {return;}
+                case "1" -> {
+                    System.out.println("Client's name:");
+                    String name = bufferedReader.readLine();
+                    System.out.println("Client's last name:");
+                    String lastName = bufferedReader.readLine();
+                    System.out.println("Client's phone number:");
+                    String phoneNumber = bufferedReader.readLine();
+                    Client clientCreated = clientService.createClient(name, lastName, phoneNumber);
+                    System.out.println("Client created: " + "\n" + clientCreated.toString());
+                }
+                case "2" -> {
+                    System.out.println("Write client's id:");
+                    int id = Integer.parseInt(bufferedReader.readLine());
+                    clientService.removeClient(id);
+                    System.out.println("Client " + clientService.getClientByID(id).getLastName() + " " +
+                            clientService.getClientByID(id).getFirstName() + " successfully removed from base!");
+                }
+                case "3" -> {
+                    System.out.println("\nWrite client's id:");
+                    int id = Integer.parseInt(bufferedReader.readLine());
+
+                    System.out.println("Client's name:");
+                    String newName = bufferedReader.readLine();
+                    System.out.println("Client's last name:");
+                    String newLastName = bufferedReader.readLine();
+                    System.out.println("Client's phone number:");
+                    String newPhoneNumber = bufferedReader.readLine();
+
+                    clientService.getClientByID(id).setFirstName(newName);
+                    clientService.getClientByID(id).setLastName(newLastName);
+                    clientService.getClientByID(id).setPhoneNumber(newPhoneNumber);
+
+                    System.out.println("Client's information was successfully updated!" + "\n" +
+                            clientService.getClientByID(id).toString() + "\n");
+                }
+                case "4" -> {
+                    return;
+                }
             }
         }
     }
@@ -90,16 +124,16 @@ public class ConsoleInteraction {
     static void showListOfClients(BufferedReader bufferedReader, ClientService clientService) throws IOException {
 
 
-        System.out.println("1. List of clients\n" +
-                "2. Sort list of clients by last name");
+        System.out.println("\n1. List of clients\n" +
+                "2. Sort list of clients by last name\n");
 
         String input = bufferedReader.readLine();
         List<Client> clients = new ArrayList<>();
-                switch (input) {
-                    case "1" -> clients = clientService.getClientList(false);
-                    case "2" -> clients = clientService.getClientList(true);
-                }
-        for (Client client: clients) {
+        switch (input) {
+            case "1" -> clients = clientService.getClientList(false);
+            case "2" -> clients = clientService.getClientList(true);
+        }
+        for (Client client : clients) {
             System.out.println("=========================================");
             System.out.println(client.toString());
         }
@@ -115,7 +149,8 @@ public class ConsoleInteraction {
     }
 
     //    Vova
-    static private void checkIn(BufferedReader bufferedReader) throws IOException {
+    static private void checkIn(BufferedReader bufferedReader, ClientService clientService, ReservationService reservationService,
+                                ApartmentService apartmentService) throws IOException {
         int id;
         int number;
 
@@ -145,7 +180,7 @@ public class ConsoleInteraction {
 
 
         if (!apartmentService.isValidApartment(number)) {
-            while(true) {
+            while (true) {
                 System.out.println("The apartment doesn't exist \n\n");
                 System.out.println("To go back type 1");
                 String input = bufferedReader.readLine();
@@ -159,7 +194,7 @@ public class ConsoleInteraction {
         if (apartmentService.checkIfAvailable(apartment)) {
             apartmentService.update(apartment);
         } else {
-            while(true) {
+            while (true) {
                 System.out.println("The apartment is unavailable \n\n");
                 System.out.println("To go back type 1");
                 String input = bufferedReader.readLine();
@@ -170,7 +205,7 @@ public class ConsoleInteraction {
         }
 
         Reservation reservation = new Reservation(client, apartment, LocalDate.now());
-        reservationService.addReservation(reservation);
+        reservationService.createReservation(reservation);
 
         System.out.println("Information about the reservation:");
         System.out.println(reservation);
@@ -186,7 +221,7 @@ public class ConsoleInteraction {
     }
 
     //    Vova
-    static private void checkOut(BufferedReader bufferedReader) throws IOException { //Дата отъезда,  в апартаментах менять статус
+    static private void checkOut(BufferedReader bufferedReader, ReservationService reservationService) throws IOException { //Дата отъезда,  в апартаментах менять статус
 
 //        Ищем бронирование по юзер айди
         int clientId;
@@ -210,11 +245,11 @@ public class ConsoleInteraction {
 //                }
 //            }
 //        }
-        Reservation reservation = reservationService.findByUserId(clientId);
+        Reservation reservation = reservationService.getReservationByID(clientId);
         if (reservation == null) {
             System.out.println("No such user was found");
         } else {
-            if(reservationService.checkIfReservationIsOpen(reservation)) {
+            if (reservationService.checkIfReservationIsOpen(reservation)) {
                 reservation.setCheckOut(LocalDate.now());
                 reservationService.updateReservation(reservation);
                 System.out.println("Information about the reservation:");

@@ -11,7 +11,7 @@ public class Client {
 
     private String firstName;
     private String lastName;
-    private Integer personalID;
+    private int personalID;
     private String phoneNumber;
     private static Integer count = 0;
 

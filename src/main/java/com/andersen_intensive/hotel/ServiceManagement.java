@@ -8,8 +8,6 @@ import java.io.IOException;
 // Georgi
 public class ServiceManagement {
 
-    private static final ServiceServiceImpl serviceService = ServiceServiceImpl.getInstance();
-
     private static final String SERVICE_MANAGEMENT_MENU = "1. Add service" + "\n" +
             "2. Apply a service for client" + "\n" +
             "3. Show list of services" + "\n" +

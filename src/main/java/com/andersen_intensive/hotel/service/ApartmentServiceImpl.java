@@ -2,21 +2,24 @@ package com.andersen_intensive.hotel.service;
 
 import com.andersen_intensive.hotel.models.Apartment;
 import com.andersen_intensive.hotel.models.ApartmentStatus;
+import com.andersen_intensive.hotel.models.ApartmentType;
 import com.andersen_intensive.hotel.repository.ApartmentRepository;
-import com.andersen_intensive.hotel.repository.ApartmentRepositoryImpl;
+
+import java.math.BigDecimal;
 
 
 public class ApartmentServiceImpl implements ApartmentService {
 
-    private ApartmentRepository apartmentRepository = ApartmentRepositoryImpl.getInstance();
+    private final ApartmentRepository apartmentRepository;
 
-    private static ApartmentServiceImpl INSTANCE;
+    public ApartmentServiceImpl(ApartmentRepository apartmentRepository) {
+        this.apartmentRepository = apartmentRepository;
+    }
 
-    public static ApartmentServiceImpl getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new ApartmentServiceImpl();
-        }
-        return INSTANCE;
+    @Override
+    public Apartment createApartment(int apartmentNumber, BigDecimal price, ApartmentType apartmentType) {
+        Apartment apartment = new Apartment(apartmentNumber, price, apartmentType);
+        return apartmentRepository.addApartment(apartment);
     }
 
     @Override
@@ -36,7 +39,7 @@ public class ApartmentServiceImpl implements ApartmentService {
             apartmentRepository.updateApartment(apartment);
         }
     }
-    public void updateApartmentPrice(int apartmentNumber, double newPrice) {
+    public void updateApartmentPrice(int apartmentNumber, BigDecimal newPrice) {
         Apartment apartment = apartmentRepository.getApartmentByNumber(apartmentNumber);
         if (apartment == null) {
             System.out.println("Apartment not found!");

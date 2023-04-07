@@ -1,8 +1,6 @@
 package com.andersen_intensive.hotel.repository;
 
 import com.andersen_intensive.hotel.models.Reservation;
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ReservationRepository {
@@ -11,8 +9,10 @@ public interface ReservationRepository {
 
     Reservation getReservationById(int id);
 
+    List<Reservation> getAllReservationsList();
+
     Reservation updateReservation(Reservation reservation);
 
-    void deleteReservation(Reservation reservation);
+    void deleteReservation(int id);
 
 }
