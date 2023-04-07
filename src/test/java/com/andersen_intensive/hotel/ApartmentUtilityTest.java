@@ -13,7 +13,7 @@ import com.andersen_intensive.hotel.models.ApartmentStatus;
 import com.andersen_intensive.hotel.repository.ApartmentRepository;
 import com.andersen_intensive.hotel.repository.ApartmentRepositoryImpl;
 
-public class ApartmentServiceTest {
+public class ApartmentUtilityTest {
 
     private ApartmentService apartmentService;
     private ApartmentRepository apartmentRepository;

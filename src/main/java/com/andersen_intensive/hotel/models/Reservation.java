@@ -18,7 +18,7 @@ public class Reservation {
     private int id;
     private Client client;
     private Apartment apartment;
-    private List<Service> services = new ArrayList<>();
+    private List<Utility> utilities = new ArrayList<>();
     private LocalDate checkIn;
     private LocalDate checkOut;
 
@@ -42,8 +42,8 @@ public class Reservation {
         double summary = 0;
         long daysBetween = ChronoUnit.DAYS.between(this.checkIn, this.checkOut);
         summary = daysBetween * this.apartment.getApartmentPrice();
-        for (Service service : services) {
-            summary += service.getPrice();
+        for (Utility utility : utilities) {
+            summary += utility.getPrice();
         }
         return summary;
     }
@@ -53,7 +53,7 @@ public class Reservation {
         return "Reservation ID: " + id + "\n" +
                 "Client: " + client.getLastName() + " " + client.getFirstName() + "\n" +
                 "Apartment: " + apartment + "\n" +
-                "Services: " + services + "\n" +
+                "Services: " + utilities + "\n" +
                 "Check-in: " + checkIn + "\n" +
                 "Check-out: " + (checkOut == null ? "haven't checked out yet" : checkOut);
     }
