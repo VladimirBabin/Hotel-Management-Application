@@ -3,15 +3,13 @@ package com.andersen_intensive.hotel;
 import com.andersen_intensive.hotel.models.Apartment;
 import com.andersen_intensive.hotel.models.ApartmentStatus;
 import com.andersen_intensive.hotel.models.ApartmentType;
-import com.andersen_intensive.hotel.repository.ApartmentRepository;
 import com.andersen_intensive.hotel.repository.ApartmentRepositoryImpl;
 import com.andersen_intensive.hotel.service.ApartmentService;
 import com.andersen_intensive.hotel.service.ApartmentServiceImpl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
+import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.List;
 
@@ -64,7 +62,7 @@ public class ApartmentManagement {
         }
 
         System.out.println("Enter price per night:");
-        double apartmentPrice = enterApartmentPrice(bufferedReader);
+        BigDecimal apartmentPrice = enterApartmentPrice(bufferedReader);
 
         System.out.println("Enter room type: 1 for single bed, 2 for double bed:");
         ApartmentType apartmentType = enterApartmentType(bufferedReader);
@@ -92,7 +90,7 @@ public class ApartmentManagement {
 
             switch (sortOption) {
                 case 1:
-                    apartments.sort(Comparator.comparingDouble(Apartment::getApartmentPrice));
+                    apartments.sort((a1, a2) -> a1.getApartmentPrice().compareTo(a2.getApartmentPrice()));
                     break;
                 case 2:
                     apartments.sort((a1, a2) -> a1.getApartmentStatus().compareTo(a2.getApartmentStatus()));
@@ -147,7 +145,7 @@ public class ApartmentManagement {
         }
 
         System.out.println("Enter new price per night:");
-        double newPrice = enterApartmentPrice(bufferedReader);
+        BigDecimal newPrice = enterApartmentPrice(bufferedReader);
 
         apartment.setPrice(newPrice);
 
@@ -168,9 +166,9 @@ public class ApartmentManagement {
         }
     }
 
-    private static double enterApartmentPrice(BufferedReader bufferedReader) {
+    private static BigDecimal enterApartmentPrice(BufferedReader bufferedReader) {
         try {
-            return Double.parseDouble(bufferedReader.readLine());
+            return new BigDecimal(bufferedReader.readLine());
         } catch (NumberFormatException | IOException exp) {
             System.out.println("Invalid apartment price! Please, enter a valid double number. " +
                     "Decimals should be separated by point (.)");

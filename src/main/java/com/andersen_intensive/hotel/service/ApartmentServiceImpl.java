@@ -5,6 +5,8 @@ import com.andersen_intensive.hotel.models.ApartmentStatus;
 import com.andersen_intensive.hotel.repository.ApartmentRepository;
 import com.andersen_intensive.hotel.repository.ApartmentRepositoryImpl;
 
+import java.math.BigDecimal;
+
 
 public class ApartmentServiceImpl implements ApartmentService {
 
@@ -36,7 +38,7 @@ public class ApartmentServiceImpl implements ApartmentService {
             apartmentRepository.updateApartment(apartment);
         }
     }
-    public void updateApartmentPrice(int apartmentNumber, double newPrice) {
+    public void updateApartmentPrice(int apartmentNumber, BigDecimal newPrice) {
         Apartment apartment = apartmentRepository.getApartmentByNumber(apartmentNumber);
         if (apartment == null) {
             System.out.println("Apartment not found!");

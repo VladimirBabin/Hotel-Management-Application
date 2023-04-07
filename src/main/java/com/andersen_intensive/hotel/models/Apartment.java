@@ -1,14 +1,15 @@
 package com.andersen_intensive.hotel.models;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
-public class Apartment implements IApartment {
+public class Apartment {
     private int apartmentNumber;
-    private Double price;
+    private BigDecimal price;
     private ApartmentType apartmentType;
     private ApartmentStatus apartmentStatus;
 
-    public Apartment(int apartmentNumber, Double price, ApartmentType apartmentType) {
+    public Apartment(int apartmentNumber, BigDecimal price, ApartmentType apartmentType) {
         this.apartmentNumber = apartmentNumber;
         this.price = price;
         this.apartmentType = apartmentType;
@@ -23,11 +24,11 @@ public class Apartment implements IApartment {
         this.apartmentNumber = apartmentNumber;
     }
 
-    public Double getApartmentPrice() {
+    public BigDecimal getApartmentPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
