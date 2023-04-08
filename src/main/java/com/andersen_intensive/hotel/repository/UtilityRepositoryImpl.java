@@ -11,24 +11,24 @@ public class UtilityRepositoryImpl implements UtilityRepository {
     private static Map<Integer, Utility> services = new HashMap<>();
 
     @Override
-    public Utility addService(Utility utility) {
+    public Utility addUtility(Utility utility) {
         services.put(utility.getId(), utility);
         return utility;
     }
 
     @Override
-    public Utility getServiceById(int id) {
+    public Utility getUtilityById(int id) {
         return services.get(id);
     }
 
     @Override
-    public Utility updateService(Utility utility) {
+    public Utility updateUtility(Utility utility) {
         services.put(utility.getId(), utility);
         return utility;
     }
 
     @Override
-    public List<Utility> getAllServices() {
+    public List<Utility> getAllUtility() {
         return (List) services.values();
     }
 
@@ -43,7 +43,7 @@ public class UtilityRepositoryImpl implements UtilityRepository {
     }
 
     @Override
-    public void deleteService(Utility utility) {
+    public void deleteUtility(Utility utility) {
         if (services.containsValue(utility)) {
             services.remove(utility);
         }

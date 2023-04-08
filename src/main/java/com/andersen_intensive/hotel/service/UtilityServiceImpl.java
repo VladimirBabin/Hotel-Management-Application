@@ -16,22 +16,43 @@ public class UtilityServiceImpl implements UtilityService {
     }
 
     @Override
-    public Utility saveService(String name, BigDecimal price) {
+    public Utility saveService(String name, int price) {
         Utility utility = new Utility(name, price);
-        return utilityRepository.addService(utility);
+        return utilityRepository.addUtility(utility);
     }
 
     @Override
     public List<Utility> sortByName() {
-        List<Utility> sortedUtilities = utilityRepository.getAllServices();
+        List<Utility> sortedUtilities = utilityRepository.getAllUtility();
         sortedUtilities.sort((s1, s2) -> s1.getName().compareToIgnoreCase(s2.getName()));
         return sortedUtilities;
     }
 
     @Override
     public List<Utility> sortByPrice() {
-        List<Utility> sortedUtilities = utilityRepository.getAllServices();
-        sortedUtilities.sort(Comparator.comparing(Utility::getPrice));
+        List<Utility> sortedUtilities = utilityRepository.getAllUtility();
+        sortedUtilities.sort(Comparator.comparingDouble(Utility::getPrice));
         return sortedUtilities;
+    }
+
+    @Override
+    public void showAllUtilities() {
+        List<Utility> utilities = utilityRepository.getAllUtility();
+        System.out.println(utilities);
+    }
+
+    @Override
+    public Utility getUtilityById(int utilityId) {
+        Utility utility = utilityRepository.getUtilityById(utilityId);
+        if (utility == null){
+            return null;
+        }
+        return utility;
+    }
+
+    @Override
+    public void changePrice(int utilityId, int newPrice) {
+        Utility utility = utilityRepository.getUtilityById(utilityId);
+        utility.setPrice(newPrice);
     }
 }

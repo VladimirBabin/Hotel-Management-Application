@@ -6,7 +6,10 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface UtilityService {
-    Utility saveService(String name, BigDecimal price);
+    Utility saveService(String name, int price);
     List<Utility> sortByName();
     List<Utility> sortByPrice();
+    void showAllUtilities();
+    Utility getUtilityById(int utilityId);
+    void changePrice(int utilityId, int newPrice);
 }
