@@ -2,16 +2,12 @@ package com.andersen_intensive.hotel.repository;
 
 import com.andersen_intensive.hotel.models.Client;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class ClientRepositoryImpl implements ClientRepository {
 
-    private final Map<Integer, Client> clients = new HashMap<>();
-
+    private final Map<UUID, Client> clients = new HashMap<>();
 
     @Override
     public Client addClient(Client client) {
@@ -20,7 +16,7 @@ public class ClientRepositoryImpl implements ClientRepository {
     }
 
     @Override
-    public Client getClientById(Integer id) {
+    public Client getClientById(UUID id) {
         return clients.get(id);
     }
 
@@ -31,14 +27,14 @@ public class ClientRepositoryImpl implements ClientRepository {
 
     @Override
     public Client updateClient(Client client) {
-        Integer id = client.getPersonalID();
+        UUID id = client.getPersonalID();
         clients.put(id, client);
         Client updatedClient = clients.get(id);
         return updatedClient;
     }
 
     @Override
-    public void deleteClient(int id) {
+    public void deleteClient(UUID id) {
         clients.remove(id);
     }
 }
