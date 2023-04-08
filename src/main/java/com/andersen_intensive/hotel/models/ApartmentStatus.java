@@ -1,22 +1,15 @@
 package com.andersen_intensive.hotel.models;
-
 public enum ApartmentStatus {
-    AVAILABLE("1"),
-    OCCUPIED("2"),
-    UNAVAILABLE("3");
+    AVAILABLE,
+    OCCUPIED,
+    UNAVAILABLE;
 
-    public final String label;
-
-    ApartmentStatus(String label) {
-        this.label = label;
-    }
-
-    public static ApartmentStatus valueOfLabel(String label) {
-        for (ApartmentStatus apartmentStatus : values()) {
-            if (apartmentStatus.label.equals(label)) {
-                return apartmentStatus;
+    public static ApartmentStatus fromValue(int value) {
+        for (ApartmentStatus status : values()) {
+            if (status.ordinal() == value) {
+                return status;
             }
         }
-        throw new IllegalArgumentException();
+        throw new IllegalArgumentException("Invalid status value: " + value);
     }
 }

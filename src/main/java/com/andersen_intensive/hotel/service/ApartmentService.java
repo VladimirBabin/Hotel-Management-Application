@@ -8,17 +8,26 @@ import com.andersen_intensive.hotel.models.Client;
 import java.math.BigDecimal;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public interface ApartmentService {
 
-    Apartment createApartment(int apartmentNumber, BigDecimal price, ApartmentType apartmentType);
+    Apartment create(int apartmentId, BigDecimal price, ApartmentType apartmentType);
 
-    Apartment getApartmentByNumber(int number);
+    void add(Apartment apartment);
+
+    Apartment getById(int id);
+
+    List<Apartment> getAll();
 
     void update(Apartment apartment);
 
-    void setApartmentStatus(int apartmentNumber, ApartmentStatus status);
-    void updateApartmentPrice(int apartmentNumber, BigDecimal newPrice);
+    void setStatus(int apartmentId, ApartmentStatus status);
+
+    void updatePrice(int apartmentId, BigDecimal newPrice);
+
     boolean checkIfAvailable(Apartment apartment);
-    boolean isValidApartment(int apartmentNumber);
+
+    boolean isValid(int apartmentId);
+
 }

@@ -1,21 +1,15 @@
 package com.andersen_intensive.hotel.models;
-
 public enum ApartmentType {
-    SINGLE("1"),
-    DOUBLE("2");
-
-    public final String label;
-
-    ApartmentType(String label) {
-        this.label = label;
-    }
+    SINGLE,
+    DOUBLE;
 
     public static ApartmentType valueOfLabel(String label) {
         for (ApartmentType apartmentType : values()) {
-            if (apartmentType.label.equals(label)) {
+            if (apartmentType.ordinal() == Integer.parseInt(label) - 1) {
                 return apartmentType;
             }
         }
         throw new IllegalArgumentException();
     }
 }
+

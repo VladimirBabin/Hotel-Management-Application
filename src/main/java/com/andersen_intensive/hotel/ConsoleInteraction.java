@@ -95,7 +95,7 @@ public class ConsoleInteraction {
         Client client = clientService.getClientByID(id);
 
 
-        if (!apartmentService.isValidApartment(number)) {
+        if (!apartmentService.isValid(number)) {
             while (true) {
                 System.out.println("The apartment doesn't exist \n\n");
                 System.out.println("To go back type 1");
@@ -105,7 +105,7 @@ public class ConsoleInteraction {
                 }
             }
         }
-        Apartment apartment = apartmentService.getApartmentByNumber(number);
+        Apartment apartment = apartmentService.getById(number);
 
         if (apartmentService.checkIfAvailable(apartment)) {
             apartmentService.update(apartment);

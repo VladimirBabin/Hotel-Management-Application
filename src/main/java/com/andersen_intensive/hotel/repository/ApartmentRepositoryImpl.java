@@ -6,34 +6,33 @@ import java.util.*;
 
 public class ApartmentRepositoryImpl implements ApartmentRepository {
 
-    private static final Map<Integer, Apartment> apartments = new HashMap<>();
+    private final Map<Integer, Apartment> apartments = new HashMap<>();
 
     @Override
-    public Apartment addApartment(Apartment apartment) {
-        apartments.put(apartment.getApartmentNumber(), apartment);
+    public Apartment add(Apartment apartment) {
+        apartments.put(apartment.getApartmentId(), apartment);
         return apartment;
     }
 
     @Override
-    public Apartment getApartmentByNumber(int number) {
+    public Apartment getById(int number) {
         return apartments.get(number);
     }
 
     @Override
-    public Apartment updateApartment(Apartment apartment) {
-        apartments.put(apartment.getApartmentNumber(), apartment);
-        return apartment;
+    public void update(Apartment apartment) {
+        apartments.put(apartment.getApartmentId(), apartment);
     }
 
     @Override
 
-    public List<Apartment> getAllApartments() {
+    public List<Apartment> getAll() {
         return new ArrayList<>(apartments.values());
 
     }
 
     @Override
-    public void deleteApartment(Apartment apartment) {
+    public void delete(Apartment apartment) {
         apartments.values().removeIf(a -> a.equals(apartment));
 
     }
