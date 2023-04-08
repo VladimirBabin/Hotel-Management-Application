@@ -6,15 +6,15 @@ import java.util.List;
 
 public interface UtilityRepository {
 
-    Utility addService(Utility utility);
+    Utility addUtility(Utility utility);
 
-    Utility getServiceById(int id);
+    Utility getUtilityById(int id);
 
-    Utility updateService(Utility utility);
+    Utility updateUtility(Utility utility);
 
-    List<Utility> getAllServices();
+    List<Utility> getAllUtility();
 
     Utility getByName(String name);
 
-    void deleteService(Utility utility);
+    void deleteUtility(Utility utility);
 }

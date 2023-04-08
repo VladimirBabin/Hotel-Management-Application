@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,24 +27,6 @@ public class Reservation {
         this.client = client;
         this.apartment = apartment;
         this.checkIn = checkIn;
-    }
-
-    public Reservation(Client client, Apartment apartment, LocalDate checkIn, LocalDate checkOut) {
-        this.id = ++count;
-        this.client = client;
-        this.apartment = apartment;
-        this.checkIn = checkIn;
-        this.checkOut = checkOut;
-    }
-
-    public double getPrice() {
-        double summary = 0;
-        long daysBetween = ChronoUnit.DAYS.between(this.checkIn, this.checkOut);
-        summary = daysBetween * this.apartment.getApartmentPrice();
-        for (Utility utility : utilities) {
-            summary += utility.getPrice();
-        }
-        return summary;
     }
 
     @Override

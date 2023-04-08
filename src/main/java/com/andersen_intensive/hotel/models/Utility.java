@@ -4,9 +4,9 @@ public class Utility {
     private static int count = 0;
     private int id;
     private String name;
-    private double price;
+    private int price;
 
-    public Utility(String name, double price) {
+    public Utility(String name, int price) {
         this.id = ++count;
         this.name = name;
         this.price = price;
@@ -24,11 +24,11 @@ public class Utility {
         return name;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
