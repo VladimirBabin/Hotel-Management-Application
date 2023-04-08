@@ -3,23 +3,24 @@ package com.andersen_intensive.hotel;
 import com.andersen_intensive.hotel.models.Apartment;
 import com.andersen_intensive.hotel.models.ApartmentStatus;
 import com.andersen_intensive.hotel.models.ApartmentType;
-import com.andersen_intensive.hotel.service.ApartmentService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.List;
 
-// Sveta
 public class ApartmentManagement {
 
-    private static final String APARTMENT_MANAGEMENT_MENU = "1. Add apartment" + "\n" +
-            "2. Show list of apartments" + "\n" +
-            "3. Change apartment status" + "\n" +
-            "4. Change apartment price" + "\n" + "\n" +
-            "To go back type 0";
+    private static final String APARTMENT_MANAGEMENT_MENU = """
+            1. Add apartment
+            2. Show list of apartments
+            3. Change apartment status
+            4. Change apartment price
 
-    static void showApartmentManagementMenu(BufferedReader bufferedReader, ApartmentService apartmentService) throws IOException {
+            To go back type 0""";
+
+    static void showApartmentManagementMenu(BufferedReader bufferedReader) throws IOException {
         while (true) {
             while (true) {
                 System.out.println(APARTMENT_MANAGEMENT_MENU);
@@ -28,28 +29,27 @@ public class ApartmentManagement {
                     case "0":
                         return;
                     case "1":
-                        addApartment(bufferedReader, apartmentService);
+                        addApartment(bufferedReader);
                         break;
                     case "2":
-                        showListOfAvailableApartments(bufferedReader, apartmentService);
+                        showListOfApartments(bufferedReader);
                         break;
                     case "3":
-                        changeApartmentStatus(bufferedReader,apartmentService);
+                        changeApartmentStatus(bufferedReader);
                         break;
                     case "4":
-                        changeApartmentPrice(bufferedReader, apartmentService);
+                        changeApartmentPrice(bufferedReader);
                         break;
                 }
             }
         }
     }
 
-    private static void addApartment(BufferedReader bufferedReader, ApartmentService apartmentService) throws IOException {
-
+    static void addApartment(BufferedReader bufferedReader) throws IOException {
         System.out.println("Enter apartment number:");
-        int apartmentNumber = Integer.parseInt(bufferedReader.readLine());
+        int apartmentId = Integer.parseInt(bufferedReader.readLine());
 
-        if (apartmentService.isValidApartment(apartmentNumber)) {
+        if (ConsoleInteraction.apartmentService.isValid(apartmentId)) {
             System.out.println("Apartment with such number already exists!");
             System.out.println(" ");
             return;
@@ -61,26 +61,16 @@ public class ApartmentManagement {
         System.out.println("Enter room type: 1 for single bed, 2 for double bed:");
         ApartmentType apartmentType = enterApartmentType(bufferedReader);
 
-        Apartment apartment = new Apartment(apartmentNumber, apartmentPrice, apartmentType);
-        System.out.println(apartment);
-//        В методы класса теперь передается единственный объект сервиса на все приложение, созданный в классе
-//        ConsoleInteraction. Репозиторий тут не должен использоваться. Перепиши пожалуйста так, чтобы
-//        все действия через объект сервиса осуществлялись. Если нужно добавь соответсвующий метод в ApartmentService
-        ApartmentRepositoryImpl apartmentMap = ApartmentRepositoryImpl.getInstance();
-        apartmentMap.addApartment(apartment);
-        apartmentMap.getAllApartments();
-
-        List<Apartment> apartments = apartmentMap.getAllApartments();
+        Apartment apartment = new Apartment(apartmentId, apartmentPrice, apartmentType);
+        ConsoleInteraction.apartmentService.add(apartment);
         System.out.println("Apartment added successfully!");
         System.out.println(" ");
     }
-    private static void showListOfAvailableApartments(BufferedReader bufferedReader, ApartmentService apartmentService) throws IOException {
+
+    private static void showListOfApartments(BufferedReader bufferedReader) throws IOException {
         System.out.println("List of available apartments:" + "\n");
-//        В методы класса теперь передается единственный объект сервиса на все приложение, созданный в классе
-//        ConsoleInteraction. Репозиторий тут не должен вообще использоваться. Перепиши пожалуйста так, чтобы
-//        все действия через объект сервиса осуществлялись. Если нужно добавь соответсвующий метод в ApartmentService
-        ApartmentRepositoryImpl apartmentMap = ApartmentRepositoryImpl.getInstance();
-        List<Apartment> apartments = apartmentMap.getAllApartments();
+
+        List<Apartment> apartments = ConsoleInteraction.apartmentService.getAll();
 
         if (apartments.isEmpty()) {
             System.out.println("No apartments found.");
@@ -89,17 +79,11 @@ public class ApartmentManagement {
             int sortOption = Integer.parseInt(bufferedReader.readLine());
 
             switch (sortOption) {
-                case 1:
-                    apartments.sort((a1, a2) -> a1.getApartmentPrice().compareTo(a2.getApartmentPrice()));
-                    break;
-                case 2:
-                    apartments.sort((a1, a2) -> a1.getApartmentStatus().compareTo(a2.getApartmentStatus()));
-                    break;
-                case 3:
-                    apartments.sort((a1, a2) -> a1.getApartmentType().compareTo(a2.getApartmentType()));
-                    break;
-                default:
-                    break;
+                case 1 -> apartments.sort(Comparator.comparing(Apartment::getApartmentPrice));
+                case 2 -> apartments.sort(Comparator.comparing(Apartment::getApartmentStatus));
+                case 3 -> apartments.sort(Comparator.comparing(Apartment::getApartmentType));
+                default -> {
+                }
             }
 
             for (Apartment ap : apartments) {
@@ -108,33 +92,33 @@ public class ApartmentManagement {
         }
         System.out.println(" ");
     }
-      private static void changeApartmentStatus(BufferedReader bufferedReader, ApartmentService apartmentService) throws IOException {
-       System.out.println("Enter apartment number:");
-       int apartmentNumber = Integer.parseInt(bufferedReader.readLine());
 
-       Apartment apartment = apartmentService.getApartmentByNumber(apartmentNumber);
-
-       if (apartment == null) {
-           System.out.println("Apartment not found!");
-           return;
-       }
-
-       System.out.println("Enter new status (1 for available, 2 for occupied, 3 for unavailable):");
-       String statusStr = bufferedReader.readLine();
-       ApartmentStatus newStatus = ApartmentStatus.valueOfLabel(statusStr);
-
-       apartmentService.setApartmentStatus(apartmentNumber, newStatus);
-
-       System.out.println("Apartment status has been updated to " + newStatus.name().toLowerCase() + ".");
-       System.out.println(" ");
-   }
-
-
-    private static void changeApartmentPrice(BufferedReader bufferedReader, ApartmentService apartmentService) throws IOException {
+    private static void changeApartmentStatus(BufferedReader bufferedReader) throws IOException {
         System.out.println("Enter apartment number:");
-        int apartmentNumber = Integer.parseInt(bufferedReader.readLine());
+        int apartmentId = Integer.parseInt(bufferedReader.readLine());
 
-        Apartment apartment = apartmentService.getApartmentByNumber(apartmentNumber);
+        Apartment apartment = ConsoleInteraction.apartmentService.getById(apartmentId);
+
+        if (apartment == null) {
+            System.out.println("Apartment not found!");
+            return;
+        }
+
+        System.out.println("Enter new status (1 for available, 2 for occupied, 3 for unavailable):");
+        String statusStr = bufferedReader.readLine();
+        ApartmentStatus newStatus = ApartmentStatus.values()[Integer.parseInt(statusStr) - 1];
+        ConsoleInteraction.apartmentService.setStatus(apartmentId, newStatus);
+
+        System.out.println("Apartment status has been updated to " + newStatus.name().toLowerCase() + ".");
+        System.out.println(" ");
+    }
+
+
+    private static void changeApartmentPrice(BufferedReader bufferedReader) throws IOException {
+        System.out.println("Enter apartment number:");
+        int apartmentId = Integer.parseInt(bufferedReader.readLine());
+
+        Apartment apartment = ConsoleInteraction.apartmentService.getById(apartmentId);
 
         if (apartment == null) {
             System.out.println("Apartment not found!");
@@ -147,7 +131,7 @@ public class ApartmentManagement {
         apartment.setPrice(newPrice);
 
 
-        apartmentService.updateApartmentPrice(apartmentNumber, newPrice);
+        ConsoleInteraction.apartmentService.updatePrice(apartmentId, newPrice);
 
         System.out.println("Apartment price has been updated.");
         System.out.println(" ");

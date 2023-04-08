@@ -4,24 +4,20 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Apartment {
-    private int apartmentNumber;
+    private int apartmentId;
     private BigDecimal price;
     private ApartmentType apartmentType;
     private ApartmentStatus apartmentStatus;
 
     public Apartment(int apartmentNumber, BigDecimal price, ApartmentType apartmentType) {
-        this.apartmentNumber = apartmentNumber;
+        this.apartmentId = apartmentNumber;
         this.price = price;
         this.apartmentType = apartmentType;
         this.apartmentStatus = ApartmentStatus.AVAILABLE;
     }
 
-    public int getApartmentNumber() {
-        return apartmentNumber;
-    }
-
-    public void setApartmentNumber(int apartmentNumber) {
-        this.apartmentNumber = apartmentNumber;
+    public int getApartmentId() {
+        return apartmentId;
     }
 
     public BigDecimal getApartmentPrice() {
@@ -36,10 +32,6 @@ public class Apartment {
         return apartmentType;
     }
 
-    public void setApartmentType(ApartmentType apartmentType) {
-        this.apartmentType = apartmentType;
-    }
-
     public ApartmentStatus getApartmentStatus() {
         return apartmentStatus;
     }
@@ -50,11 +42,11 @@ public class Apartment {
 
     @Override
     public String toString() {
-        return "Apartment number" +
-                apartmentNumber + "\n" +
+        return "Apartment number " +
+                apartmentId + "\n" +
                 "price: $" + price + "\n" +
                 "type apartment: " + apartmentType + "\n" +
-                "status: " + apartmentStatus + "\n" ;
+                "status: " + apartmentStatus + "\n";
     }
 
     @Override
@@ -62,11 +54,15 @@ public class Apartment {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Apartment apartment = (Apartment) o;
-        return apartmentNumber == apartment.apartmentNumber;
+        return apartmentId == apartment.apartmentId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(apartmentNumber);
+        return Objects.hash(apartmentId);
+    }
+
+    public void setApartmentType(ApartmentType apartmentType) {
+        this.apartmentType = apartmentType;
     }
 }
