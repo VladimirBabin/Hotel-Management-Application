@@ -6,7 +6,6 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,23 +28,6 @@ public class Reservation {
         this.client = client;
         this.apartment = apartment;
         this.checkIn = checkIn;
-    }
-
-    public Reservation(Client client, Apartment apartment, LocalDate checkIn, LocalDate checkOut) {
-        this.id = ++count;
-        this.client = client;
-        this.apartment = apartment;
-        this.checkIn = checkIn;
-        this.checkOut = checkOut;
-    }
-
-    public BigDecimal getPrice(LocalDate checkIn, LocalDate checkOut) {
-        long days = checkOut.toEpochDay() - checkIn.toEpochDay();
-        BigDecimal totalPrice = this.apartment.getApartmentPrice().multiply(new BigDecimal(days));
-        for (Utility utility : utilities) {
-            totalPrice =totalPrice.add(utility.getPrice());
-        }
-        return totalPrice;
     }
 
     @Override
