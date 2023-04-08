@@ -47,7 +47,7 @@ public class ConsoleInteraction {
                         ApartmentManagement.showApartmentManagementMenu(bufferedReader, apartmentService);
                         break;
                     case "3":
-                        UtilityManagement.showUtilityManagementMenu(bufferedReader, utilityService);
+                        UtilityManagement.showUtilityManagementMenu(bufferedReader, utilityService , reservationService);
                         break;
                     case "4":
                         checkIn(bufferedReader);

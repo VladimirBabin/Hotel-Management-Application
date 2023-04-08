@@ -1,10 +1,13 @@
 package com.andersen_intensive.hotel;
 
+import com.andersen_intensive.hotel.models.Reservation;
 import com.andersen_intensive.hotel.models.Utility;
+import com.andersen_intensive.hotel.service.ReservationService;
 import com.andersen_intensive.hotel.service.UtilityService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.math.BigDecimal;
 
 // Georgi
 public class UtilityManagement {
@@ -15,26 +18,19 @@ public class UtilityManagement {
             "4. Change service price" + "\n" + "\n" +
             "To go back type 0";
 
-    public static void showUtilityManagementMenu(BufferedReader bufferedReader, UtilityService utilityService)
+    public static void showUtilityManagementMenu(BufferedReader bufferedReader, UtilityService utilityService, ReservationService reservationService)
             throws IOException {
         System.out.println(UTILITY_MANAGEMENT_MENU);
         while (true) {
             String input = bufferedReader.readLine();
             switch (input) {
-                case "0":
+                case "0" -> {
                     return;
-                case "1":
-                    addUtility(bufferedReader, utilityService);
-                    break;
-                case "2":
-                    applyUtilityForClient(bufferedReader, utilityService);
-                    break;
-                case "3":
-                    showListOfUtilities(bufferedReader, utilityService);
-                    break;
-                case "4":
-                    changeUtilityPrice(bufferedReader, utilityService);
-                    break;
+                }
+                case "1" -> addUtility(bufferedReader, utilityService);
+                case "2" -> applyUtilityForReservationOfClient(bufferedReader, utilityService, reservationService);
+                case "3" -> showListOfUtilities(bufferedReader, utilityService);
+                case "4" -> changeUtilityPrice(bufferedReader, utilityService);
             }
         }
     }
@@ -49,13 +45,13 @@ public class UtilityManagement {
             utilityId = enterPositiveInteger(bufferedReader);
             utilityFromMemory = utilityService.getUtilityById(utilityId);
             if (utilityFromMemory == null) {
-                System.out.println("Utility with id = " + utilityId + "does not exist");
+                System.out.println("Utility with id = " + utilityId + " does not exist");
                 System.out.println("Try again");
             } else {
-                utilityService.changePrice(utilityId, newPrice);
+                utilityService.changePrice(utilityId, BigDecimal.valueOf(newPrice));
                 break;
             }
-        } while (utilityFromMemory != null);
+        } while (utilityFromMemory == null);
     }
 
     //  leave it package private, so we can call it from ConsoleInteraction
@@ -63,7 +59,37 @@ public class UtilityManagement {
         utilityService.showAllUtilities();
     }
 
-    private static void applyUtilityForClient(BufferedReader bufferedReader, UtilityService utilityService) {
+    private static void applyUtilityForReservationOfClient(BufferedReader bufferedReader,
+                                                           UtilityService utilityService,
+                                                           ReservationService reservationService)
+            throws IOException {
+        int reservationId, utilityId;
+        Reservation reservationFromMemory = null;
+        do {
+            System.out.println("Enter reservation id:");
+            reservationId = enterPositiveInteger(bufferedReader);
+            reservationFromMemory = reservationService.getReservationByID(reservationId);
+            if (reservationFromMemory == null) {
+                System.out.println("Reservation with id = " + reservationId + " does not exist");
+                System.out.println("Try again");
+            } else {
+                break;
+            }
+        } while (reservationFromMemory == null);
+
+        Utility utilityFromMemory;
+        do {
+            System.out.println("Enter utility id:");
+            utilityId = enterPositiveInteger(bufferedReader);
+            utilityFromMemory = utilityService.getUtilityById(utilityId);
+            if (utilityFromMemory == null) {
+                System.out.println("Utility with id = " + utilityId + " does not exist");
+                System.out.println("Try again");
+            } else {
+                break;
+            }
+        } while (utilityFromMemory == null);
+        reservationFromMemory.getUtilities().add(utilityFromMemory);
     }
 
     private static void addUtility(BufferedReader bufferedReader, UtilityService utilityService) throws IOException {
@@ -71,7 +97,7 @@ public class UtilityManagement {
         String utilityName = bufferedReader.readLine();
         System.out.println("Enter utility price:");
         int price = enterPositiveInteger(bufferedReader);
-        utilityService.saveService(utilityName, price);
+        utilityService.saveService(utilityName, BigDecimal.valueOf(price));
     }
 
     private static int enterPositiveInteger(BufferedReader bufferedReader) {

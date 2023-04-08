@@ -21,7 +21,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public Reservation getReservationByID(UUID id) {
+    public Reservation getReservationByID(int id) {
         return reservationRepository.getReservationById(id);
     }
 

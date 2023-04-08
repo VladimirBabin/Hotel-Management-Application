@@ -10,7 +10,7 @@ public interface ReservationService {
     Reservation createReservation(Reservation reservation);
 
     //read
-    Reservation getReservationByID(UUID id);
+    Reservation getReservationByID(int id);
 
     List<Reservation> getReservationList(boolean sortByID);
 
