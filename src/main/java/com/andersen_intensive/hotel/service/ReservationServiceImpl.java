@@ -1,11 +1,11 @@
 package com.andersen_intensive.hotel.service;
 
-import com.andersen_intensive.hotel.models.Client;
 import com.andersen_intensive.hotel.models.Reservation;
 import com.andersen_intensive.hotel.repository.*;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 
 public class ReservationServiceImpl implements ReservationService {
 
@@ -21,7 +21,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public Reservation getReservationByID(int id) {
+    public Reservation getReservationByID(UUID id) {
         return reservationRepository.getReservationById(id);
     }
 

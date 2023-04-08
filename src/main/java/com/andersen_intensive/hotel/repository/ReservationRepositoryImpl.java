@@ -2,10 +2,7 @@ package com.andersen_intensive.hotel.repository;
 
 import com.andersen_intensive.hotel.models.Reservation;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ReservationRepositoryImpl implements ReservationRepository {
 
@@ -18,7 +15,7 @@ public class ReservationRepositoryImpl implements ReservationRepository {
     }
 
     @Override
-    public Reservation getReservationById(int id) {
+    public Reservation getReservationById(UUID id) {
         return reservations.get(id);
     }
 
@@ -38,7 +35,7 @@ public class ReservationRepositoryImpl implements ReservationRepository {
         reservations.remove(id);
     }
 
-    public Reservation findByUserId(int userId) {
+    public Reservation findByUserId(UUID userId) {
         for(Reservation reservation: reservations.values()) {
             if (reservation.getClient().getPersonalID() == userId) {
                 return reservation;

@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ConsoleInteraction {
 
@@ -22,13 +23,12 @@ public class ConsoleInteraction {
     static final UtilityService utilityService = new UtilityServiceImpl(new UtilityRepositoryImpl());
 
     private static final String MENU = "Menu:" + "\n" +
-            "1. Register a client" + "\n" +
-            "2. List of clients" + "\n" +
-            "3. Apartment management" + "\n" +
-            "4. Service management" + "\n" +
-            "5. Check-in" + "\n" +
-            "6. Check-out" + "\n" +
-            "7. Get the current price for client's stay" + "\n" +
+            "1. Client management" + "\n" +
+            "2. Apartment management" + "\n" +
+            "3. Service management" + "\n" +
+            "4. Check-in" + "\n" +
+            "5. Check-out" + "\n" +
+            "6. Get the current price for client's stay" + "\n" +
             "0. Exit program" + "\n";
 
     static void showMainMenu() {
@@ -41,24 +41,21 @@ public class ConsoleInteraction {
                     case "0":
                         return;
                     case "1":
-                        clientManagement(bufferedReader);
+                        ClientManagement.showClientManagementMenu(bufferedReader, clientService);
                         break;
                     case "2":
-                        showListOfClients(bufferedReader);
+                        ApartmentManagement.showApartmentManagementMenu(bufferedReader, apartmentService);
                         break;
                     case "3":
-                        ApartmentManagement.showApartmentManagementMenu(bufferedReader);
-                        break;
-                    case "4":
                         UtilityManagement.showUtilityManagementMenu(bufferedReader, utilityService);
                         break;
-                    case "5":
+                    case "4":
                         checkIn(bufferedReader);
                         break;
-                    case "6":
+                    case "5":
                         checkOut(bufferedReader);
                         break;
-                    case "7":
+                    case "6":
                         getCurrentPriceForClient(bufferedReader);
                         break;
                 }
@@ -68,98 +65,16 @@ public class ConsoleInteraction {
         }
     }
 
-    //    Mary
-    static void clientManagement(BufferedReader bufferedReader) throws IOException {
-
-        while (true) {
-            System.out.println("\n" + "To create a new client type 1" + "\n" +
-                    "To delete client from base type 2" + "\n" +
-                    "To update client's information type 3" + "\n" +
-                    "Type 4 to go back" + "\n");
-            String input = bufferedReader.readLine();
-            switch (input) {
-                case "1" -> {
-                    System.out.println("Client's name:");
-                    String name = bufferedReader.readLine();
-                    System.out.println("Client's last name:");
-                    String lastName = bufferedReader.readLine();
-                    System.out.println("Client's phone number:");
-                    String phoneNumber = bufferedReader.readLine();
-                    Client clientCreated = clientService.createClient(name, lastName, phoneNumber);
-                    System.out.println("Client created: " + "\n" + clientCreated.toString());
-                }
-                case "2" -> {
-                    System.out.println("Write client's id:");
-                    // проверка
-                    int id = Integer.parseInt(bufferedReader.readLine());
-                    clientService.removeClient(id);
-                    System.out.println("Client " + clientService.getClientByID(id).getLastName() + " " +
-                            clientService.getClientByID(id).getFirstName() + " successfully removed from base!");
-                }
-                case "3" -> {
-                    System.out.println("\nWrite client's id:");
-                    // проверка
-                    int id = Integer.parseInt(bufferedReader.readLine());
-
-                    System.out.println("Client's name:");
-                    String newName = bufferedReader.readLine();
-                    System.out.println("Client's last name:");
-                    String newLastName = bufferedReader.readLine();
-                    System.out.println("Client's phone number:");
-                    String newPhoneNumber = bufferedReader.readLine();
-
-                    clientService.getClientByID(id).setFirstName(newName);
-                    clientService.getClientByID(id).setLastName(newLastName);
-                    clientService.getClientByID(id).setPhoneNumber(newPhoneNumber);
-
-                    System.out.println("Client's information was successfully updated!" + "\n" +
-                            clientService.getClientByID(id).toString() + "\n");
-                }
-                case "4" -> {
-                    return;
-                }
-            }
-        }
-    }
-
-    //    Mary
-    static void showListOfClients(BufferedReader bufferedReader) throws IOException {
-
-
-        System.out.println("\n1. List of clients\n" +
-                "2. Sort list of clients by last name\n");
-
-        String input = bufferedReader.readLine();
-        List<Client> clients = new ArrayList<>();
-        switch (input) {
-            case "1" -> clients = clientService.getClientList(false);
-            case "2" -> clients = clientService.getClientList(true);
-        }
-        for (Client client : clients) {
-            System.out.println("=========================================");
-            System.out.println(client.toString());
-        }
-
-        System.out.println("\n\n" +
-                "To go back type 1");
-        while (true) {
-            input = bufferedReader.readLine();
-            if (input.equals("1")) {
-                return;
-            }
-        }
-    }
-
     //    Vova
     static private void checkIn(BufferedReader bufferedReader) throws IOException {
-        int id;
+        UUID id;
         int number;
 
         while (true) {
             System.out.println("Client's id:");
             String clientId = bufferedReader.readLine();
             try {
-                id = Integer.parseInt(clientId);
+                id = UUID.fromString(clientId);
                 break;
             } catch (NumberFormatException e) {
                 System.out.println("Please type a valid number");
@@ -225,13 +140,13 @@ public class ConsoleInteraction {
     static private void checkOut(BufferedReader bufferedReader) throws IOException { //Дата отъезда,  в апартаментах менять статус
 
 //        Ищем бронирование по юзер айди
-        int clientId;
+        UUID clientId;
         while (true) {
             System.out.println("Client's id:");
             String readLine = bufferedReader.readLine();
             // wrapping with try catch in case the user enters a different from number value
             try {
-                clientId = Integer.parseInt(readLine);
+                clientId = UUID.fromString(readLine);
                 break;
             } catch (NumberFormatException e) {
                 System.out.println("Please type a valid number");
