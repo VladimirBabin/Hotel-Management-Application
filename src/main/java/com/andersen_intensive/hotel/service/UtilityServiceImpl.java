@@ -16,7 +16,7 @@ public class UtilityServiceImpl implements UtilityService {
     }
 
     @Override
-    public Utility saveService(String name, int price) {
+    public Utility saveService(String name, BigDecimal price) {
         Utility utility = new Utility(name, price);
         return utilityRepository.addUtility(utility);
     }
@@ -31,7 +31,7 @@ public class UtilityServiceImpl implements UtilityService {
     @Override
     public List<Utility> sortByPrice() {
         List<Utility> sortedUtilities = utilityRepository.getAllUtility();
-        sortedUtilities.sort(Comparator.comparingDouble(Utility::getPrice));
+        sortedUtilities.sort(Comparator.comparing(Utility::getPrice));
         return sortedUtilities;
     }
 
@@ -51,7 +51,7 @@ public class UtilityServiceImpl implements UtilityService {
     }
 
     @Override
-    public void changePrice(int utilityId, int newPrice) {
+    public void changePrice(int utilityId, BigDecimal newPrice) {
         Utility utility = utilityRepository.getUtilityById(utilityId);
         utility.setPrice(newPrice);
     }

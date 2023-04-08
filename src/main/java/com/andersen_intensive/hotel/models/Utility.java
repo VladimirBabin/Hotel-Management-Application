@@ -6,9 +6,9 @@ public class Utility {
     private static int count = 0;
     private int id;
     private String name;
-    private int price;
+    private BigDecimal price;
 
-    public Utility(String name, int price) {
+    public Utility(String name, BigDecimal price) {
         this.id = ++count;
         this.name = name;
         this.price = price;
@@ -26,11 +26,11 @@ public class Utility {
         return name;
     }
 
-    public int getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
