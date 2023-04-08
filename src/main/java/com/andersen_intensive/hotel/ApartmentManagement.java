@@ -3,6 +3,7 @@ package com.andersen_intensive.hotel;
 import com.andersen_intensive.hotel.models.Apartment;
 import com.andersen_intensive.hotel.models.ApartmentStatus;
 import com.andersen_intensive.hotel.models.ApartmentType;
+import com.andersen_intensive.hotel.service.ApartmentService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,36 +21,36 @@ public class ApartmentManagement {
 
             To go back type 0""";
 
-    static void showApartmentManagementMenu(BufferedReader bufferedReader) throws IOException {
+    static void showApartmentManagementMenu(BufferedReader bufferedReader, ApartmentService apartmentService) throws IOException {
+
         while (true) {
-            while (true) {
-                System.out.println(APARTMENT_MANAGEMENT_MENU);
-                String input = bufferedReader.readLine();
-                switch (input) {
-                    case "0":
-                        return;
-                    case "1":
-                        addApartment(bufferedReader);
-                        break;
-                    case "2":
-                        showListOfApartments(bufferedReader);
-                        break;
-                    case "3":
-                        changeApartmentStatus(bufferedReader);
-                        break;
-                    case "4":
-                        changeApartmentPrice(bufferedReader);
-                        break;
-                }
+            System.out.println(APARTMENT_MANAGEMENT_MENU);
+            String input = bufferedReader.readLine();
+            switch (input) {
+                case "0":
+                    return;
+                case "1":
+                    addApartment(bufferedReader, apartmentService);
+                    break;
+                case "2":
+                    showListOfApartments(bufferedReader, apartmentService);
+                    break;
+                case "3":
+                    changeApartmentStatus(bufferedReader, apartmentService);
+                    break;
+                case "4":
+                    changeApartmentPrice(bufferedReader, apartmentService);
+                    break;
             }
         }
+
     }
 
-    static void addApartment(BufferedReader bufferedReader) throws IOException {
+    private static void addApartment(BufferedReader bufferedReader, ApartmentService apartmentService) throws IOException {
         System.out.println("Enter apartment number:");
-        int apartmentId = Integer.parseInt(bufferedReader.readLine());
+        int apartmentNumber = Integer.parseInt(bufferedReader.readLine());
 
-        if (ConsoleInteraction.apartmentService.isValid(apartmentId)) {
+        if (apartmentService.isValid(apartmentNumber)) {
             System.out.println("Apartment with such number already exists!");
             System.out.println(" ");
             return;
@@ -61,16 +62,19 @@ public class ApartmentManagement {
         System.out.println("Enter room type: 1 for single bed, 2 for double bed:");
         ApartmentType apartmentType = enterApartmentType(bufferedReader);
 
-        Apartment apartment = new Apartment(apartmentId, apartmentPrice, apartmentType);
-        ConsoleInteraction.apartmentService.add(apartment);
+        Apartment apartment = new Apartment(apartmentNumber, apartmentPrice, apartmentType);
+        System.out.println(apartment);
+
+        apartmentService.add(apartment);
+
         System.out.println("Apartment added successfully!");
         System.out.println(" ");
     }
 
-    private static void showListOfApartments(BufferedReader bufferedReader) throws IOException {
+    private static void showListOfApartments(BufferedReader bufferedReader, ApartmentService apartmentService) throws IOException {
         System.out.println("List of available apartments:" + "\n");
 
-        List<Apartment> apartments = ConsoleInteraction.apartmentService.getAll();
+        List<Apartment> apartments = apartmentService.getAll();
 
         if (apartments.isEmpty()) {
             System.out.println("No apartments found.");
@@ -93,11 +97,12 @@ public class ApartmentManagement {
         System.out.println(" ");
     }
 
-    private static void changeApartmentStatus(BufferedReader bufferedReader) throws IOException {
+
+    private static void changeApartmentStatus(BufferedReader bufferedReader, ApartmentService apartmentService) throws IOException {
         System.out.println("Enter apartment number:");
         int apartmentId = Integer.parseInt(bufferedReader.readLine());
 
-        Apartment apartment = ConsoleInteraction.apartmentService.getById(apartmentId);
+        Apartment apartment = apartmentService.getById(apartmentId);
 
         if (apartment == null) {
             System.out.println("Apartment not found!");
@@ -114,11 +119,11 @@ public class ApartmentManagement {
     }
 
 
-    private static void changeApartmentPrice(BufferedReader bufferedReader) throws IOException {
+    private static void changeApartmentPrice(BufferedReader bufferedReader, ApartmentService apartmentService) throws IOException {
         System.out.println("Enter apartment number:");
         int apartmentId = Integer.parseInt(bufferedReader.readLine());
 
-        Apartment apartment = ConsoleInteraction.apartmentService.getById(apartmentId);
+        Apartment apartment = apartmentService.getById(apartmentId);
 
         if (apartment == null) {
             System.out.println("Apartment not found!");
@@ -131,7 +136,7 @@ public class ApartmentManagement {
         apartment.setPrice(newPrice);
 
 
-        ConsoleInteraction.apartmentService.updatePrice(apartmentId, newPrice);
+        apartmentService.updatePrice(apartmentId, newPrice);
 
         System.out.println("Apartment price has been updated.");
         System.out.println(" ");

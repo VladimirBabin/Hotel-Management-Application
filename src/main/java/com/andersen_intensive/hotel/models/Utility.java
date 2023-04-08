@@ -1,5 +1,7 @@
 package com.andersen_intensive.hotel.models;
 
+import java.math.BigDecimal;
+
 public class Utility {
     private static int count = 0;
     private int id;
