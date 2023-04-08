@@ -29,14 +29,6 @@ public class Reservation {
         this.checkIn = checkIn;
     }
 
-    public Reservation(Client client, Apartment apartment, LocalDate checkIn, LocalDate checkOut) {
-        this.id = ++count;
-        this.client = client;
-        this.apartment = apartment;
-        this.checkIn = checkIn;
-        this.checkOut = checkOut;
-    }
-
     @Override
     public String toString() {
         return "Reservation ID: " + id + "\n" +
