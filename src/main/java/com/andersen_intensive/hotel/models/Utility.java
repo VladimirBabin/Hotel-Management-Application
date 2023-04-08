@@ -1,12 +1,14 @@
 package com.andersen_intensive.hotel.models;
 
+import java.math.BigDecimal;
+
 public class Utility {
     private static int count = 0;
     private int id;
     private String name;
-    private double price;
+    private BigDecimal price;
 
-    public Utility(String name, double price) {
+    public Utility(String name, BigDecimal price) {
         this.id = ++count;
         this.name = name;
         this.price = price;
@@ -24,11 +26,11 @@ public class Utility {
         return name;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

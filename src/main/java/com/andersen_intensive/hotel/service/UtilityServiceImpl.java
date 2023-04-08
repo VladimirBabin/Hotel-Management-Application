@@ -3,6 +3,7 @@ package com.andersen_intensive.hotel.service;
 import com.andersen_intensive.hotel.models.Utility;
 import com.andersen_intensive.hotel.repository.UtilityRepository;
 
+import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class UtilityServiceImpl implements UtilityService {
     }
 
     @Override
-    public Utility saveService(String name, double price) {
+    public Utility saveService(String name, BigDecimal price) {
         Utility utility = new Utility(name, price);
         return utilityRepository.addService(utility);
     }
@@ -30,7 +31,7 @@ public class UtilityServiceImpl implements UtilityService {
     @Override
     public List<Utility> sortByPrice() {
         List<Utility> sortedUtilities = utilityRepository.getAllServices();
-        sortedUtilities.sort(Comparator.comparingDouble(Utility::getPrice));
+        sortedUtilities.sort(Comparator.comparing(Utility::getPrice));
         return sortedUtilities;
     }
 }

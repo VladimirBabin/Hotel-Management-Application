@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -38,14 +39,13 @@ public class Reservation {
         this.checkOut = checkOut;
     }
 
-    public double getPrice() {
-        double summary = 0;
-        long daysBetween = ChronoUnit.DAYS.between(this.checkIn, this.checkOut);
-        summary = daysBetween * this.apartment.getApartmentPrice();
+    public BigDecimal getPrice(LocalDate checkIn, LocalDate checkOut) {
+        long days = checkOut.toEpochDay() - checkIn.toEpochDay();
+        BigDecimal totalPrice = this.apartment.getApartmentPrice().multiply(new BigDecimal(days));
         for (Utility utility : utilities) {
-            summary += utility.getPrice();
+            totalPrice =totalPrice.add(utility.getPrice());
         }
-        return summary;
+        return totalPrice;
     }
 
     @Override
