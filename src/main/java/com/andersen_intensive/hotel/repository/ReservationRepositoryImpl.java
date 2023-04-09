@@ -43,14 +43,4 @@ public class ReservationRepositoryImpl implements ReservationRepository {
         }
         return null;
     }
-
-//    public boolean checkIfOpenReservationExistsForClient(int userId) {
-//        for(Reservation reservation: reservations.values()) {
-//            if ((reservation.getClient().getPersonalID() == userId)
-//                    && reservation.getCheckOut() == null) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
 }
