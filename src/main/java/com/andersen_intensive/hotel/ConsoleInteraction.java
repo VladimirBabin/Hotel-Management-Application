@@ -10,7 +10,9 @@ import com.andersen_intensive.hotel.service.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -47,7 +49,7 @@ public class ConsoleInteraction {
                         ApartmentManagement.showApartmentManagementMenu(bufferedReader, apartmentService);
                         break;
                     case "3":
-                        UtilityManagement.showUtilityManagementMenu(bufferedReader, utilityService , reservationService);
+                        UtilityManagement.showUtilityManagementMenu(bufferedReader, utilityService, reservationService);
                         break;
                     case "4":
                         checkIn(bufferedReader);
@@ -67,14 +69,14 @@ public class ConsoleInteraction {
 
     //    Vova
     static private void checkIn(BufferedReader bufferedReader) throws IOException {
-        UUID id;
+        int id;
         int number;
 
         while (true) {
             System.out.println("Client's id:");
             String clientId = bufferedReader.readLine();
             try {
-                id = UUID.fromString(clientId);
+                id = Integer.parseInt(clientId);
                 break;
             } catch (NumberFormatException e) {
                 System.out.println("Please type a valid number");
@@ -140,13 +142,13 @@ public class ConsoleInteraction {
     static private void checkOut(BufferedReader bufferedReader) throws IOException { //Дата отъезда,  в апартаментах менять статус
 
 //        Ищем бронирование по юзер айди
-        UUID clientId;
+        int clientId;
         while (true) {
             System.out.println("Client's id:");
             String readLine = bufferedReader.readLine();
             // wrapping with try catch in case the user enters a different from number value
             try {
-                clientId = UUID.fromString(readLine);
+                clientId = Integer.parseInt(readLine);
                 break;
             } catch (NumberFormatException e) {
                 System.out.println("Please type a valid number");
@@ -185,7 +187,36 @@ public class ConsoleInteraction {
         }
     }
 
-    //    ?
-    static private void getCurrentPriceForClient(BufferedReader bufferedReader) {
+    static private void getCurrentPriceForClient(BufferedReader bufferedReader) throws IOException {
+        int clientId;
+        while (true) {
+            System.out.println("Client's id:");
+            String readLine = bufferedReader.readLine();
+            try {
+                clientId = Integer.parseInt(readLine);
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Please type a valid number");
+            }
+        }
+
+        Reservation reservation = reservationService.getReservationByID(clientId);
+        long daysBetween;
+        if (reservation == null) {
+            System.out.println("No such user was found");
+            return;
+        } else {
+            if (reservationService.checkIfReservationIsOpen(reservation)) {
+                System.out.println("User need to set check uot date");
+                return;
+            } else {
+                daysBetween = ChronoUnit.DAYS.between(reservation.getCheckIn(), reservation.getCheckOut());
+            }
+        }
+        BigDecimal summary = new BigDecimal(daysBetween).multiply(reservation.getApartment().getApartmentPrice());
+        for (Utility utility: reservation.getUtilities()) {
+            summary = summary.add(utility.getPrice());
+        }
+        System.out.println("Current price for client " + clientId + " = " + summary);
     }
 }
