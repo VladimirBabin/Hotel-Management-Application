@@ -1,4 +1,4 @@
-package com.andersen_intensive.hotel;
+package com.andersen_intensive.hotel.repository;
 
 import com.andersen_intensive.hotel.models.Apartment;
 import com.andersen_intensive.hotel.models.ApartmentStatus;
@@ -27,7 +27,7 @@ class ApartmentRepositoryImplTest {
     }
 
     @Test
-    void testAdd() {
+    void Add() {
         assertNull(apartmentRepository.getById(1));
         apartmentRepository.add(apartment1);
         assertNotNull(apartmentRepository.getById(1));
@@ -35,7 +35,7 @@ class ApartmentRepositoryImplTest {
     }
 
     @Test
-    void testGetById() {
+    void GetById() {
         assertNull(apartmentRepository.getById(1));
         apartmentRepository.add(apartment1);
         assertNotNull(apartmentRepository.getById(1));
@@ -43,7 +43,7 @@ class ApartmentRepositoryImplTest {
     }
 
     @Test
-    void testUpdate() {
+    void Update() {
         assertNull(apartmentRepository.getById(1));
         apartmentRepository.add(apartment1);
         assertNotNull(apartmentRepository.getById(1));
@@ -58,7 +58,7 @@ class ApartmentRepositoryImplTest {
     }
 
     @Test
-    void testGetAll() {
+    void GetAll() {
         assertTrue(apartmentRepository.getAll().isEmpty());
         apartmentRepository.add(apartment1);
         apartmentRepository.add(apartment2);
@@ -68,7 +68,7 @@ class ApartmentRepositoryImplTest {
     }
 
     @Test
-    void testDelete() {
+    void Delete() {
         apartmentRepository.add(apartment1);
         assertNotNull(apartmentRepository.getById(1));
         apartmentRepository.delete(apartment1);

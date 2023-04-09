@@ -48,9 +48,20 @@ public class ApartmentManagement {
 
     private static void addApartment(BufferedReader bufferedReader, ApartmentService apartmentService) throws IOException {
         System.out.println("Enter apartment number:");
-        int apartmentNumber = Integer.parseInt(bufferedReader.readLine());
-
-        if (apartmentService.isValid(apartmentNumber)) {
+        int apartmentId;
+        while (true) {
+            try {
+                apartmentId = Integer.parseInt(bufferedReader.readLine());
+                if (apartmentId <= 0) {
+                    System.out.println("Apartment number must be greater than 0. Please try again.");
+                } else {
+                    break;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid apartment number.");
+            }
+        }
+        if (apartmentService.isValid(apartmentId)) {
             System.out.println("Apartment with such number already exists!");
             System.out.println(" ");
             return;
@@ -62,7 +73,7 @@ public class ApartmentManagement {
         System.out.println("Enter room type: 1 for single bed, 2 for double bed:");
         ApartmentType apartmentType = enterApartmentType(bufferedReader);
 
-        Apartment apartment = new Apartment(apartmentNumber, apartmentPrice, apartmentType);
+        Apartment apartment = new Apartment(apartmentId, apartmentPrice, apartmentType);
         System.out.println(apartment);
 
         apartmentService.add(apartment);
@@ -91,7 +102,7 @@ public class ApartmentManagement {
             }
 
             for (Apartment ap : apartments) {
-                System.out.println(ap);
+                System.out.println(ap.toStringList());
             }
         }
         System.out.println(" ");

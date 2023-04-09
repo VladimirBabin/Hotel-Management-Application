@@ -4,13 +4,13 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Apartment {
-    private int apartmentId;
+    private final int apartmentId;
     private BigDecimal price;
     private ApartmentType apartmentType;
     private ApartmentStatus apartmentStatus;
 
-    public Apartment(int apartmentNumber, BigDecimal price, ApartmentType apartmentType) {
-        this.apartmentId = apartmentNumber;
+    public Apartment(int apartmentId, BigDecimal price, ApartmentType apartmentType) {
+        this.apartmentId = apartmentId;
         this.price = price;
         this.apartmentType = apartmentType;
         this.apartmentStatus = ApartmentStatus.AVAILABLE;
@@ -48,13 +48,20 @@ public class Apartment {
                 "type apartment: " + apartmentType + "\n" +
                 "status: " + apartmentStatus + "\n";
     }
+    public String toStringList() {
+        return "Apartment number " +
+                apartmentId +
+                " price: $" + price +
+                " type apartment: " + apartmentType +
+                " status: " + apartmentStatus + "\n";
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Apartment apartment = (Apartment) o;
-        return apartmentId == apartment.apartmentId;
+        return apartmentId == apartment.apartmentId && Objects.equals(price, apartment.price) && apartmentType == apartment.apartmentType && apartmentStatus == apartment.apartmentStatus;
     }
 
     @Override
