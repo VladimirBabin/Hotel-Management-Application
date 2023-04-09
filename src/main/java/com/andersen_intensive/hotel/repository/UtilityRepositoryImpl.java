@@ -2,6 +2,7 @@ package com.andersen_intensive.hotel.repository;
 
 import com.andersen_intensive.hotel.models.Utility;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +30,7 @@ public class UtilityRepositoryImpl implements UtilityRepository {
 
     @Override
     public List<Utility> getAllUtility() {
-        return (List) services.values();
+        return new ArrayList<>(services.values());
     }
 
     @Override
