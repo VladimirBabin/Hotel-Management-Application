@@ -84,13 +84,13 @@ public class ClientManagement {
 
     static void removeClient(BufferedReader bufferedReader, ClientService clientService) throws IOException {
 
-        UUID clientID;
+        int clientID;
 
         while (true) {
             System.out.println("Write client's id:");
             String readLine = bufferedReader.readLine();
             try {
-                clientID = UUID.fromString(readLine);
+                clientID = Integer.parseInt(readLine);
                 System.out.println("Client " + clientService.getClientByID(clientID).getLastName() + " " +
                         clientService.getClientByID(clientID).getFirstName() + " successfully removed from base!");
                 clientService.removeClient(clientID);
@@ -102,13 +102,13 @@ public class ClientManagement {
 
     static void updateClientsInformation(BufferedReader bufferedReader, ClientService clientService) throws IOException {
 
-        UUID clientID;
+        int clientID;
 
         while (true) {
             System.out.println("\nWrite client's id:");
             String readLine = bufferedReader.readLine();
             try {
-                clientID = UUID.fromString(readLine);
+                clientID = Integer.parseInt(readLine);
                 System.out.println("Client's name:");
                 String newName = bufferedReader.readLine();
                 System.out.println("Client's last name:");
