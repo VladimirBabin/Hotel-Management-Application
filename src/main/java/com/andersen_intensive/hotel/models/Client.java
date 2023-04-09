@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Objects;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -12,13 +11,12 @@ public class Client {
 
     private String firstName;
     private String lastName;
-    private UUID personalID;
+    private int personalID;
     private String phoneNumber;
 
     public Client(String firstName, String lastName, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.personalID = UUID.randomUUID();
         this.phoneNumber = phoneNumber;
     }
 

@@ -5,7 +5,6 @@ import com.andersen_intensive.hotel.repository.ClientRepository;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.UUID;
 
 public class ClientServiceImpl implements ClientService {
 
@@ -22,7 +21,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client getClientByID(UUID id) {
+    public Client getClientByID(int id) {
         return clientRepository.getClientById(id);
     }
 
@@ -36,13 +35,12 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void removeClient(UUID id) {
+    public void removeClient(int id) {
         clientRepository.deleteClient(id);
     }
 
     @Override
     public Client updateClient(Client clientToUpdate) {
-        Client updatedClient = clientRepository.updateClient(clientToUpdate);
-        return updatedClient;
+        return clientRepository.updateClient(clientToUpdate);
     }
 }

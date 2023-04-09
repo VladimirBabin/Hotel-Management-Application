@@ -3,7 +3,6 @@ package com.andersen_intensive.hotel.service;
 import com.andersen_intensive.hotel.models.Client;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface ClientService {
 
@@ -11,12 +10,12 @@ public interface ClientService {
     Client createClient(String firstName, String lastName, String phoneNumber);
 
     //read
-    Client getClientByID(UUID id);
+    Client getClientByID(int id);
 
     List<Client> getClientList(boolean sortByLastName);
 
     //delete
-    void removeClient(UUID id);
+    void removeClient(int id);
 
     //update
     Client updateClient(Client client);
