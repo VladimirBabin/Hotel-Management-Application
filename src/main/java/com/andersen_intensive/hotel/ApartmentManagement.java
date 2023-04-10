@@ -156,7 +156,7 @@ public class ApartmentManagement {
 
     private static ApartmentType enterApartmentType(BufferedReader bufferedReader) {
         try {
-            return ApartmentType.valueOfLabel(bufferedReader.readLine());
+            return ApartmentType.values()[Integer.parseInt(bufferedReader.readLine()) - 1];
         } catch (IllegalArgumentException | IOException exp) {
             System.out.println("Invalid apartment type! Please, choose 1 for single bed or 2 for double bed:");
             return enterApartmentType(bufferedReader);
