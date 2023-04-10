@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -110,6 +112,7 @@ public class ConsoleInteraction {
         Apartment apartment = apartmentService.getById(number);
 
         if (apartmentService.checkIfAvailable(apartment)) {
+            apartmentService.setStatus(number,ApartmentStatus.OCCUPIED);
             apartmentService.update(apartment);
         } else {
             while (true) {
@@ -139,14 +142,14 @@ public class ConsoleInteraction {
     }
 
     //    Vova
-    static private void checkOut(BufferedReader bufferedReader) throws IOException { //Дата отъезда,  в апартаментах менять статус
+    static private void checkOut(BufferedReader bufferedReader) throws IOException {
 
 //        Ищем бронирование по юзер айди
         int clientId;
         while (true) {
             System.out.println("Client's id:");
             String readLine = bufferedReader.readLine();
-            // wrapping with try catch in case the user enters a different from number value
+
             try {
                 clientId = Integer.parseInt(readLine);
                 break;
@@ -169,8 +172,22 @@ public class ConsoleInteraction {
             System.out.println("No such user was found");
         } else {
             if (reservationService.checkIfReservationIsOpen(reservation)) {
-                reservation.setCheckOut(LocalDate.now());
+                LocalDate checkOutDate;
+                while (true) {
+                    System.out.println("Check-out date (yy/MM/dd):");
+                    String checkOutStr = bufferedReader.readLine().trim().replace("-", "/").replace(".", "/"); // replace other separators with '/'
+                    try {
+                        checkOutDate = LocalDate.parse(checkOutStr, DateTimeFormatter.ofPattern("yy/MM/dd"));
+                        break;
+                    } catch (DateTimeParseException e) {
+                        System.out.println("Invalid date format, please try again.");
+                    }
+                }
+                reservation.setCheckOut(checkOutDate);
                 reservationService.updateReservation(reservation);
+                Apartment apartment = reservation.getApartment();
+                apartment.setApartmentStatus(ApartmentStatus.AVAILABLE);
+                apartmentService.update(apartment);
                 System.out.println("Information about the reservation:");
                 System.out.println(reservation);
                 System.out.println("\n\n" +

@@ -3,11 +3,9 @@ package com.andersen_intensive.hotel.service;
 import com.andersen_intensive.hotel.models.Apartment;
 import com.andersen_intensive.hotel.models.ApartmentStatus;
 import com.andersen_intensive.hotel.models.ApartmentType;
-import com.andersen_intensive.hotel.models.Client;
 
 import java.math.BigDecimal;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public interface ApartmentService {
