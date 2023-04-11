@@ -32,10 +32,8 @@ public class ClientRepositoryImpl implements ClientRepository {
     }
 
     @Override
-    public Client updateClient(Client client) {
-        int id = client.getPersonalID();
-        clients.put(id, client);
-        return clients.get(id);
+    public void updateClient(Client client) {
+        clients.put(client.getPersonalID(), client);
     }
 
     @Override

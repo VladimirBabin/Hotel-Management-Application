@@ -6,18 +6,16 @@ import java.util.List;
 
 public interface ClientService {
 
-    //create client
     Client createClient(String firstName, String lastName, String phoneNumber);
 
-    //read
     Client getClientByID(int id);
 
-    List<Client> getClientList(boolean sortByLastName);
+    List<Client> getClientListWithoutSorting();
 
-    //delete
+    List<Client> getClientListSortedByLastName();
+
+    List<Client> getClientListSortedByID();
+
     void removeClient(int id);
-
-    //update
-    Client updateClient(Client client);
 
 }
