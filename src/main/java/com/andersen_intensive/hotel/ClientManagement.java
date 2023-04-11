@@ -55,7 +55,7 @@ public class ClientManagement {
         System.out.println("Client's phone number:");
         String phoneNumber = bufferedReader.readLine();
         Client clientCreated = clientService.createClient(name, lastName, phoneNumber);
-        System.out.println("Client created: " + "\n" + clientCreated.toString());
+        System.out.println("Client created: " + "\n" + clientCreated.toString() + "\n");
     }
 
     static void showListOfClients(BufferedReader bufferedReader) throws IOException {
@@ -71,16 +71,20 @@ public class ClientManagement {
             case "2" -> clients = clientService.getClientListSortedByLastName();
             case "3" -> clients = clientService.getClientListSortedByID();
         }
-        for (Client client : clients) {
-            System.out.println("=========================================");
-            System.out.println(client.toString());
+        if (clients.isEmpty()) {
+            System.out.println("Client list is empty!");
+        } else {
+            for (Client client : clients) {
+                System.out.println("=========================================");
+                System.out.println(client.toString());
+            }
         }
 
         System.out.println("\n\n" +
-                "0. Go back");
+                "To go back type 0");
         while (true) {
             input = bufferedReader.readLine();
-            if (input.equals("1")) {
+            if (input.equals("0")) {
                 return;
             }
         }
@@ -89,32 +93,66 @@ public class ClientManagement {
     static void removeClient(BufferedReader bufferedReader, ClientService clientService) throws IOException {
 
         System.out.println("Write client's id:");
-        String readLine = bufferedReader.readLine();
-
-        int clientID = Integer.parseInt(readLine);
-        System.out.println("Client " + clientService.getClientByID(clientID).getLastName() + " " +
-                        clientService.getClientByID(clientID).getFirstName() + " successfully removed from base!");
-        clientService.removeClient(clientID);
+        int clientID;
+        while (true) {
+            try {
+                clientID = Integer.parseInt(bufferedReader.readLine());
+                if (clientID <= 0) {
+                    System.out.println("Client's ID must be greater than 0. Please try again.");
+                } else {
+                    System.out.println("Client " + clientService.getClientByID(clientID).getLastName() + " " +
+                            clientService.getClientByID(clientID).getFirstName() + " successfully removed from base!");
+                    clientService.removeClient(clientID);
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid ID number.");
+            }
+            String input = bufferedReader.readLine();
+            System.out.println("\n\n" +
+                    "To go back type 0");
+            while (true) {
+                if (input.equals("0")) {
+                    return;
+                }
+            }
+        }
     }
 
     static void updateClientsInformation(BufferedReader bufferedReader, ClientService clientService) throws IOException {
 
-        System.out.println("\nWrite client's id:");
-        String readLine = bufferedReader.readLine();
-        int clientID = Integer.parseInt(readLine);
-        System.out.println("Client's name:");
-        String newName = bufferedReader.readLine();
-        System.out.println("Client's last name:");
-        String newLastName = bufferedReader.readLine();
-        System.out.println("Client's phone number:");
-        String newPhoneNumber = bufferedReader.readLine();
+        System.out.println("Write client's id:");
+        int clientID;
+        while (true) {
+            try {
+                clientID = Integer.parseInt(bufferedReader.readLine());
+                if (clientID <= 0) {
+                    System.out.println("Client's ID must be greater than 0. Please try again.");
+                } else {
+                    System.out.println("Client's name:");
+                    String newName = bufferedReader.readLine();
+                    System.out.println("Client's last name:");
+                    String newLastName = bufferedReader.readLine();
+                    System.out.println("Client's phone number:");
+                    String newPhoneNumber = bufferedReader.readLine();
 
-        clientService.getClientByID(clientID).setFirstName(newName);
-        clientService.getClientByID(clientID).setLastName(newLastName);
-        clientService.getClientByID(clientID).setPhoneNumber(newPhoneNumber);
+                    clientService.getClientByID(clientID).setFirstName(newName);
+                    clientService.getClientByID(clientID).setLastName(newLastName);
+                    clientService.getClientByID(clientID).setPhoneNumber(newPhoneNumber);
 
-        System.out.println("Client's information was successfully updated!" + "\n" +
-                clientService.getClientByID(clientID).toString() + "\n");
-
+                    System.out.println("Client's information was successfully updated!" + "\n" +
+                            clientService.getClientByID(clientID).toString() + "\n");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid ID number.");
+            }
+            String input = bufferedReader.readLine();
+            System.out.println("\n\n" +
+                    "To go back type 0");
+            while (true) {
+                if (input.equals("0")) {
+                    return;
+                }
+            }
+        }
     }
 }
