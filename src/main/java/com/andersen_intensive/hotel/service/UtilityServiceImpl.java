@@ -36,9 +36,10 @@ public class UtilityServiceImpl implements UtilityService {
     }
 
     @Override
-    public void showAllUtilities() {
+    public List<Utility> showAllUtilities() {
         List<Utility> utilities = utilityRepository.getAllUtility();
         System.out.println(utilities);
+        return utilities;
     }
 
     @Override

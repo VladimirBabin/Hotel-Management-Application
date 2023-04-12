@@ -26,11 +26,19 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public List<Client> getClientList(boolean sortByLastName) {
+    public List<Client> getClientListWithoutSorting() {
+        return clientRepository.getAllClients();
+    }
+
+    public List<Client> getClientListSortedByLastName() {
         List<Client> clients = clientRepository.getAllClients();
-        if (sortByLastName) {
-            clients.sort(Comparator.comparing(Client::getLastName));
-        }
+        clients.sort(Comparator.comparing(Client::getLastName));
+        return clients;
+    }
+
+    public List<Client> getClientListSortedByID() {
+        List<Client> clients = clientRepository.getAllClients();
+        clients.sort(Comparator.comparing(Client::getPersonalID));
         return clients;
     }
 
@@ -39,8 +47,4 @@ public class ClientServiceImpl implements ClientService {
         clientRepository.deleteClient(id);
     }
 
-    @Override
-    public Client updateClient(Client clientToUpdate) {
-        return clientRepository.updateClient(clientToUpdate);
-    }
 }

@@ -4,20 +4,16 @@ import com.andersen_intensive.hotel.models.Client;
 
 import java.util.List;
 
-public interface ClientRepository { //CRUD repo Create Read Update Delete
-    //подключить драйвер бд
+public interface ClientRepository {
 
-    // create
     Client addClient(Client client);
 
-    // read
     Client getClientById(int id);
 
     List<Client> getAllClients();
 
-    // update
-    Client updateClient(Client client);
+    void updateClient(Client client);
 
-    // delete
     void deleteClient(int id);
+
 }

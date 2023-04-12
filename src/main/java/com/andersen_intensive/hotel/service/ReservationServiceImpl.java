@@ -26,12 +26,8 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public List<Reservation> getReservationList(boolean sortByID) {
-        List<Reservation> reservations = reservationRepository.getAllReservationsList();
-        if (sortByID) {
-            reservations.sort(Comparator.comparing(Reservation::getId));
-        }
-        return reservations;
+    public List<Reservation> getReservationList() {
+        return reservationRepository.getAllReservationsList();
     }
 
     @Override
