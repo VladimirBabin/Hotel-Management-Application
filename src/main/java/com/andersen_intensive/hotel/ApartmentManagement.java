@@ -4,6 +4,7 @@ import com.andersen_intensive.hotel.models.Apartment;
 import com.andersen_intensive.hotel.models.ApartmentStatus;
 import com.andersen_intensive.hotel.models.ApartmentType;
 import com.andersen_intensive.hotel.service.ApartmentService;
+import com.moandjiezana.toml.Toml;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -100,6 +101,13 @@ public class ApartmentManagement {
     }
 
     private static void changeApartmentStatus(BufferedReader bufferedReader, ApartmentService apartmentService) throws IOException {
+        Toml toml = new Toml().read(HotelManagementApplication.class.getResourceAsStream("/application.toml"));
+        boolean apartmentStatusEnabled = toml.getBoolean("application.apartmentStatusChange.apartmentStatusEnabled");
+        if (!apartmentStatusEnabled) {
+            System.out.println("Changing apartment status is disabled!");
+            System.out.println();
+            return;
+        }
         System.out.println("Enter apartment number:");
         int apartmentId = Integer.parseInt(bufferedReader.readLine());
         Apartment apartment = apartmentService.getById(apartmentId);
