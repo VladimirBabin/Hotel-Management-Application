@@ -3,11 +3,12 @@ package com.andersen_intensive.hotel.models;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Getter
 @Setter
-public class Client {
+public class Client implements Serializable {
 
     private String firstName;
     private String lastName;

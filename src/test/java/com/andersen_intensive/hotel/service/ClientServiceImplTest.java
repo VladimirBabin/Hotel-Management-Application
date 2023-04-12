@@ -1,7 +1,10 @@
 package com.andersen_intensive.hotel.service;
 
 import com.andersen_intensive.hotel.models.Client;
+import com.andersen_intensive.hotel.repository.ApartmentRepository;
+import com.andersen_intensive.hotel.repository.ApartmentRepositoryImpl;
 import com.andersen_intensive.hotel.repository.ClientRepository;
+import com.andersen_intensive.hotel.repository.ClientRepositoryImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,43 +17,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ClientServiceImplTest {
 
+    private ClientRepository clientRepository;
     private ClientService clientService;
 
     @BeforeEach
     void setUp() {
-
-        ClientRepository clientRepository = new ClientRepository() {
-            private final List<Client> clients = new ArrayList<>();
-
-            @Override
-            public Client addClient(Client client) {
-                clients.add(client);
-                return client;
-            }
-
-            @Override
-            public Client getClientById(int id) {
-                return clients.stream()
-                        .filter(a -> a.getPersonalID() == id)
-                        .findFirst()
-                        .orElse(null);
-            }
-
-            @Override
-            public List<Client> getAllClients() {
-                return clients;
-            }
-
-            @Override
-            public Client updateClient(Client client) {
-                return null;
-            }
-
-            @Override
-            public void deleteClient(int id) {
-
-            }
-        };
+        clientRepository = new ClientRepositoryImpl();
         clientService = new ClientServiceImpl(clientRepository);
     }
 

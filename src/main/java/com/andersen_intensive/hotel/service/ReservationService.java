@@ -12,7 +12,7 @@ public interface ReservationService {
     //read
     Reservation getReservationByID(int id);
 
-    List<Reservation> getReservationList(boolean sortByID);
+    List<Reservation> getReservationList();
 
     //delete
     void removeReservation(int id);
