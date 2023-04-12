@@ -26,7 +26,7 @@ class ApartmentRepositoryImplTest {
     }
 
     @Test
-    void Add() {
+    void add() {
         assertNull(apartmentRepository.getById(1));
         apartmentRepository.add(apartment1);
         assertNotNull(apartmentRepository.getById(1));
@@ -34,7 +34,7 @@ class ApartmentRepositoryImplTest {
     }
 
     @Test
-    void GetById() {
+    void getById() {
         assertNull(apartmentRepository.getById(1));
         apartmentRepository.add(apartment1);
         assertNotNull(apartmentRepository.getById(1));
@@ -42,7 +42,7 @@ class ApartmentRepositoryImplTest {
     }
 
     @Test
-    void Update() {
+    void update() {
         assertNull(apartmentRepository.getById(1));
         apartmentRepository.add(apartment1);
         assertNotNull(apartmentRepository.getById(1));
@@ -57,7 +57,7 @@ class ApartmentRepositoryImplTest {
     }
 
     @Test
-    void GetAll() {
+    void getAll() {
         assertTrue(apartmentRepository.getAll().isEmpty());
         apartmentRepository.add(apartment1);
         apartmentRepository.add(apartment2);
@@ -67,7 +67,7 @@ class ApartmentRepositoryImplTest {
     }
 
     @Test
-    void Delete() {
+    void delete() {
         apartmentRepository.add(apartment1);
         assertNotNull(apartmentRepository.getById(1));
         apartmentRepository.delete(apartment1);
