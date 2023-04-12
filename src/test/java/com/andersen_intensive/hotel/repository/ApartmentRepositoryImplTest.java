@@ -3,7 +3,6 @@ package com.andersen_intensive.hotel.repository;
 import com.andersen_intensive.hotel.models.Apartment;
 import com.andersen_intensive.hotel.models.ApartmentStatus;
 import com.andersen_intensive.hotel.models.ApartmentType;
-import com.andersen_intensive.hotel.repository.ApartmentRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
