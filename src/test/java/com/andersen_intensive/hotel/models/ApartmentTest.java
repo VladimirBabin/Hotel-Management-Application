@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ApartmentTest {
     @Test
-    void ToString() {
+    void testToString() {
         Apartment apartment = new Apartment(1, BigDecimal.valueOf(100), ApartmentType.SINGLE);
         String expected = """
                 Apartment number 1
@@ -20,7 +20,7 @@ class ApartmentTest {
     }
 
     @Test
-    void Equals() {
+    void testEquals() {
         Apartment apartment1 = new Apartment(1, BigDecimal.valueOf(100), ApartmentType.SINGLE);
         Apartment apartment2 = new Apartment(1, BigDecimal.valueOf(150), ApartmentType.DOUBLE);
 
@@ -28,7 +28,7 @@ class ApartmentTest {
     }
 
     @Test
-    void HashCode() {
+    void testHashCode() {
         Apartment apartment1 = new Apartment(1, BigDecimal.valueOf(100), ApartmentType.SINGLE);
         Apartment apartment2 = new Apartment(1, BigDecimal.valueOf(150), ApartmentType.DOUBLE);
 
