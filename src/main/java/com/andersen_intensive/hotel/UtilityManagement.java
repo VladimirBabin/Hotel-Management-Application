@@ -35,7 +35,7 @@ public class UtilityManagement {
         }
     }
 
-    private static void changeUtilityPrice(BufferedReader bufferedReader, UtilityService utilityService) {
+    private static void changeUtilityPrice(BufferedReader bufferedReader, UtilityService utilityService) throws IOException {
         int newPrice, utilityId;
         System.out.println("Enter new price of utility:");
         newPrice = enterPositiveInteger(bufferedReader);
@@ -98,6 +98,8 @@ public class UtilityManagement {
         System.out.println("Enter utility price:");
         int price = enterPositiveInteger(bufferedReader);
         utilityService.saveService(utilityName, BigDecimal.valueOf(price));
+        System.out.println("New utility was successfully added!");
+        System.out.println("Name: " + utilityName + "\n" + "Price: $" + price);
     }
 
     private static int enterPositiveInteger(BufferedReader bufferedReader) {

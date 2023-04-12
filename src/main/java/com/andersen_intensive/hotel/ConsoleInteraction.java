@@ -29,7 +29,7 @@ public class ConsoleInteraction {
     private static final String MENU = "Menu:" + "\n" +
             "1. Client management" + "\n" +
             "2. Apartment management" + "\n" +
-            "3. Service management" + "\n" +
+            "3. Utility management" + "\n" +
             "4. Check-in" + "\n" +
             "5. Check-out" + "\n" +
             "6. Get the current price for client's stay" + "\n" +
