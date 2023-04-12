@@ -5,7 +5,6 @@ import com.andersen_intensive.hotel.models.Apartment;
 import java.util.*;
 
 public class ApartmentRepositoryImpl implements ApartmentRepository {
-
     private final Map<Integer, Apartment> apartments = new HashMap<>();
 
     @Override
@@ -28,13 +27,10 @@ public class ApartmentRepositoryImpl implements ApartmentRepository {
 
     public List<Apartment> getAll() {
         return new ArrayList<>(apartments.values());
-
     }
 
     @Override
     public void delete(Apartment apartment) {
-        apartments.values().removeIf(a -> a.equals(apartment));
-
+        apartments.remove(apartment.getApartmentId());
     }
-
 }

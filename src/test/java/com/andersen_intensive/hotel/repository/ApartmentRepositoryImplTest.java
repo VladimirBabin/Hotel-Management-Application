@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ApartmentRepositoryImplTest {
-
     private ApartmentRepositoryImpl apartmentRepository;
     private Apartment apartment1;
     private Apartment apartment2;
@@ -47,11 +46,9 @@ class ApartmentRepositoryImplTest {
         apartmentRepository.add(apartment1);
         assertNotNull(apartmentRepository.getById(1));
         assertEquals(apartment1, apartmentRepository.getById(1));
-
         apartment1.setPrice(new BigDecimal("200"));
         apartment1.setApartmentStatus(ApartmentStatus.OCCUPIED);
         apartmentRepository.update(apartment1);
-
         assertNotNull(apartmentRepository.getById(1));
         assertEquals(apartment1, apartmentRepository.getById(1));
     }
@@ -73,5 +70,4 @@ class ApartmentRepositoryImplTest {
         apartmentRepository.delete(apartment1);
         assertNull(apartmentRepository.getById(1));
     }
-
 }

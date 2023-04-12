@@ -6,7 +6,7 @@ import java.util.Objects;
 public class Apartment {
     private final int apartmentId;
     private BigDecimal price;
-    private ApartmentType apartmentType;
+    private final ApartmentType apartmentType;
     private ApartmentStatus apartmentStatus;
 
     public Apartment(int apartmentId, BigDecimal price, ApartmentType apartmentType) {
@@ -48,6 +48,7 @@ public class Apartment {
                 "type apartment: " + apartmentType + "\n" +
                 "status: " + apartmentStatus + "\n";
     }
+
     public String toStringList() {
         return "Apartment number " +
                 apartmentId +
@@ -61,15 +62,12 @@ public class Apartment {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Apartment apartment = (Apartment) o;
-        return apartmentId == apartment.apartmentId && Objects.equals(price, apartment.price) && apartmentType == apartment.apartmentType && apartmentStatus == apartment.apartmentStatus;
+        return apartmentId == apartment.apartmentId && Objects.equals(price, apartment.price) && apartmentType ==
+                apartment.apartmentType && apartmentStatus == apartment.apartmentStatus;
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(apartmentId);
-    }
-
-    public void setApartmentType(ApartmentType apartmentType) {
-        this.apartmentType = apartmentType;
     }
 }
