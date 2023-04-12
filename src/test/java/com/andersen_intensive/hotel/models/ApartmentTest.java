@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ApartmentTest {
 
-
     @Test
     void getApartmentId() {
         Apartment apartment = new Apartment(1, BigDecimal.valueOf(100), ApartmentType.SINGLE);
@@ -57,8 +56,12 @@ class ApartmentTest {
     @Test
     void ToString() {
         Apartment apartment = new Apartment(1, BigDecimal.valueOf(100), ApartmentType.SINGLE);
-        String expected = "Apartment number 1\nprice: $100\n" +
-                "type apartment: SINGLE\nstatus: AVAILABLE\n";
+        String expected = """
+                Apartment number 1
+                price: $100
+                type apartment: SINGLE
+                status: AVAILABLE
+                """;
         assertEquals(expected, apartment.toString());
     }
 
@@ -66,7 +69,7 @@ class ApartmentTest {
     void Equals() {
         Apartment apartment1 = new Apartment(1, BigDecimal.valueOf(100), ApartmentType.SINGLE);
         Apartment apartment2 = new Apartment(1, BigDecimal.valueOf(150), ApartmentType.DOUBLE);
-        assertFalse(apartment1.equals(apartment2));
+        assertNotEquals(apartment1, apartment2);
     }
 
     @Test
