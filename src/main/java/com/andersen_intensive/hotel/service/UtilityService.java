@@ -9,7 +9,7 @@ public interface UtilityService {
     Utility saveService(String name, BigDecimal price);
     List<Utility> sortByName();
     List<Utility> sortByPrice();
-    void showAllUtilities();
+    List<Utility> showAllUtilities();
     Utility getUtilityById(int utilityId);
     void changePrice(int utilityId, BigDecimal newPrice);
 }
