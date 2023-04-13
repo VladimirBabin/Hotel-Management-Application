@@ -4,6 +4,7 @@ import com.andersen_intensive.hotel.models.Apartment;
 import com.andersen_intensive.hotel.models.ApartmentStatus;
 import com.andersen_intensive.hotel.models.ApartmentType;
 import com.andersen_intensive.hotel.service.ApartmentService;
+import com.moandjiezana.toml.Toml;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,7 +13,6 @@ import java.util.Comparator;
 import java.util.List;
 
 public class ApartmentManagement {
-
     private static final String APARTMENT_MANAGEMENT_MENU = """
             1. Add apartment
             2. Show list of apartments
@@ -43,12 +43,12 @@ public class ApartmentManagement {
                     break;
             }
         }
-
     }
 
     private static void addApartment(BufferedReader bufferedReader, ApartmentService apartmentService) throws IOException {
         System.out.println("Enter apartment number:");
         int apartmentId;
+
         while (true) {
             try {
                 apartmentId = Integer.parseInt(bufferedReader.readLine());
@@ -69,30 +69,23 @@ public class ApartmentManagement {
 
         System.out.println("Enter price per night:");
         BigDecimal apartmentPrice = enterApartmentPrice(bufferedReader);
-
         System.out.println("Enter room type: 1 for single bed, 2 for double bed:");
         ApartmentType apartmentType = enterApartmentType(bufferedReader);
-
         Apartment apartment = new Apartment(apartmentId, apartmentPrice, apartmentType);
         System.out.println(apartment);
-
         apartmentService.add(apartment);
-
         System.out.println("Apartment added successfully!");
         System.out.println(" ");
     }
 
     private static void showListOfApartments(BufferedReader bufferedReader, ApartmentService apartmentService) throws IOException {
         System.out.println("List of available apartments:" + "\n");
-
         List<Apartment> apartments = apartmentService.getAll();
-
         if (apartments.isEmpty()) {
             System.out.println("No apartments found.");
         } else {
             System.out.println("Sort by: 1 - price, 2 - status, 3 - type, 4 - no sorting");
             int sortOption = Integer.parseInt(bufferedReader.readLine());
-
             switch (sortOption) {
                 case 1 -> apartments.sort(Comparator.comparing(Apartment::getApartmentPrice));
                 case 2 -> apartments.sort(Comparator.comparing(Apartment::getApartmentStatus));
@@ -100,7 +93,6 @@ public class ApartmentManagement {
                 default -> {
                 }
             }
-
             for (Apartment ap : apartments) {
                 System.out.println(ap.toStringList());
             }
@@ -108,34 +100,34 @@ public class ApartmentManagement {
         System.out.println(" ");
     }
 
-
     private static void changeApartmentStatus(BufferedReader bufferedReader, ApartmentService apartmentService) throws IOException {
+        Toml toml = new Toml().read(HotelManagementApplication.class.getResourceAsStream("/application.toml"));
+        boolean apartmentStatusEnabled = toml.getBoolean("application.apartmentStatusChange.apartmentStatusEnabled");
+        if (!apartmentStatusEnabled) {
+            System.out.println("Changing apartment status is disabled!");
+            System.out.println();
+            return;
+        }
         System.out.println("Enter apartment number:");
         int apartmentId = Integer.parseInt(bufferedReader.readLine());
-
         Apartment apartment = apartmentService.getById(apartmentId);
 
         if (apartment == null) {
             System.out.println("Apartment not found!");
             return;
         }
-
         System.out.println("Enter new status (1 for available, 2 for occupied, 3 for unavailable):");
         String statusStr = bufferedReader.readLine();
         ApartmentStatus newStatus = ApartmentStatus.values()[Integer.parseInt(statusStr) - 1];
-        ConsoleInteraction.apartmentService.setStatus(apartmentId, newStatus);
-
+        apartmentService.setStatus(apartmentId, newStatus);
         System.out.println("Apartment status has been updated to " + newStatus.name().toLowerCase() + ".");
         System.out.println(" ");
     }
 
-
     private static void changeApartmentPrice(BufferedReader bufferedReader, ApartmentService apartmentService) throws IOException {
         System.out.println("Enter apartment number:");
         int apartmentId = Integer.parseInt(bufferedReader.readLine());
-
         Apartment apartment = apartmentService.getById(apartmentId);
-
         if (apartment == null) {
             System.out.println("Apartment not found!");
             return;
@@ -143,12 +135,8 @@ public class ApartmentManagement {
 
         System.out.println("Enter new price per night:");
         BigDecimal newPrice = enterApartmentPrice(bufferedReader);
-
         apartment.setPrice(newPrice);
-
-
         apartmentService.updatePrice(apartmentId, newPrice);
-
         System.out.println("Apartment price has been updated.");
         System.out.println(" ");
     }

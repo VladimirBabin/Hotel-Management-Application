@@ -8,7 +8,6 @@ import com.andersen_intensive.hotel.repository.ApartmentRepository;
 import java.math.BigDecimal;
 import java.util.List;
 
-
 public class ApartmentServiceImpl implements ApartmentService {
 
     private final ApartmentRepository apartmentRepository;
@@ -44,13 +43,10 @@ public class ApartmentServiceImpl implements ApartmentService {
 
     public void updatePrice(int apartmentId, BigDecimal newPrice) {
         Apartment apartment = apartmentRepository.getById(apartmentId);
-        if (apartment == null) {
-            System.out.println("Apartment not found!");
-            return;
+        if (apartment != null) {
+            apartment.setPrice(newPrice);
+            apartmentRepository.update(apartment);
         }
-        apartment.setPrice(newPrice);
-        apartmentRepository.update(apartment);
-
     }
 
     @Override
