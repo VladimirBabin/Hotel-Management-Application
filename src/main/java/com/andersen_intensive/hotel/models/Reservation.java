@@ -12,6 +12,7 @@ import java.util.List;
 @Setter
 @Getter
 public class Reservation {
+
     private int id;
     private Client client;
     private Apartment apartment;

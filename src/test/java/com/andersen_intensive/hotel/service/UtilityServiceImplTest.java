@@ -1,15 +1,16 @@
 package com.andersen_intensive.hotel.service;
 
 import com.andersen_intensive.hotel.models.Utility;
-import com.andersen_intensive.hotel.repository.UtilityRepository;
 import com.andersen_intensive.hotel.repository.UtilityRepositoryImpl;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class UtilityServiceImplTest {
 

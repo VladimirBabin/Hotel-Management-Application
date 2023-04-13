@@ -18,7 +18,9 @@ public class UtilityManagement {
             "4. Change service price" + "\n" + "\n" +
             "To go back type 0";
 
-    public static void showUtilityManagementMenu(BufferedReader bufferedReader, UtilityService utilityService, ReservationService reservationService)
+    public static void showUtilityManagementMenu(BufferedReader bufferedReader,
+                                                 UtilityService utilityService,
+                                                 ReservationService reservationService)
             throws IOException {
         System.out.println(UTILITY_MANAGEMENT_MENU);
         while (true) {
@@ -105,11 +107,11 @@ public class UtilityManagement {
     }
 
     private static int enterPositiveInteger(BufferedReader bufferedReader) {
-        int newPrice;
+        int value;
         while (true) {
             try {
-                newPrice = Integer.parseInt(bufferedReader.readLine());
-                if (newPrice < 0) {
+                value = Integer.parseInt(bufferedReader.readLine());
+                if (value < 0) {
                     System.out.println("Value cannot be negative");
                 } else {
                     break;
@@ -118,6 +120,6 @@ public class UtilityManagement {
                 System.out.println("Please type a valid number");
             }
         }
-        return newPrice;
+        return value;
     }
 }

@@ -14,5 +14,4 @@ public interface ReservationRepository {
     Reservation updateReservation(Reservation reservation);
 
     void deleteReservation(int id);
-
 }
