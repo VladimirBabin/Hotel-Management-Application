@@ -2,7 +2,6 @@ package com.andersen_intensive.hotel.service;
 
 import com.andersen_intensive.hotel.models.Reservation;
 import com.andersen_intensive.hotel.repository.ReservationRepository;
-
 import java.util.List;
 
 public class ReservationServiceImpl implements ReservationService {

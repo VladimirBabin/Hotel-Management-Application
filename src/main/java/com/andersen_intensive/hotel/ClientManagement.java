@@ -19,6 +19,7 @@ public class ClientManagement {
             """;
 
     static void showClientManagementMenu(BufferedReader bufferedReader, ClientService clientService) throws IOException {
+
         while (true) {
             while (true) {
                 System.out.println(CLIENT_MANAGEMENT_MENU);

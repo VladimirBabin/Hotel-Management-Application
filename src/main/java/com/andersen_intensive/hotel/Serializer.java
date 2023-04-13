@@ -5,15 +5,13 @@ import com.andersen_intensive.hotel.models.Client;
 import com.andersen_intensive.hotel.models.Reservation;
 import com.andersen_intensive.hotel.models.Utility;
 import lombok.SneakyThrows;
-import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 import org.codehaus.jackson.type.TypeReference;
-
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -45,7 +43,7 @@ public class Serializer {
             rootNode.put("utilities", utilitiesNode);
         }
 
-        try (FileWriter fileWriter = new FileWriter("D:\\hotelAfterComments\\ser")) {
+        try (FileWriter fileWriter = new FileWriter("state")) {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(fileWriter, rootNode);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -56,7 +54,7 @@ public class Serializer {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
 
-            File file = new File("ser.json");
+            File file = new File("state");
 
             Map<String, ArrayList<Client>> clientDataMap = objectMapper.readValue(file,
                     new TypeReference<Map<String, ArrayList<Client>>>() {
@@ -98,5 +96,4 @@ public class Serializer {
             throw new RuntimeException(e);
         }
     }
-
 }

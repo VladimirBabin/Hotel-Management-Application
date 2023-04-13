@@ -1,7 +1,6 @@
 package com.andersen_intensive.hotel.service;
 
 import com.andersen_intensive.hotel.models.Reservation;
-
 import java.util.List;
 
 public interface ReservationService {

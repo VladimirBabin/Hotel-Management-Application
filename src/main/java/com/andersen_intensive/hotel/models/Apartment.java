@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Apartment {
+
     private final int apartmentId;
     private BigDecimal price;
     private final ApartmentType apartmentType;

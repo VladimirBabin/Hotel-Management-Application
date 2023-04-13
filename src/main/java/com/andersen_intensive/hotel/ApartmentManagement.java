@@ -5,7 +5,6 @@ import com.andersen_intensive.hotel.models.ApartmentStatus;
 import com.andersen_intensive.hotel.models.ApartmentType;
 import com.andersen_intensive.hotel.service.ApartmentService;
 import com.moandjiezana.toml.Toml;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -13,6 +12,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class ApartmentManagement {
+
     private static final String APARTMENT_MANAGEMENT_MENU = """
             1. Add apartment
             2. Show list of apartments
@@ -140,7 +140,6 @@ public class ApartmentManagement {
         System.out.println("Apartment price has been updated.");
         System.out.println(" ");
     }
-
 
     private static ApartmentType enterApartmentType(BufferedReader bufferedReader) {
         try {

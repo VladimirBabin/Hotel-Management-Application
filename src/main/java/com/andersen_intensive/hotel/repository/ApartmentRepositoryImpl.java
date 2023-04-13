@@ -2,9 +2,13 @@ package com.andersen_intensive.hotel.repository;
 
 import com.andersen_intensive.hotel.models.Apartment;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ApartmentRepositoryImpl implements ApartmentRepository {
+
     private final Map<Integer, Apartment> apartments = new HashMap<>();
 
     @Override
@@ -24,7 +28,6 @@ public class ApartmentRepositoryImpl implements ApartmentRepository {
     }
 
     @Override
-
     public List<Apartment> getAll() {
         return new ArrayList<>(apartments.values());
     }
