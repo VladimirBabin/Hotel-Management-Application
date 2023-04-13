@@ -13,7 +13,9 @@ import org.codehaus.jackson.type.TypeReference;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class Serializer {
 
@@ -51,35 +53,46 @@ public class Serializer {
     }
 
     public void deserialization() throws RuntimeException {
+        ObjectMapper objectMapper = new ObjectMapper();
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            File file = new File("D:\\hotelAfterComments\\ser");
-            JsonNode rootNode = objectMapper.readTree(file);
 
-            List<Client> clients = new ArrayList<>();
-            if (rootNode.has("clients")) {
-                JsonNode clientsNode = rootNode.get("clients");
-                clients = objectMapper.readValue(clientsNode.traverse(), new TypeReference<List<Client>>() {});
+            File file = new File("ser.json");
+
+            Map<String, ArrayList<Client>> clientDataMap = objectMapper.readValue(file,
+                    new TypeReference<Map<String, ArrayList<Client>>>() {
+                    });
+            ArrayList<Client> clients = clientDataMap.get("clients");
+            System.out.println("Clients:");
+            for (Client client: clients) {
+                System.out.println(client);
             }
 
-            List<Apartment> apartments = new ArrayList<>();
-            if (rootNode.has("apartments")) {
-                JsonNode apartmentsNode = rootNode.get("apartments");
-                apartments = objectMapper.readValue(apartmentsNode.traverse(), new TypeReference<List<Apartment>>() {});
+            Map<String, ArrayList<Apartment>> apartmentDataMap = objectMapper.readValue(file,
+                    new TypeReference<Map<String, ArrayList<Apartment>>>() {
+                    });
+            ArrayList<Apartment> apartments = apartmentDataMap.get("apartments");
+            System.out.println("\nApartments:");
+            for (Apartment apartment: apartments) {
+                System.out.println(apartment);
             }
 
-            List<Reservation> reservations = new ArrayList<>();
-            if (rootNode.has("reservations")) {
-                JsonNode reservationsNode = rootNode.get("reservations");
-                reservations = objectMapper.readValue(reservationsNode.traverse(), new TypeReference<List<Reservation>>() {});
+            Map<String, ArrayList<Reservation>> reservationDataMap = objectMapper.readValue(file,
+                    new TypeReference<Map<String, ArrayList<Reservation>>>() {
+                    });
+            ArrayList<Reservation> reservations = reservationDataMap.get("reservations");
+            System.out.println("\nReservations:");
+            for (Reservation reservation: reservations) {
+                System.out.println(reservation);
             }
 
-            List<Utility> utilities = new ArrayList<>();
-            if (rootNode.has("utilities")) {
-                JsonNode utilitiesNode = rootNode.get("utilities");
-                utilities = objectMapper.readValue(utilitiesNode.traverse(), new TypeReference<List<Utility>>() {});
+            Map<String, ArrayList<Utility>> utilityDataMap = objectMapper.readValue(file,
+                    new TypeReference<Map<String, ArrayList<Utility>>>() {
+                    });
+            ArrayList<Utility> utilities = utilityDataMap.get("utilities");
+            System.out.println("\nReservations:");
+            for (Utility utility: utilities) {
+                System.out.println(utility);
             }
-
 
         } catch (Exception e) {
             throw new RuntimeException(e);
