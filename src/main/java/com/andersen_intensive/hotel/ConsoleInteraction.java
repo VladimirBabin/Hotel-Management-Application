@@ -6,7 +6,6 @@ import com.andersen_intensive.hotel.repository.ClientRepositoryImpl;
 import com.andersen_intensive.hotel.repository.ReservationRepositoryImpl;
 import com.andersen_intensive.hotel.repository.UtilityRepositoryImpl;
 import com.andersen_intensive.hotel.service.*;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,9 +14,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 public class ConsoleInteraction {
 
@@ -69,7 +65,6 @@ public class ConsoleInteraction {
         }
     }
 
-    //    Vova
     static private void checkIn(BufferedReader bufferedReader) throws IOException {
         int id;
         int number;
@@ -98,7 +93,6 @@ public class ConsoleInteraction {
         }
 
         Client client = clientService.getClientByID(id);
-
 
         if (!apartmentService.isValid(number)) {
             while (true) {
@@ -153,10 +147,8 @@ public class ConsoleInteraction {
         }
     }
 
-    //    Vova
     static private void checkOut(BufferedReader bufferedReader) throws IOException {
 
-//        Ищем бронирование по юзер айди
         int clientId;
         while (true) {
             System.out.println("Client's id:");
@@ -169,16 +161,7 @@ public class ConsoleInteraction {
                 System.out.println("Please type a valid number");
             }
         }
-//        if (!reservationService.checkIfOpenReservationExistsForClient(clientId)) {
-//            while(true) {
-//                System.out.println("There are no unfinished reservations for the user \n\n");
-//                System.out.println("To go back type 1");
-//                String input = bufferedReader.readLine();
-//                if (input.equals("1")) {
-//                    return;
-//                }
-//            }
-//        }
+
         Reservation reservation = reservationService.getReservationByID(clientId);
         if (reservation == null) {
             System.out.println("No such user was found");

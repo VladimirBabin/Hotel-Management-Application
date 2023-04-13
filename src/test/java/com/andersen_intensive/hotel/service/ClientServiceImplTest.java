@@ -1,64 +1,62 @@
 package com.andersen_intensive.hotel.service;
 
 import com.andersen_intensive.hotel.models.Client;
-import com.andersen_intensive.hotel.repository.ApartmentRepository;
-import com.andersen_intensive.hotel.repository.ApartmentRepositoryImpl;
-import com.andersen_intensive.hotel.repository.ClientRepository;
-import com.andersen_intensive.hotel.repository.ClientRepositoryImpl;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
+import com.andersen_intensive.hotel.repository.*;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
-
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class ClientServiceImplTest {
 
-    private ClientRepository clientRepository;
-    private ClientService clientService;
+    private static ClientService clientService;
+    private static ClientRepository clientRepository;
 
-    @BeforeEach
-    void setUp() {
+    @BeforeAll
+    static void setUp() {
         clientRepository = new ClientRepositoryImpl();
         clientService = new ClientServiceImpl(clientRepository);
+
+        clientService.createClient("Max", "Muse", "+79211112233");
+        clientService.createClient("Alex", "Moose", "+79211112244");
+        clientService.createClient("David", "Mouse", "+79211112255");
     }
 
     @Test
     void createClientTest() {
-        Client client = clientService.createClient("Vlad", "Pirozkov", "+79213334455");
-        Assertions.assertEquals(1, client.getPersonalID());
-        Assertions.assertEquals("Vlad", client.getFirstName());
-        Assertions.assertEquals("Pirozkov", client.getLastName());
-        Assertions.assertEquals("+79213334455", client.getPhoneNumber());
+        clientService.createClient("Seth", "Rogen", "+79211112266");
+        assertEquals(4, clientRepository.getAllClients().size());
     }
 
     @Test
-    void getClientByIDTest() {
-        Client client = clientService.createClient("Vlad", "Pirozkov", "+79213334455");
-        Client client1 = clientService.getClientByID(1);
-        Assertions.assertEquals(client, client1);
+    void getClientListSortedByLastNameTest() {
+        List<Client> expectedClients = new ArrayList<>();
+        expectedClients.add(clientRepository.getClientById(2244));
+        expectedClients.add(clientRepository.getClientById(2255));
+        expectedClients.add(clientRepository.getClientById(2233));
+        expectedClients.add(clientRepository.getClientById(2266));
+        assertEquals(expectedClients, clientService.getClientListSortedByLastName());
     }
 
     @Test
-    void getClientListTest() {
-        assertTrue(clientService.getClientList(false).isEmpty());
+    void getClientListSortedByID() {
+        List<Client> expectedClients = new ArrayList<>();
+        expectedClients.add(clientRepository.getClientById(2233));
+        expectedClients.add(clientRepository.getClientById(2244));
+        expectedClients.add(clientRepository.getClientById(2255));
+        expectedClients.add(clientRepository.getClientById(2266));
+        assertEquals(expectedClients, clientService.getClientListSortedByID());
+    }
 
-        clientService.createClient("Andrew", "Werdna", "+79112324888");
-        clientService.createClient("Alex", "Xela", "+79212324888");
-        clientService.createClient("Roman", "Narom", "+79991112233");
-
-        assertFalse(clientService.getClientList(false).isEmpty());
-        assertEquals(3, clientService.getClientList(false).size());
+    @Test
+    void getClientByIdTest() {
+        assertEquals("Max", clientService.getClientByID(2233).getFirstName());
     }
 
     @Test
     void removeClientTest() {
-    }
-
-    @Test
-    void updateClientTest() {
+        clientService.removeClient(2233);
+        assertEquals(3, clientService.getClientListWithoutSorting().size());
     }
 }

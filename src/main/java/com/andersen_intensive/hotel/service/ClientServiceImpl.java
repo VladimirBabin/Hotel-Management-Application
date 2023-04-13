@@ -2,7 +2,6 @@ package com.andersen_intensive.hotel.service;
 
 import com.andersen_intensive.hotel.models.Client;
 import com.andersen_intensive.hotel.repository.ClientRepository;
-
 import java.util.Comparator;
 import java.util.List;
 
@@ -46,5 +45,4 @@ public class ClientServiceImpl implements ClientService {
     public void removeClient(int id) {
         clientRepository.deleteClient(id);
     }
-
 }
