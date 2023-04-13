@@ -2,13 +2,10 @@ package com.andersen_intensive.hotel;
 
 import com.andersen_intensive.hotel.models.Client;
 import com.andersen_intensive.hotel.service.ClientService;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-
 import static com.andersen_intensive.hotel.ConsoleInteraction.clientService;
 
 public class ClientManagement {
