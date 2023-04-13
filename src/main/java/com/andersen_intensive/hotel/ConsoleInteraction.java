@@ -68,6 +68,7 @@ public class ConsoleInteraction {
     static private void checkIn(BufferedReader bufferedReader) throws IOException {
         int id;
         int number;
+        int reservationId;
 
         while (true) {
             System.out.println("Client's id:");
@@ -119,7 +120,18 @@ public class ConsoleInteraction {
             }
         }
 
-        Reservation reservation = new Reservation(client, apartment, LocalDate.now());
+        while (true) {
+            System.out.println("Number of Reservation:");
+            String reservationNumber = bufferedReader.readLine();
+            try {
+                reservationId = Integer.parseInt(reservationNumber);
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Please type a valid number");
+            }
+        }
+
+        Reservation reservation = new Reservation(reservationId, client, apartment, LocalDate.now());
         reservationService.createReservation(reservation);
 
         System.out.println("Information about the reservation:");

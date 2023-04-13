@@ -8,12 +8,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Data
 @Setter
 @Getter
 public class Reservation {
-    private static int count = 0;
     private int id;
     private Client client;
     private Apartment apartment;
@@ -21,8 +19,8 @@ public class Reservation {
     private LocalDate checkIn;
     private LocalDate checkOut;
 
-    public Reservation(Client client, Apartment apartment, LocalDate checkIn) {
-        this.id = ++count;
+    public Reservation(int id, Client client, Apartment apartment, LocalDate checkIn) {
+        this.id = id;
         this.client = client;
         this.apartment = apartment;
         this.checkIn = checkIn;

@@ -16,11 +16,11 @@ public class UtilityServiceImpl implements UtilityService {
     }
 
     @Override
-    public Utility saveService(String name, BigDecimal price) {
+    public Utility saveService(int id, String name, BigDecimal price) {
         if (price.compareTo(new BigDecimal(0)) < 0) {
             throw new IllegalArgumentException("Price cannot be negative");
         }
-        Utility utility = new Utility(name, price);
+        Utility utility = new Utility(id, name, price);
         return utilityRepository.addUtility(utility);
     }
 
