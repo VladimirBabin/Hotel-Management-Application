@@ -3,13 +3,12 @@ package com.andersen_intensive.hotel.models;
 import java.math.BigDecimal;
 
 public class Utility {
-    private static int count = 0;
     private int id;
     private String name;
     private BigDecimal price;
 
-    public Utility(String name, BigDecimal price) {
-        this.id = ++count;
+    public Utility(int id, String name, BigDecimal price) {
+        this.id = id;
         this.name = name;
         this.price = price;
     }
