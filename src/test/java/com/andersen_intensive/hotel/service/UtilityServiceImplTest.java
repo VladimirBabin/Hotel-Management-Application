@@ -63,11 +63,4 @@ class UtilityServiceImplTest {
         utilityService.changePrice(2, new BigDecimal(1000));
         assertEquals(new BigDecimal(1000), utilityService.getUtilityById(2).getPrice());
     }
-
-    @AfterEach
-    void cleanUp() {
-        for (Utility utility: utilityService.showAllUtilities()) {
-            utilityRepositoryTest.deleteUtility(utility);
-        }
-    }
 }

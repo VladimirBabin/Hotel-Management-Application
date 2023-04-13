@@ -4,64 +4,55 @@ import com.andersen_intensive.hotel.models.Apartment;
 import com.andersen_intensive.hotel.models.ApartmentType;
 import com.andersen_intensive.hotel.models.Client;
 import com.andersen_intensive.hotel.models.Reservation;
-import com.andersen_intensive.hotel.service.*;
 import org.junit.jupiter.api.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ReservationRepositoryImplTest {
 
-    private static ClientService clientService;
-    private static ApartmentService apartmentService;
-    private static ReservationRepository reservationRepository;
+    private final ReservationRepositoryImpl reservationRepository = new ReservationRepositoryImpl();
 
-    @BeforeAll
-    static void setUp() {
-        reservationRepository = new ReservationRepositoryImpl();
-        ClientRepository clientRepository = new ClientRepositoryImpl();
-        clientService = new ClientServiceImpl(clientRepository);
-        ApartmentRepository apartmentRepository = new ApartmentRepositoryImpl();
-        apartmentService = new ApartmentServiceImpl(apartmentRepository);
-
-        Client client1 = clientService.createClient("Peter", "Parker", "88005553535");
-        Apartment apartment1 = apartmentService.create(1, BigDecimal.valueOf(150), ApartmentType.DOUBLE);
-        Reservation newReservation1 = new Reservation(client1, apartment1, LocalDate.now());
+    @BeforeEach
+    void setUp() {
+        Client client1 = new Client("Vlad", "Pirozkov", "+79213334455");
+        Apartment apartment1 = new Apartment(1, BigDecimal.valueOf(100), ApartmentType.SINGLE);
+        Reservation newReservation1 = new Reservation(1, client1, apartment1, LocalDate.now());
         reservationRepository.addReservation(newReservation1);
 
-        Client client2 = clientService.createClient("Bruce", "Wayne", "+79654876422");
-        Apartment apartment2 = apartmentService.create(2, BigDecimal.valueOf(250), ApartmentType.SINGLE);
-        Reservation newReservation2 = new Reservation(client2, apartment2, LocalDate.parse("2018-12-27"));
+        Client client2 = new Client("Bruce", "Wayne", "+79219218765");
+        Apartment apartment2 = new Apartment(2, BigDecimal.valueOf(100), ApartmentType.SINGLE);
+        Reservation newReservation2 = new Reservation(2, client2, apartment2, LocalDate.now());
         reservationRepository.addReservation(newReservation2);
+
+        Client client3 = new Client("Peter", "Parker", "+78128127654");
+        Apartment apartment3 = new Apartment(3, BigDecimal.valueOf(100), ApartmentType.DOUBLE);
+        Reservation newReservation3 = new Reservation(3, client3, apartment3, LocalDate.now());
+        reservationRepository.addReservation(newReservation3);
     }
 
-    @Order(1)
     @Test
     void addReservation() {
-        Client client = clientService.createClient("Vlad", "Pirozkov", "+79213334455");
-        Apartment apartment = apartmentService.create(3, BigDecimal.valueOf(100), ApartmentType.SINGLE);
-        Reservation newReservation = new Reservation(client, apartment, LocalDate.now());
+        Client client = new Client("Vlad", "Pirozkov", "+79213334455");
+        Apartment apartment = new Apartment(4, BigDecimal.valueOf(100), ApartmentType.DOUBLE);
+        Reservation newReservation = new Reservation(4, client, apartment, LocalDate.now());
 
         reservationRepository.addReservation(newReservation);
-        assertEquals(3, reservationRepository.getAllReservationsList().size());
+        assertEquals(4, reservationRepository.getAllReservationsList().size());
     }
 
-    @Order(2)
     @Test
     void getReservationById() {
-        assertEquals("Vlad", reservationRepository.getReservationById(3).getClient().getFirstName());
+        assertEquals("Peter", reservationRepository.getReservationById(3).getClient().getFirstName());
     }
 
-    @Order(3)
     @Test
     void getAllReservationsList() {
         assertEquals(3, reservationRepository.getAllReservationsList().size());
     }
 
-    @Order(4)
     @Test
     void updateReservation() {
         Reservation reservation = reservationRepository.getReservationById(1);
@@ -70,7 +61,6 @@ class ReservationRepositoryImplTest {
         assertEquals(LocalDate.parse("2018-12-27"), reservationRepository.getReservationById(1).getCheckIn());
     }
 
-    @Order(5)
     @Test
     void deleteReservation() {
         reservationRepository.deleteReservation(2);

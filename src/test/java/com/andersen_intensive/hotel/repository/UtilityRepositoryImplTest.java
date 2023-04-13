@@ -7,10 +7,9 @@ import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class UtilityRepositoryImplTest {
 
-    final UtilityRepositoryImpl utilityRepository = new UtilityRepositoryImpl();
+    private final UtilityRepositoryImpl utilityRepository = new UtilityRepositoryImpl();
 
     @BeforeEach
     void setUp() {
@@ -25,7 +24,6 @@ class UtilityRepositoryImplTest {
         utilityRepository.addUtility(utility4);
     }
 
-    @Order(1)
     @Test
     void addUtilityTest() {
         Utility newUtility = new Utility(5, "Something", new BigDecimal(150));
@@ -33,14 +31,12 @@ class UtilityRepositoryImplTest {
         assertEquals(5, utilityRepository.getAllUtility().size());
     }
 
-    @Order(2)
     @Test
     void getUtilityByIdTest() {
         Utility utility = utilityRepository.getUtilityById(2);
         assertEquals("Ironing", utility.getName());
     }
 
-    @Order(3)
     @Test
     void updateUtilityTest() {
         Utility utility = utilityRepository.getUtilityById(3);
@@ -49,30 +45,20 @@ class UtilityRepositoryImplTest {
         assertEquals("Mail", utilityRepository.getByName("Mail").getName());
     }
 
-    @Order(4)
     @Test
     void getAllUtilityTest() {
         assertEquals(4, utilityRepository.getAllUtility().size());
     }
 
-    @Order(5)
     @Test
     void getByNameTest() {
         assertEquals(4, utilityRepository.getByName("Shoeshine").getId());
     }
 
-    @Order(6)
     @Test
     void deleteUtilityTest() {
         Utility utility = utilityRepository.getUtilityById(3);
         utilityRepository.deleteUtility(utility);
         assertEquals(3, utilityRepository.getAllUtility().size());
-    }
-
-    @AfterEach
-    void cleanUp() {
-        for (Utility utility: utilityRepository.getAllUtility()) {
-            utilityRepository.deleteUtility(utility);
-        }
     }
 }
