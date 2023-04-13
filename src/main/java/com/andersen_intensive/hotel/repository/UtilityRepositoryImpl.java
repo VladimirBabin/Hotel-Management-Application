@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class UtilityRepositoryImpl implements UtilityRepository {
 
-    private static Map<Integer, Utility> services = new HashMap<>();
+    private final Map<Integer, Utility> services = new HashMap<>();
 
     @Override
     public Utility addUtility(Utility utility) {
@@ -45,8 +45,6 @@ public class UtilityRepositoryImpl implements UtilityRepository {
 
     @Override
     public void deleteUtility(Utility utility) {
-        if (services.containsValue(utility)) {
-            services.remove(utility);
-        }
+        services.remove(utility.getId());
     }
 }

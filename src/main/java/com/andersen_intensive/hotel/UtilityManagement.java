@@ -93,11 +93,13 @@ public class UtilityManagement {
     }
 
     private static void addUtility(BufferedReader bufferedReader, UtilityService utilityService) throws IOException {
+        System.out.println("Enter utility id:");
+        int utilityId = enterPositiveInteger(bufferedReader);
         System.out.println("Enter utility name:");
         String utilityName = bufferedReader.readLine();
         System.out.println("Enter utility price:");
         int price = enterPositiveInteger(bufferedReader);
-        utilityService.saveService(utilityName, BigDecimal.valueOf(price));
+        utilityService.saveService(utilityId, utilityName, BigDecimal.valueOf(price));
         System.out.println("New utility was successfully added!");
         System.out.println("Name: " + utilityName + "\n" + "Price: $" + price);
     }

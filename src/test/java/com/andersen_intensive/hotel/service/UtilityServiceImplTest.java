@@ -3,8 +3,7 @@ package com.andersen_intensive.hotel.service;
 import com.andersen_intensive.hotel.models.Utility;
 import com.andersen_intensive.hotel.repository.UtilityRepository;
 import com.andersen_intensive.hotel.repository.UtilityRepositoryImpl;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -14,47 +13,43 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UtilityServiceImplTest {
 
-    private static UtilityService utilityService;
-    private static UtilityRepository utilityRepository;
+    private final UtilityRepositoryImpl utilityRepositoryTest = new UtilityRepositoryImpl();
+    private final UtilityServiceImpl utilityService = new UtilityServiceImpl(utilityRepositoryTest);
 
-    @BeforeAll
-    static void setUp() {
-        utilityRepository = new UtilityRepositoryImpl();
-        utilityService = new UtilityServiceImpl(utilityRepository);
-
-        utilityService.saveService("Ironing", new BigDecimal(100));
-        utilityService.saveService("Laundry", new BigDecimal(200));
-        utilityService.saveService("Champagne", new BigDecimal(50));
+    @BeforeEach
+    void setUp() {
+        utilityService.saveService(1, "Ironing", new BigDecimal(100));
+        utilityService.saveService(2, "Laundry", new BigDecimal(200));
+        utilityService.saveService(3, "Champagne", new BigDecimal(50));
     }
 
     @Test
     void saveServiceTest() {
-        utilityService.saveService("Shoeshine", new BigDecimal(150));
-        assertEquals(4, utilityRepository.getAllUtility().size());
+        utilityService.saveService(4, "Shoeshine", new BigDecimal(150));
+        assertEquals(4, utilityRepositoryTest.getAllUtility().size());
     }
 
     @Test
     void wrongSaveServiceTest() {
         assertThrows(IllegalArgumentException.class,
-                () -> utilityService.saveService("Valet", new BigDecimal(-100)));
+                () -> utilityService.saveService(5, "Valet", new BigDecimal(-100)));
     }
 
     @Test
     void sortByNameTest() {
         List<Utility> expectedUtilities = new ArrayList<>();
-        expectedUtilities.add(utilityRepository.getUtilityById(3));
-        expectedUtilities.add(utilityRepository.getUtilityById(1));
-        expectedUtilities.add(utilityRepository.getUtilityById(2));
-        expectedUtilities.add(utilityRepository.getUtilityById(4));
+        expectedUtilities.add(utilityRepositoryTest.getUtilityById(3));
+        expectedUtilities.add(utilityRepositoryTest.getUtilityById(1));
+        expectedUtilities.add(utilityRepositoryTest.getUtilityById(2));
         assertEquals(expectedUtilities, utilityService.sortByName());
     }
 
     @Test
     void sortByPriceTest() {
         List<Utility> expectedUtilities = new ArrayList<>();
-        expectedUtilities.add(utilityRepository.getUtilityById(3));
-        expectedUtilities.add(utilityRepository.getUtilityById(1));
-        expectedUtilities.add(utilityRepository.getUtilityById(2));
+        expectedUtilities.add(utilityService.getUtilityById(3));
+        expectedUtilities.add(utilityService.getUtilityById(1));
+        expectedUtilities.add(utilityService.getUtilityById(2));
         assertEquals(expectedUtilities, utilityService.sortByPrice());
     }
 
@@ -67,5 +62,12 @@ class UtilityServiceImplTest {
     void changePriceTest() {
         utilityService.changePrice(2, new BigDecimal(1000));
         assertEquals(new BigDecimal(1000), utilityService.getUtilityById(2).getPrice());
+    }
+
+    @AfterEach
+    void cleanUp() {
+        for (Utility utility: utilityService.showAllUtilities()) {
+            utilityRepositoryTest.deleteUtility(utility);
+        }
     }
 }
