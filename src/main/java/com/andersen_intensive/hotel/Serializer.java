@@ -5,13 +5,15 @@ import com.andersen_intensive.hotel.models.Client;
 import com.andersen_intensive.hotel.models.Reservation;
 import com.andersen_intensive.hotel.models.Utility;
 import lombok.SneakyThrows;
+import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 import org.codehaus.jackson.type.TypeReference;
-import java.io.File;
-import java.io.FileWriter;
+
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -43,57 +45,48 @@ public class Serializer {
             rootNode.put("utilities", utilitiesNode);
         }
 
-        try (FileWriter fileWriter = new FileWriter("state")) {
+        try (FileWriter fileWriter = new FileWriter("D:\\hotelAfterComments\\ser")) {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(fileWriter, rootNode);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void deserialization() throws RuntimeException {
-        ObjectMapper objectMapper = new ObjectMapper();
+    public static void deserialization() throws RuntimeException {
         try {
+            ObjectMapper mapper = new ObjectMapper();
 
-            File file = new File("state");
+            JsonNode rootNode = mapper.readTree(new File("G:\\ser"));
 
-            Map<String, ArrayList<Client>> clientDataMap = objectMapper.readValue(file,
-                    new TypeReference<Map<String, ArrayList<Client>>>() {
-                    });
-            ArrayList<Client> clients = clientDataMap.get("clients");
+            JsonNode clientsNode = rootNode.get("clients");
+            List<Map<String, Object>> clients = mapper.convertValue(clientsNode, List.class);
             System.out.println("Clients:");
-            for (Client client: clients) {
+            for (Map<String, Object> client : clients) {
                 System.out.println(client);
             }
 
-            Map<String, ArrayList<Apartment>> apartmentDataMap = objectMapper.readValue(file,
-                    new TypeReference<Map<String, ArrayList<Apartment>>>() {
-                    });
-            ArrayList<Apartment> apartments = apartmentDataMap.get("apartments");
+            JsonNode apartmentsNode = rootNode.get("apartments");
+            List<Map<String, Object>> apartments = mapper.convertValue(apartmentsNode, List.class);
             System.out.println("\nApartments:");
-            for (Apartment apartment: apartments) {
+            for (Map<String, Object> apartment : apartments) {
                 System.out.println(apartment);
             }
 
-            Map<String, ArrayList<Reservation>> reservationDataMap = objectMapper.readValue(file,
-                    new TypeReference<Map<String, ArrayList<Reservation>>>() {
-                    });
-            ArrayList<Reservation> reservations = reservationDataMap.get("reservations");
-            System.out.println("\nReservations:");
-            for (Reservation reservation: reservations) {
-                System.out.println(reservation);
-            }
-
-            Map<String, ArrayList<Utility>> utilityDataMap = objectMapper.readValue(file,
-                    new TypeReference<Map<String, ArrayList<Utility>>>() {
-                    });
-            ArrayList<Utility> utilities = utilityDataMap.get("utilities");
-            System.out.println("\nReservations:");
-            for (Utility utility: utilities) {
+            JsonNode utilitiesNode = rootNode.get("utilities");
+            List<Map<String, Object>> utilities = mapper.convertValue(utilitiesNode, List.class);
+            System.out.println("\nUtilities:");
+            for (Map<String, Object> utility : utilities) {
                 System.out.println(utility);
             }
 
+            JsonNode reservationsNode = rootNode.get("reservations");
+            List<Map<String, Object>> reservations = mapper.convertValue(reservationsNode, List.class);
+            System.out.println("\nReservations:");
+            for (Map<String, Object> reservation : reservations) {
+                System.out.println(reservation);
+            }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 }
