@@ -1,22 +1,32 @@
 package com.andersen_intensive.hotel.models;
 
 import lombok.Getter;
-import lombok.Setter;
 import java.util.Objects;
 
 @Getter
-@Setter
 public class Client {
 
     private String firstName;
     private String lastName;
     private int personalID;
-    private String phoneNumber;
+    private final String phoneNumber;
 
     public Client(String firstName, String lastName, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setPersonalID(int personalID) {
+        this.personalID = personalID;
     }
 
     @Override
@@ -29,7 +39,7 @@ public class Client {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof Client other) || obj == null) {
+        if (!(obj instanceof Client other)) {
             return false;
         }
         return this.firstName.equals(other.getFirstName()) && this.lastName.equals(other.getLastName())

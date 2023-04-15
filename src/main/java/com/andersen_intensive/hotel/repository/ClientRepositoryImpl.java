@@ -12,7 +12,7 @@ public class ClientRepositoryImpl implements ClientRepository {
 
     @Override
     public Client addClient(Client client) {
-        client.setPersonalID(Integer.parseInt(client.getPhoneNumber().substring(client.getPhoneNumber().length()-4)));
+        client.setPersonalID(Integer.parseInt(client.getPhoneNumber()));
         clients.put(client.getPersonalID(), client);
         return client;
     }

@@ -45,4 +45,10 @@ public class ClientServiceImpl implements ClientService {
     public void removeClient(int id) {
         clientRepository.deleteClient(id);
     }
+
+    @Override
+    public boolean isValid(int id) {
+        Client client = clientRepository.getClientById(id);
+        return client != null;
+    }
 }

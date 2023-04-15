@@ -16,4 +16,6 @@ public interface ClientService {
     List<Client> getClientListSortedByID();
 
     void removeClient(int id);
+
+    boolean isValid(int id);
 }
