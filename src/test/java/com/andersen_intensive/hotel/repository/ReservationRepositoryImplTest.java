@@ -17,17 +17,17 @@ class ReservationRepositoryImplTest {
 
     @BeforeEach
     void setUp() {
-        Client client1 = new Client("Vlad", "Pirozkov", "+79213334455");
+        Client client1 = new Client("Vlad", "Pirozkov", "+79213334455", 111);
         Apartment apartment1 = new Apartment(1, BigDecimal.valueOf(100), ApartmentType.SINGLE);
         Reservation newReservation1 = new Reservation(1, client1, apartment1, LocalDate.now());
         reservationRepository.addReservation(newReservation1);
 
-        Client client2 = new Client("Bruce", "Wayne", "+79219218765");
+        Client client2 = new Client("Bruce", "Wayne", "+79219218765", 222);
         Apartment apartment2 = new Apartment(2, BigDecimal.valueOf(100), ApartmentType.SINGLE);
         Reservation newReservation2 = new Reservation(2, client2, apartment2, LocalDate.now());
         reservationRepository.addReservation(newReservation2);
 
-        Client client3 = new Client("Peter", "Parker", "+78128127654");
+        Client client3 = new Client("Peter", "Parker", "+78128127654", 333);
         Apartment apartment3 = new Apartment(3, BigDecimal.valueOf(100), ApartmentType.DOUBLE);
         Reservation newReservation3 = new Reservation(3, client3, apartment3, LocalDate.now());
         reservationRepository.addReservation(newReservation3);
@@ -35,7 +35,7 @@ class ReservationRepositoryImplTest {
 
     @Test
     void addReservation() {
-        Client client = new Client("Vlad", "Pirozkov", "+79213334455");
+        Client client = new Client("Vlad", "Pirozkov", "+79213334455", 444);
         Apartment apartment = new Apartment(4, BigDecimal.valueOf(100), ApartmentType.DOUBLE);
         Reservation newReservation = new Reservation(4, client, apartment, LocalDate.now());
 

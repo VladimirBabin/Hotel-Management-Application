@@ -12,7 +12,6 @@ public class ClientRepositoryImpl implements ClientRepository {
 
     @Override
     public Client addClient(Client client) {
-        client.setPersonalID(Integer.parseInt(client.getPhoneNumber()));
         clients.put(client.getPersonalID(), client);
         return client;
     }
@@ -20,6 +19,16 @@ public class ClientRepositoryImpl implements ClientRepository {
     @Override
     public Client getClientById(int id) {
         return clients.get(id);
+    }
+
+    @Override
+    public Client getClientByPhoneNumber(String phoneNumber) {
+        for (Client client : clients.values()) {
+            if (client.getPhoneNumber().equals(phoneNumber)) {
+                return client;
+            }
+        }
+        return null;
     }
 
     @Override

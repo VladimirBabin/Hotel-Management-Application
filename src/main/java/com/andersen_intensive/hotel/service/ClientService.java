@@ -5,9 +5,11 @@ import java.util.List;
 
 public interface ClientService {
 
-    Client createClient(String firstName, String lastName, String phoneNumber);
+    Client createClient(String firstName, String lastName, String phoneNumber, int personalID);
 
     Client getClientByID(int id);
+
+    Client getClientByPhoneNumber(String phoneNumber);
 
     List<Client> getClientListWithoutSorting();
 
@@ -17,5 +19,5 @@ public interface ClientService {
 
     void removeClient(int id);
 
-    boolean isValid(int id);
+    boolean isValid(String phoneNumber);
 }

@@ -1,31 +1,22 @@
 package com.andersen_intensive.hotel.models;
 
 import lombok.Getter;
+import lombok.Setter;
 import java.util.Objects;
 
 @Getter
+@Setter
 public class Client {
 
     private String firstName;
     private String lastName;
     private int personalID;
-    private final String phoneNumber;
+    private String phoneNumber;
 
-    public Client(String firstName, String lastName, String phoneNumber) {
+    public Client(String firstName, String lastName, String phoneNumber, int personalID ) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setPersonalID(int personalID) {
         this.personalID = personalID;
     }
 

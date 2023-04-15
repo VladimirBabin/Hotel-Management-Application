@@ -46,23 +46,11 @@ public class ClientManagement {
 
     static void createClient(BufferedReader bufferedReader, ClientService clientService) throws IOException {
 
-        System.out.println("Enter client's number:");
-        int phoneNumber;
+        System.out.println("Enter client's phone number:");
+        String phoneNumber = bufferedReader.readLine();
 
-        while (true) {
-            try {
-                phoneNumber = Integer.parseInt(bufferedReader.readLine());
-                if (phoneNumber <= 0) {
-                    System.out.println("ID must be greater than 0. Please try again.");
-                } else {
-                    break;
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a valid apartment number.");
-            }
-        }
         if (clientService.isValid(phoneNumber)) {
-            System.out.println("Client with such id is already exists!");
+            System.out.println("Client with such phone number is already exists!");
             System.out.println(" ");
             return;
         }
@@ -71,8 +59,9 @@ public class ClientManagement {
         String name = bufferedReader.readLine();
         System.out.println("Client's last name:");
         String lastName = bufferedReader.readLine();
-        System.out.println("Client's phone number:");
-        Client clientCreated = clientService.createClient(name, lastName, String.valueOf(phoneNumber));
+        System.out.println("Client's personal id:");
+        int id = Integer.parseInt(bufferedReader.readLine());
+        Client clientCreated = clientService.createClient(name, lastName, phoneNumber, id);
         System.out.println("Client created: " + "\n" + clientCreated.toString() + "\n");
     }
 

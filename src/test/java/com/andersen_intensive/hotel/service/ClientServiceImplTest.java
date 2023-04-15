@@ -18,45 +18,45 @@ class ClientServiceImplTest {
         clientRepository = new ClientRepositoryImpl();
         clientService = new ClientServiceImpl(clientRepository);
 
-        clientService.createClient("Max", "Muse", "+79211112233");
-        clientService.createClient("Alex", "Moose", "+79211112244");
-        clientService.createClient("David", "Mouse", "+79211112255");
+        clientService.createClient("Max", "Abc", "+79211112233", 111);
+        clientService.createClient("Alex", "Def", "+79211112244", 222);
+        clientService.createClient("David", "Ghi", "+79211112255", 444);
     }
 
     @Test
     void createClientTest() {
-        clientService.createClient("Seth", "Rogen", "+79211112266");
+        clientService.createClient("Seth", "Rogen", "+79211112266", 333);
         assertEquals(4, clientRepository.getAllClients().size());
     }
 
     @Test
     void getClientListSortedByLastNameTest() {
         List<Client> expectedClients = new ArrayList<>();
-        expectedClients.add(clientRepository.getClientById(2244));
-        expectedClients.add(clientRepository.getClientById(2255));
-        expectedClients.add(clientRepository.getClientById(2233));
-        expectedClients.add(clientRepository.getClientById(2266));
+        expectedClients.add(clientRepository.getClientById(111));
+        expectedClients.add(clientRepository.getClientById(222));
+        expectedClients.add(clientRepository.getClientById(444));
+        expectedClients.add(clientRepository.getClientById(333));
         assertEquals(expectedClients, clientService.getClientListSortedByLastName());
     }
 
     @Test
     void getClientListSortedByID() {
         List<Client> expectedClients = new ArrayList<>();
-        expectedClients.add(clientRepository.getClientById(2233));
-        expectedClients.add(clientRepository.getClientById(2244));
-        expectedClients.add(clientRepository.getClientById(2255));
-        expectedClients.add(clientRepository.getClientById(2266));
+        expectedClients.add(clientRepository.getClientById(111));
+        expectedClients.add(clientRepository.getClientById(222));
+        expectedClients.add(clientRepository.getClientById(333));
+        expectedClients.add(clientRepository.getClientById(444));
         assertEquals(expectedClients, clientService.getClientListSortedByID());
     }
 
     @Test
     void getClientByIdTest() {
-        assertEquals("Max", clientService.getClientByID(2233).getFirstName());
+        assertEquals("Max", clientService.getClientByID(111).getFirstName());
     }
 
     @Test
     void removeClientTest() {
-        clientService.removeClient(2233);
+        clientService.removeClient(333);
         assertEquals(3, clientService.getClientListWithoutSorting().size());
     }
 }
