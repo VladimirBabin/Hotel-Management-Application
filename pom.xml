@@ -7,8 +7,11 @@
     <groupId>com.andersen_intensive</groupId>
     <artifactId>Hotel-Management-Application</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <name>Hotel</name>
+    <packaging>war</packaging>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
@@ -55,7 +58,7 @@
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
-            <version>1.9.4</version>
+            <version>1.9.13</version>
         </dependency>
 
         <dependency>
@@ -78,6 +81,23 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.3.2</version>
+            </plugin>
+        </plugins>
+
+    </build>
 
 </project>
