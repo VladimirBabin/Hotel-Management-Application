@@ -9,6 +9,7 @@ import com.andersen_intensive.hotel.service.ClientServiceImpl;
 import com.andersen_intensive.hotel.service.ReservationServiceImpl;
 import com.andersen_intensive.hotel.service.UtilityServiceImpl;
 import com.andersen_intensive.hotel.servlets.apartment.GetApartmentsServlet;
+import com.andersen_intensive.hotel.servlets.client.AddClientServlet;
 import com.andersen_intensive.hotel.servlets.client.GetClientsServlet;
 import com.andersen_intensive.hotel.servlets.reservation.CreateReservationServlet;
 import com.andersen_intensive.hotel.servlets.reservation.GetReservationsServlet;
@@ -62,6 +63,11 @@ public class ServletsInteraction {
         servletHandler.addServletWithMapping(
                 new ServletHolder(new GetClientsServlet(clientService)),
                 "/client/all"
+        );
+
+        servletHandler.addServletWithMapping(
+                new ServletHolder(new AddClientServlet(clientService)),
+                "/client/create"
         );
 
         // utility servlets
