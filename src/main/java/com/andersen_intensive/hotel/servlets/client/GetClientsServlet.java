@@ -17,4 +17,12 @@ public class GetClientsServlet extends JsonServlet {
     public Response get(String uri, Map<String, String[]> parameters) {
         return new Response(clientService.getClientListWithoutSorting());
     }
+
+    public Response getClientsSortedByLastName(String uri, Map<String, String[]> parameters) {
+        return new Response(clientService.getClientListSortedByLastName());
+    }
+
+    public Response getClientsSortedByID(String uri, Map<String, String[]> parameters) {
+        return new Response(clientService.getClientListSortedByID());
+    }
 }
