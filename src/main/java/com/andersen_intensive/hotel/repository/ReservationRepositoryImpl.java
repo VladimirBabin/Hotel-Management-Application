@@ -37,12 +37,12 @@ public class ReservationRepositoryImpl implements ReservationRepository {
         reservations.remove(id);
     }
 
-    public Reservation findByUserId(int userId) {
-        for(Reservation reservation: reservations.values()) {
-            if (reservation.getClient().getPersonalID() == userId) {
-                return reservation;
-            }
-        }
-        return null;
-    }
+//    public Reservation findByUserId(int userId) {
+//        for(Reservation reservation: reservations.values()) {
+//            if (reservation.getClient().getPersonalID() == userId) {
+//                return reservation;
+//            }
+//        }
+//        return null;
+//    }
 }

@@ -13,26 +13,28 @@ import java.util.List;
 public class Reservation {
 
     private int id;
-    private Client client;
-    private Apartment apartment;
+    private int clientID;
+    private int apartmentID;
     private List<Utility> utilities = new ArrayList<>();
     private LocalDate checkIn;
     private LocalDate checkOut;
 
-    public Reservation(int id, Client client, Apartment apartment, LocalDate checkIn) {
+    public Reservation(int id, int clientID, int apartmentID, LocalDate checkIn) {
         this.id = id;
-        this.client = client;
-        this.apartment = apartment;
+        this.clientID = clientID;
+        this.apartmentID = apartmentID;
         this.checkIn = checkIn;
     }
 
     @Override
     public String toString() {
-        return "Reservation ID: " + id + "\n" +
-                "Client: " + client.getLastName() + " " + client.getFirstName() + "\n" +
-                "Apartment: " + apartment + "\n" +
-                "Services: " + utilities + "\n" +
-                "Check-in: " + checkIn + "\n" +
-                "Check-out: " + (checkOut == null ? "haven't checked out yet" : checkOut);
+        return "Reservation{" +
+                "id=" + id +
+                ", clientID=" + clientID +
+                ", apartmentID=" + apartmentID +
+                ", utilities=" + utilities +
+                ", checkIn=" + checkIn +
+                "Check-out: " + (checkOut == null ? "haven't checked out yet" : checkOut) +
+                '}';
     }
 }

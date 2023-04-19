@@ -19,17 +19,26 @@ class ReservationRepositoryImplTest {
     void setUp() {
         Client client1 = new Client("Vlad", "Pirozkov", "+79213334455", 111);
         Apartment apartment1 = new Apartment(1, BigDecimal.valueOf(100), ApartmentType.SINGLE);
-        Reservation newReservation1 = new Reservation(1, client1, apartment1, LocalDate.now());
+        Reservation newReservation1 = new Reservation(1,
+                client1.getPersonalID(),
+                apartment1.getApartmentId(),
+                LocalDate.now());
         reservationRepository.addReservation(newReservation1);
 
         Client client2 = new Client("Bruce", "Wayne", "+79219218765", 222);
         Apartment apartment2 = new Apartment(2, BigDecimal.valueOf(100), ApartmentType.SINGLE);
-        Reservation newReservation2 = new Reservation(2, client2, apartment2, LocalDate.now());
+        Reservation newReservation2 = new Reservation(2,
+                client2.getPersonalID(),
+                apartment2.getApartmentId(),
+                LocalDate.now());
         reservationRepository.addReservation(newReservation2);
 
         Client client3 = new Client("Peter", "Parker", "+78128127654", 333);
         Apartment apartment3 = new Apartment(3, BigDecimal.valueOf(100), ApartmentType.DOUBLE);
-        Reservation newReservation3 = new Reservation(3, client3, apartment3, LocalDate.now());
+        Reservation newReservation3 = new Reservation(3,
+                client3.getPersonalID(),
+                apartment3.getApartmentId(),
+                LocalDate.now());
         reservationRepository.addReservation(newReservation3);
     }
 
@@ -37,7 +46,10 @@ class ReservationRepositoryImplTest {
     void addReservation() {
         Client client = new Client("Vlad", "Pirozkov", "+79213334455", 444);
         Apartment apartment = new Apartment(4, BigDecimal.valueOf(100), ApartmentType.DOUBLE);
-        Reservation newReservation = new Reservation(4, client, apartment, LocalDate.now());
+        Reservation newReservation = new Reservation(4,
+                client.getPersonalID(),
+                apartment.getApartmentId(),
+                LocalDate.now());
 
         reservationRepository.addReservation(newReservation);
         assertEquals(4, reservationRepository.getAllReservationsList().size());
@@ -45,7 +57,7 @@ class ReservationRepositoryImplTest {
 
     @Test
     void getReservationById() {
-        assertEquals("Peter", reservationRepository.getReservationById(3).getClient().getFirstName());
+        assertEquals(333, reservationRepository.getReservationById(3).getClientID());
     }
 
     @Test

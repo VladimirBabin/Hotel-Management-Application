@@ -131,7 +131,10 @@ public class ConsoleInteraction {
             }
         }
 
-        Reservation reservation = new Reservation(reservationId, client, apartment, LocalDate.now());
+        Reservation reservation = new Reservation(reservationId,
+                client.getPersonalID(),
+                apartment.getApartmentId(),
+                LocalDate.now());
         reservationService.createReservation(reservation);
 
         System.out.println("Information about the reservation:");
@@ -180,7 +183,7 @@ public class ConsoleInteraction {
                 }
                 reservation.setCheckOut(checkOutDate);
                 reservationService.updateReservation(reservation);
-                Apartment apartment = reservation.getApartment();
+                Apartment apartment = apartmentService.getById(reservation.getApartmentID());
                 apartment.setApartmentStatus(ApartmentStatus.AVAILABLE);
                 apartmentService.update(apartment);
                 System.out.println("Information about the reservation:");
@@ -225,7 +228,9 @@ public class ConsoleInteraction {
                 daysBetween = ChronoUnit.DAYS.between(reservation.getCheckIn(), reservation.getCheckOut());
             }
         }
-        BigDecimal summary = new BigDecimal(daysBetween).multiply(reservation.getApartment().getApartmentPrice());
+        Apartment apartment = apartmentService.getById(reservation.getApartmentID());
+
+        BigDecimal summary = new BigDecimal(daysBetween).multiply(apartment.getApartmentPrice());
         for (Utility utility: reservation.getUtilities()) {
             summary = summary.add(utility.getPrice());
         }

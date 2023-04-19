@@ -22,12 +22,18 @@ class ReservationServiceImplTest {
     void setUp() {
         Client client1 = new Client("Vlad", "Pirozkov", "+79213334455", 111);
         Apartment apartment1 = new Apartment(1, BigDecimal.valueOf(100), ApartmentType.SINGLE);
-        Reservation newReservation1 = new Reservation(1, client1, apartment1, LocalDate.now());
+        Reservation newReservation1 = new Reservation(1,
+                client1.getPersonalID(),
+                apartment1.getApartmentId(),
+                LocalDate.now());
         reservationService.createReservation(newReservation1);
 
         Client client2 = new Client("Bruce", "Wayne", "+79219218765", 222);
         Apartment apartment2 = new Apartment(2, BigDecimal.valueOf(100), ApartmentType.SINGLE);
-        Reservation newReservation2 = new Reservation(2, client2, apartment2, LocalDate.now());
+        Reservation newReservation2 = new Reservation(2,
+                client2.getPersonalID(),
+                apartment2.getApartmentId(),
+                LocalDate.now());
         reservationService.createReservation(newReservation2);
     }
 
@@ -35,7 +41,10 @@ class ReservationServiceImplTest {
     void createReservationTest() {
         Client client = new Client("Vlad", "Pirozkov", "+79213334455", 333);
         Apartment apartment = new Apartment(3, BigDecimal.valueOf(100), ApartmentType.DOUBLE);
-        Reservation newReservation = new Reservation(3, client, apartment, LocalDate.now());
+        Reservation newReservation = new Reservation(3,
+                client.getPersonalID(),
+                apartment.getApartmentId(),
+                LocalDate.now());
         reservationService.createReservation(newReservation);
         assertEquals(3, reservationService.getReservationList().size());
     }
@@ -47,7 +56,7 @@ class ReservationServiceImplTest {
 
     @Test
     void getReservationByID() {
-        assertEquals("Bruce", reservationService.getReservationByID(2).getClient().getFirstName());
+        assertEquals(222, reservationService.getReservationByID(2).getClientID());
     }
 
     @Test
