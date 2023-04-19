@@ -16,6 +16,7 @@ import com.andersen_intensive.hotel.servlets.reservation.CreateReservationServle
 import com.andersen_intensive.hotel.servlets.reservation.GetReservationsServlet;
 import com.andersen_intensive.hotel.servlets.utility.AddUtilitiesServlet;
 import com.andersen_intensive.hotel.servlets.utility.GetUtilitiesServlet;
+import com.andersen_intensive.hotel.servlets.utility.GetUtilityByIdServlet;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
@@ -86,6 +87,11 @@ public class ServletsInteraction {
         servletHandler.addServletWithMapping(
                 new ServletHolder(new AddUtilitiesServlet(utilityService)),
                 "/utility/create"
+        );
+
+        servletHandler.addServletWithMapping(
+                new ServletHolder(new GetUtilityByIdServlet(utilityService)),
+                "/utility/*"
         );
 
         // reservation servlets
