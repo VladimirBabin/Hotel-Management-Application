@@ -1,5 +1,6 @@
-package com.andersen_intensive.hotel;
+package com.andersen_intensive.hotel.management;
 
+import com.andersen_intensive.hotel.HotelManagementApplication;
 import com.andersen_intensive.hotel.models.Apartment;
 import com.andersen_intensive.hotel.models.ApartmentStatus;
 import com.andersen_intensive.hotel.models.ApartmentType;

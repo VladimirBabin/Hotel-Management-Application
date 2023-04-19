@@ -1,4 +1,4 @@
-package com.andersen_intensive.hotel;
+package com.andersen_intensive.hotel.management;
 
 import com.andersen_intensive.hotel.models.*;
 import com.andersen_intensive.hotel.repository.ApartmentRepositoryImpl;
@@ -17,10 +17,10 @@ import java.time.temporal.ChronoUnit;
 
 public class ConsoleInteraction {
 
-    static final ClientService clientService = new ClientServiceImpl(new ClientRepositoryImpl());
-    static final ReservationService reservationService = new ReservationServiceImpl(new ReservationRepositoryImpl());
-    static final ApartmentService apartmentService = new ApartmentServiceImpl(new ApartmentRepositoryImpl());
-    static final UtilityService utilityService = new UtilityServiceImpl(new UtilityRepositoryImpl());
+    public static final ClientService clientService = new ClientServiceImpl(new ClientRepositoryImpl());
+    public static final ReservationService reservationService = new ReservationServiceImpl(new ReservationRepositoryImpl());
+    public static final ApartmentService apartmentService = new ApartmentServiceImpl(new ApartmentRepositoryImpl());
+    public static final UtilityService utilityService = new UtilityServiceImpl(new UtilityRepositoryImpl());
 
     private static final String MENU = "Menu:" + "\n" +
             "1. Client management" + "\n" +
@@ -31,7 +31,7 @@ public class ConsoleInteraction {
             "6. Get the current price for client's stay" + "\n" +
             "0. Exit program" + "\n";
 
-    static void showMainMenu() {
+    public static void showMainMenu() {
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))) {
 
             while (true) {

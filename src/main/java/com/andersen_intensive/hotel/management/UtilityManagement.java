@@ -1,4 +1,4 @@
-package com.andersen_intensive.hotel;
+package com.andersen_intensive.hotel.management;
 
 import com.andersen_intensive.hotel.models.Reservation;
 import com.andersen_intensive.hotel.models.Utility;

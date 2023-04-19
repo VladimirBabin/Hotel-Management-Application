@@ -1,4 +1,4 @@
-package com.andersen_intensive.hotel;
+package com.andersen_intensive.hotel.management;
 
 import com.andersen_intensive.hotel.models.Client;
 import com.andersen_intensive.hotel.service.ClientService;
@@ -6,7 +6,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import static com.andersen_intensive.hotel.ConsoleInteraction.clientService;
+import static com.andersen_intensive.hotel.management.ConsoleInteraction.clientService;
 
 public class ClientManagement {
 

@@ -1,9 +1,7 @@
 package com.andersen_intensive.hotel;
 
-import com.andersen_intensive.hotel.models.Apartment;
-import com.andersen_intensive.hotel.models.Client;
-import com.andersen_intensive.hotel.models.Reservation;
-import com.andersen_intensive.hotel.models.Utility;
+import com.andersen_intensive.hotel.management.ConsoleInteraction;
+import com.andersen_intensive.hotel.serializer.Serializer;
 
 public class HotelManagementApplication {
 
@@ -14,5 +12,6 @@ public class HotelManagementApplication {
         Serializer serializer = new Serializer();
         serializer.serialization(ConsoleInteraction.clientService.getClientListWithoutSorting(), ConsoleInteraction.apartmentService.getAll(),
                 ConsoleInteraction.reservationService.getReservationList(), ConsoleInteraction.utilityService.showAllUtilities());
+        serializer.deserialization();
     }
 }

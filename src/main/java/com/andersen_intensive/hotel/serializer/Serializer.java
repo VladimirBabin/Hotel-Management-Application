@@ -1,4 +1,4 @@
-package com.andersen_intensive.hotel;
+package com.andersen_intensive.hotel.serializer;
 
 import com.andersen_intensive.hotel.models.Apartment;
 import com.andersen_intensive.hotel.models.Client;
@@ -45,45 +45,53 @@ public class Serializer {
             rootNode.put("utilities", utilitiesNode);
         }
 
-        try (FileWriter fileWriter = new FileWriter("D:\\hotelAfterComments\\ser")) {
+        try (FileWriter fileWriter = new FileWriter("hotel.json")) {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(fileWriter, rootNode);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static void deserialization() throws RuntimeException {
+    public void deserialization() throws RuntimeException {
         try {
             ObjectMapper mapper = new ObjectMapper();
 
-            JsonNode rootNode = mapper.readTree(new File("G:\\ser"));
+            JsonNode rootNode = mapper.readTree(new File("hotel.json"));
 
             JsonNode clientsNode = rootNode.get("clients");
             List<Map<String, Object>> clients = mapper.convertValue(clientsNode, List.class);
-            System.out.println("Clients:");
-            for (Map<String, Object> client : clients) {
-                System.out.println(client);
+            if (clients != null) {
+                System.out.println("Clients:");
+                for (Map<String, Object> client : clients) {
+                    System.out.println(client);
+                }
             }
 
             JsonNode apartmentsNode = rootNode.get("apartments");
             List<Map<String, Object>> apartments = mapper.convertValue(apartmentsNode, List.class);
-            System.out.println("\nApartments:");
-            for (Map<String, Object> apartment : apartments) {
-                System.out.println(apartment);
+            if (apartments != null) {
+                System.out.println("\nApartments:");
+                for (Map<String, Object> apartment : apartments) {
+                    System.out.println(apartment);
+                }
             }
 
             JsonNode utilitiesNode = rootNode.get("utilities");
             List<Map<String, Object>> utilities = mapper.convertValue(utilitiesNode, List.class);
-            System.out.println("\nUtilities:");
-            for (Map<String, Object> utility : utilities) {
-                System.out.println(utility);
+            if (utilities != null) {
+                System.out.println("\nUtilities:");
+                for (Map<String, Object> utility : utilities) {
+                    System.out.println(utility);
+                }
             }
 
             JsonNode reservationsNode = rootNode.get("reservations");
             List<Map<String, Object>> reservations = mapper.convertValue(reservationsNode, List.class);
-            System.out.println("\nReservations:");
-            for (Map<String, Object> reservation : reservations) {
-                System.out.println(reservation);
+            if (reservations != null) {
+                System.out.println("\nReservations:");
+                for (Map<String, Object> reservation : reservations) {
+                    System.out.println(reservation);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
