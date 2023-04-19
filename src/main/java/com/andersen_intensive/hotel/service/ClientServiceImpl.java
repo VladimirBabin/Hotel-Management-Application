@@ -14,14 +14,19 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client createClient(String firstName, String lastName, String phoneNumber) {
-        Client client = new Client(firstName, lastName, phoneNumber);
+    public Client createClient(String firstName, String lastName, String phoneNumber, int personalID) {
+        Client client = new Client(firstName, lastName, phoneNumber, personalID);
         return clientRepository.addClient(client);
     }
 
     @Override
     public Client getClientByID(int id) {
         return clientRepository.getClientById(id);
+    }
+
+    @Override
+    public Client getClientByPhoneNumber(String phoneNumber) {
+        return clientRepository.getClientByPhoneNumber(phoneNumber);
     }
 
     @Override
@@ -44,5 +49,11 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public void removeClient(int id) {
         clientRepository.deleteClient(id);
+    }
+
+    @Override
+    public boolean isValid(String phoneNumber) {
+        Client client = clientRepository.getClientByPhoneNumber(phoneNumber);
+        return client != null;
     }
 }

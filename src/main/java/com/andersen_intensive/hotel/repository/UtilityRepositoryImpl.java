@@ -1,7 +1,6 @@
 package com.andersen_intensive.hotel.repository;
 
 import com.andersen_intensive.hotel.models.Utility;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

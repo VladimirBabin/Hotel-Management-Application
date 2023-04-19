@@ -13,10 +13,11 @@ public class Client {
     private int personalID;
     private String phoneNumber;
 
-    public Client(String firstName, String lastName, String phoneNumber) {
+    public Client(String firstName, String lastName, String phoneNumber, int personalID ) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
+        this.personalID = personalID;
     }
 
     @Override
@@ -29,7 +30,7 @@ public class Client {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof Client other) || obj == null) {
+        if (!(obj instanceof Client other)) {
             return false;
         }
         return this.firstName.equals(other.getFirstName()) && this.lastName.equals(other.getLastName())

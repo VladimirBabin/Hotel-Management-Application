@@ -4,12 +4,10 @@ import com.andersen_intensive.hotel.models.Reservation;
 import com.andersen_intensive.hotel.models.Utility;
 import com.andersen_intensive.hotel.service.ReservationService;
 import com.andersen_intensive.hotel.service.UtilityService;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-// Georgi
 public class UtilityManagement {
 
     private static final String UTILITY_MANAGEMENT_MENU = "1. Add service" + "\n" +
@@ -56,7 +54,6 @@ public class UtilityManagement {
         } while (utilityFromMemory == null);
     }
 
-    //  leave it package private, so we can call it from ConsoleInteraction
     static void showListOfUtilities(BufferedReader bufferedReader, UtilityService utilityService) {
         utilityService.showAllUtilities();
     }

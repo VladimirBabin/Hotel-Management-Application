@@ -2,7 +2,6 @@ package com.andersen_intensive.hotel.service;
 
 import com.andersen_intensive.hotel.models.Utility;
 import com.andersen_intensive.hotel.repository.UtilityRepository;
-
 import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.List;

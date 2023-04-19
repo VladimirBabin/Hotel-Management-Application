@@ -3,9 +3,7 @@ package com.andersen_intensive.hotel.service;
 import com.andersen_intensive.hotel.models.Apartment;
 import com.andersen_intensive.hotel.models.ApartmentStatus;
 import com.andersen_intensive.hotel.models.ApartmentType;
-
 import java.math.BigDecimal;
-
 import java.util.List;
 
 public interface ApartmentService {
@@ -27,5 +25,4 @@ public interface ApartmentService {
     boolean checkIfAvailable(Apartment apartment);
 
     boolean isValid(int apartmentId);
-
 }
