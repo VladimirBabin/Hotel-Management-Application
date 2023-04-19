@@ -9,12 +9,11 @@ import com.andersen_intensive.hotel.service.ClientServiceImpl;
 import com.andersen_intensive.hotel.service.ReservationServiceImpl;
 import com.andersen_intensive.hotel.service.UtilityServiceImpl;
 import com.andersen_intensive.hotel.servlets.apartment.GetApartmentsServlet;
-import com.andersen_intensive.hotel.servlets.client.AddClientServlet;
 import com.andersen_intensive.hotel.servlets.client.GetClientsServlet;
-import com.andersen_intensive.hotel.servlets.client.RemoveClientServlet;
+import com.andersen_intensive.hotel.servlets.reservation.CreateReservationServlet;
+import com.andersen_intensive.hotel.servlets.reservation.GetReservationsServlet;
 import com.andersen_intensive.hotel.servlets.utility.AddUtilitiesServlet;
 import com.andersen_intensive.hotel.servlets.utility.GetUtilitiesServlet;
-import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
@@ -54,30 +53,37 @@ public class ServletsInteraction {
 
     private void addServlets(ServletHandler servletHandler) {
         // apartment servlets
-        servletHandler.addServletWithMapping(new ServletHolder
-                (new GetApartmentsServlet(apartmentService)),
-                "/apartment/all");
+        servletHandler.addServletWithMapping(
+                new ServletHolder(new GetApartmentsServlet(apartmentService)),
+                "/apartment/all"
+        );
 
         // client servlets
-        servletHandler.addServletWithMapping(new ServletHolder
-                (new GetClientsServlet(clientService)),
-                "/client/all");
-
-        servletHandler.addServletWithMapping(new ServletHolder
-                (new AddClientServlet(clientService)),
-                "/client/create");
-
-        servletHandler.addServletWithMapping(new ServletHolder
-                        (new RemoveClientServlet(clientService)),
-                "/client/remove");
+        servletHandler.addServletWithMapping(
+                new ServletHolder(new GetClientsServlet(clientService)),
+                "/client/all"
+        );
 
         // utility servlets
-        servletHandler.addServletWithMapping(new ServletHolder
-                        (new GetUtilitiesServlet(utilityService)),
-                "/utility/all");
+        servletHandler.addServletWithMapping(
+                new ServletHolder(new GetUtilitiesServlet(utilityService)),
+                "/utility/all"
+        );
 
+        servletHandler.addServletWithMapping(
+                new ServletHolder(new AddUtilitiesServlet(utilityService)),
+                "/utility/create"
+        );
+
+        // reservation servlets
         servletHandler.addServletWithMapping(new ServletHolder
-                        (new AddUtilitiesServlet(utilityService)),
-                "/utility/create");
+                (new GetReservationsServlet(reservationService)),
+                "/reservation/all"
+        );
+
+        servletHandler.addServletWithMapping(
+                new ServletHolder(new CreateReservationServlet(reservationService)),
+                "/reservation/create"
+        );
     }
 }
