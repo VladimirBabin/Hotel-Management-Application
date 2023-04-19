@@ -8,6 +8,8 @@ import com.andersen_intensive.hotel.service.ApartmentServiceImpl;
 import com.andersen_intensive.hotel.service.ClientServiceImpl;
 import com.andersen_intensive.hotel.service.ReservationServiceImpl;
 import com.andersen_intensive.hotel.service.UtilityServiceImpl;
+import com.andersen_intensive.hotel.servlets.apartment.GetApartmentsServlet;
+import com.andersen_intensive.hotel.servlets.client.GetClientsServlet;
 import com.andersen_intensive.hotel.servlets.utility.AddUtilitiesServlet;
 import com.andersen_intensive.hotel.servlets.utility.GetUtilitiesServlet;
 import lombok.extern.slf4j.Slf4j;
@@ -49,6 +51,17 @@ public class ServletsInteraction {
     }
 
     private void addServlets(ServletHandler servletHandler) {
+        // apartment servlets
+        servletHandler.addServletWithMapping(new ServletHolder
+                (new GetApartmentsServlet(apartmentService)),
+                "/apartment/all");
+
+        // client servlets
+        servletHandler.addServletWithMapping(new ServletHolder
+                (new GetClientsServlet(clientService)),
+                "/client/all");
+
+        // utility servlets
         servletHandler.addServletWithMapping(new ServletHolder
                         (new GetUtilitiesServlet(utilityService)),
                 "/utility/all");
