@@ -11,6 +11,7 @@ import com.andersen_intensive.hotel.service.UtilityServiceImpl;
 import com.andersen_intensive.hotel.servlets.apartment.GetApartmentsServlet;
 import com.andersen_intensive.hotel.servlets.client.AddClientServlet;
 import com.andersen_intensive.hotel.servlets.client.GetClientsServlet;
+import com.andersen_intensive.hotel.servlets.client.RemoveClientServlet;
 import com.andersen_intensive.hotel.servlets.reservation.CreateReservationServlet;
 import com.andersen_intensive.hotel.servlets.reservation.GetReservationsServlet;
 import com.andersen_intensive.hotel.servlets.utility.AddUtilitiesServlet;
@@ -42,14 +43,15 @@ public class ServletsInteraction {
     private void configure() {
         server = new Server();
 
-        ServerConnector connector = new ServerConnector(server);
-        connector.setPort(8000);
+        try (ServerConnector connector = new ServerConnector(server)) {
+            connector.setPort(8000);
 
-        ServletHandler servletHandler = new ServletHandler();
-        addServlets(servletHandler);
+            ServletHandler servletHandler = new ServletHandler();
+            addServlets(servletHandler);
 
-        server.setHandler(servletHandler);
-        server.setConnectors(new Connector[]{connector});
+            server.setHandler(servletHandler);
+            server.setConnectors(new Connector[]{connector});
+        }
     }
 
     private void addServlets(ServletHandler servletHandler) {
@@ -68,6 +70,11 @@ public class ServletsInteraction {
         servletHandler.addServletWithMapping(
                 new ServletHolder(new AddClientServlet(clientService)),
                 "/client/create"
+        );
+
+        servletHandler.addServletWithMapping(
+                new ServletHolder(new RemoveClientServlet(clientService)),
+                "/client/delete"
         );
 
         // utility servlets

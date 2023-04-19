@@ -13,6 +13,6 @@ public class RemoveClientServlet extends JsonServlet {
 
     @Override
     public Response post(String uri, Map<String, String> body) {
-        return new Response(clientService.removeClient(Integer.parseInt("personalID")));
+        return new Response(clientService.removeClient(Integer.parseInt(body.get("personalID"))));
     }
 }
