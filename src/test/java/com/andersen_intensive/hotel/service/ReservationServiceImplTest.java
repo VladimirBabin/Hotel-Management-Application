@@ -63,9 +63,9 @@ class ReservationServiceImplTest {
     void updateReservationTest() {
         Reservation reservation = reservationService.getReservationByID(1);
         reservation.setCheckIn(LocalDate.parse("2018-12-27"));
-        reservationService.updateReservation(reservation);
+        Reservation updatedReservation = reservationService.updateReservation(reservation);
 
-        assertEquals(LocalDate.parse("2018-12-27"), reservationService.getReservationByID(1).getCheckIn());
+        assertEquals(LocalDate.parse("2018-12-27"), updatedReservation.getCheckIn());
     }
 
     @Test
