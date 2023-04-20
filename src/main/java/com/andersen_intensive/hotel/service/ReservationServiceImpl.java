@@ -37,8 +37,8 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public void updateReservation(Reservation reservationToUpdate) {
-        reservationRepository.updateReservation(reservationToUpdate);
+    public Reservation updateReservation(Reservation reservationToUpdate) {
+        return reservationRepository.updateReservation(reservationToUpdate);
     }
 
     public boolean checkIfReservationIsOpen(Reservation reservation) {

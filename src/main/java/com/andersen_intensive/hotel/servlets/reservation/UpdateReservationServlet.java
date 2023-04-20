@@ -3,25 +3,24 @@ package com.andersen_intensive.hotel.servlets.reservation;
 import com.andersen_intensive.hotel.models.Reservation;
 import com.andersen_intensive.hotel.service.ReservationServiceImpl;
 import com.andersen_intensive.hotel.servlets.JsonServlet;
-import jakarta.servlet.http.HttpServletResponse;
 
 import java.time.LocalDate;
 import java.util.Map;
 
-public class CreateReservationServlet extends JsonServlet {
+public class UpdateReservationServlet extends JsonServlet {
 
     private final ReservationServiceImpl reservationService;
 
-    public CreateReservationServlet(ReservationServiceImpl reservationService) {
+    public UpdateReservationServlet(ReservationServiceImpl reservationService) {
         this.reservationService = reservationService;
     }
 
     @Override
     public Response post(String uri, Map<String, String> body) {
-        Reservation reservation = new Reservation(Integer.parseInt(body.get("id")),
+        Reservation updatedReservation = new Reservation(Integer.parseInt(body.get("id")),
                 Integer.parseInt(body.get("client")),
                 Integer.parseInt(body.get("apartment")),
                 LocalDate.parse(body.get("checkIn")));
-        return new Response(reservationService.createReservation(reservation));
-    }
+        updatedReservation.setCheckOut(LocalDate.parse(body.get("checkOut")));
+        return new Response(reservationService.updateReservation(updatedReservation));    }
 }

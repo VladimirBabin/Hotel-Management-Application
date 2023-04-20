@@ -13,7 +13,7 @@ public interface ReservationService {
 
     void removeReservation(int id);
 
-    void updateReservation(Reservation reservationToUpdate);
+    Reservation updateReservation(Reservation reservationToUpdate);
 
     boolean checkIfReservationIsOpen(Reservation reservation);
 }
