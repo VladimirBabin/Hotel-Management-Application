@@ -114,7 +114,7 @@ public class ServletsInteraction {
 
         servletHandler.addServletWithMapping(new ServletHolder
                 (new UpdateReservationServlet(reservationService)),
-                "reservation/update"
+                "/reservation/update"
         );
     }
 }
