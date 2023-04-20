@@ -13,6 +13,7 @@ import com.andersen_intensive.hotel.servlets.client.AddClientServlet;
 import com.andersen_intensive.hotel.servlets.client.GetClientsServlet;
 import com.andersen_intensive.hotel.servlets.client.RemoveClientServlet;
 import com.andersen_intensive.hotel.servlets.reservation.CreateReservationServlet;
+import com.andersen_intensive.hotel.servlets.reservation.GetReservationByIdServlet;
 import com.andersen_intensive.hotel.servlets.reservation.GetReservationsServlet;
 import com.andersen_intensive.hotel.servlets.utility.AddUtilitiesServlet;
 import com.andersen_intensive.hotel.servlets.utility.GetUtilitiesServlet;
@@ -103,6 +104,11 @@ public class ServletsInteraction {
         servletHandler.addServletWithMapping(
                 new ServletHolder(new CreateReservationServlet(reservationService)),
                 "/reservation/create"
+        );
+
+        servletHandler.addServletWithMapping(new ServletHolder
+                (new GetReservationByIdServlet(reservationService)),
+                "/reservation/*"
         );
     }
 }
