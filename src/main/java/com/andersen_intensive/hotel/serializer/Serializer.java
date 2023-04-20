@@ -9,11 +9,9 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
-import org.codehaus.jackson.type.TypeReference;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.List;
 import java.util.Map;
 
