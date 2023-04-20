@@ -80,7 +80,7 @@ public class ServletsInteraction {
 
         servletHandler.addServletWithMapping(
                 new ServletHolder(new GetClientsByIDServlet(clientService)),
-                "/client/id"
+                "/client/*"
         );
 
         servletHandler.addServletWithMapping(
