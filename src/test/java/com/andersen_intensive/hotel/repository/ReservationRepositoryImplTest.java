@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ReservationRepositoryImplTest {
 
-    private final ReservationRepositoryImpl reservationRepository = new ReservationRepositoryImpl();
+    private final ReservationRepositoryImpl reservationRepository = new ReservationRepositoryImpl(new UtilityRepositoryImpl());
 
     @BeforeEach
     void setUp() {

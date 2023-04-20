@@ -27,10 +27,12 @@ public class ServletsInteraction {
 
     private Server server;
 
+    public final UtilityRepositoryImpl utilityRepository = new UtilityRepositoryImpl();
     public final ClientServiceImpl clientService = new ClientServiceImpl(new ClientRepositoryImpl());
-    public final ReservationServiceImpl reservationService = new ReservationServiceImpl(new ReservationRepositoryImpl());
+    public final ReservationServiceImpl reservationService = new ReservationServiceImpl(new ReservationRepositoryImpl
+            (utilityRepository));
     public final ApartmentServiceImpl apartmentService = new ApartmentServiceImpl(new ApartmentRepositoryImpl());
-    public final UtilityServiceImpl utilityService = new UtilityServiceImpl(new UtilityRepositoryImpl());
+    public final UtilityServiceImpl utilityService = new UtilityServiceImpl(utilityRepository);
 
     public void run() {
         configure();

@@ -18,7 +18,8 @@ import java.time.temporal.ChronoUnit;
 public class ConsoleInteraction {
 
     public static final ClientService clientService = new ClientServiceImpl(new ClientRepositoryImpl());
-    public static final ReservationService reservationService = new ReservationServiceImpl(new ReservationRepositoryImpl());
+    public static final ReservationService reservationService = new ReservationServiceImpl(new ReservationRepositoryImpl
+            (new UtilityRepositoryImpl()));
     public static final ApartmentService apartmentService = new ApartmentServiceImpl(new ApartmentRepositoryImpl());
     public static final UtilityService utilityService = new UtilityServiceImpl(new UtilityRepositoryImpl());
 

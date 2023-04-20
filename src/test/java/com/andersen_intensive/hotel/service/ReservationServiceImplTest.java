@@ -5,6 +5,7 @@ import com.andersen_intensive.hotel.models.ApartmentType;
 import com.andersen_intensive.hotel.models.Client;
 import com.andersen_intensive.hotel.models.Reservation;
 import com.andersen_intensive.hotel.repository.ReservationRepositoryImpl;
+import com.andersen_intensive.hotel.repository.UtilityRepositoryImpl;
 import org.junit.jupiter.api.*;
 
 import java.math.BigDecimal;
@@ -15,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ReservationServiceImplTest {
 
-    private final ReservationRepositoryImpl reservationRepository = new ReservationRepositoryImpl();
+    private final ReservationRepositoryImpl reservationRepository = new ReservationRepositoryImpl(new UtilityRepositoryImpl());
     private final ReservationService reservationService = new ReservationServiceImpl(reservationRepository) ;
 
     @BeforeEach
