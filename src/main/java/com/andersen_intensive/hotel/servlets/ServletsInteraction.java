@@ -9,9 +9,7 @@ import com.andersen_intensive.hotel.service.ClientServiceImpl;
 import com.andersen_intensive.hotel.service.ReservationServiceImpl;
 import com.andersen_intensive.hotel.service.UtilityServiceImpl;
 import com.andersen_intensive.hotel.servlets.apartment.GetApartmentsServlet;
-import com.andersen_intensive.hotel.servlets.client.AddClientServlet;
-import com.andersen_intensive.hotel.servlets.client.GetClientsServlet;
-import com.andersen_intensive.hotel.servlets.client.RemoveClientServlet;
+import com.andersen_intensive.hotel.servlets.client.*;
 import com.andersen_intensive.hotel.servlets.reservation.CreateReservationServlet;
 import com.andersen_intensive.hotel.servlets.reservation.GetReservationByIdServlet;
 import com.andersen_intensive.hotel.servlets.reservation.GetReservationsServlet;
@@ -78,6 +76,26 @@ public class ServletsInteraction {
         servletHandler.addServletWithMapping(
                 new ServletHolder(new RemoveClientServlet(clientService)),
                 "/client/delete"
+        );
+
+        servletHandler.addServletWithMapping(
+                new ServletHolder(new GetClientsByIDServlet(clientService)),
+                "/client/id"
+        );
+
+        servletHandler.addServletWithMapping(
+                new ServletHolder(new GetClientByPhoneNumber(clientService)),
+                "/client/phone"
+        );
+
+        servletHandler.addServletWithMapping(
+                new ServletHolder(new GetClientsSortedByIDServlet(clientService)),
+                "/client/sortById"
+        );
+
+        servletHandler.addServletWithMapping(
+                new ServletHolder(new GetClientsSortedByLastNameServlet(clientService)),
+                "/client/sortByLastName"
         );
 
         // utility servlets
