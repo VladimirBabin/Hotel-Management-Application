@@ -1,7 +1,6 @@
 package com.andersen_intensive.hotel.servlets.reservation;
 
 import com.andersen_intensive.hotel.service.ReservationServiceImpl;
-import com.andersen_intensive.hotel.service.UtilityServiceImpl;
 import com.andersen_intensive.hotel.servlets.JsonServlet;
 
 import java.util.Map;
