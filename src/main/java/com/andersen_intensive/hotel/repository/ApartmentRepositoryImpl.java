@@ -1,9 +1,6 @@
 package com.andersen_intensive.hotel.repository;
 
-import com.andersen_intensive.hotel.models.Apartment;
-import com.andersen_intensive.hotel.models.ApartmentStatus;
-import com.andersen_intensive.hotel.models.ApartmentType;
-import com.andersen_intensive.hotel.models.Utility;
+import com.andersen_intensive.hotel.models.*;
 
 import javax.sql.DataSource;
 import java.math.BigDecimal;
@@ -48,7 +45,8 @@ public class ApartmentRepositoryImpl implements ApartmentRepository {
                     BigDecimal price = resultSet.getBigDecimal("price");
                     String apartmentType = resultSet.getString("apartmentType");
                     String apartmentStatus = resultSet.getString("apartmentStatus") ;
-                    return new Apartment(apartmentId, price,apartmentType, apartmentStatus);
+                    return new Apartment(apartmentId, price,ApartmentType.valueOf(apartmentType),
+                            ApartmentStatus.valueOf(apartmentStatus));
                 } else {
                     return null;
                 }
@@ -65,7 +63,24 @@ public class ApartmentRepositoryImpl implements ApartmentRepository {
 
     @Override
     public List<Apartment> getAll() {
-        return new ArrayList<>(apartments.values());
+        List<Apartment> apartments = new ArrayList<>();
+        String sql = "SELECT * FROM apartments";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                int apartmentId = resultSet.getInt("id");
+                BigDecimal price = resultSet.getBigDecimal("price");
+                String apartmentType = resultSet.getString("apartmentType");
+                String apartmentStatus = resultSet.getString("apartmentStatus") ;
+                Apartment apartment = new Apartment(apartmentId, price,ApartmentType.valueOf(apartmentType),
+                        ApartmentStatus.valueOf(apartmentStatus));
+                apartments.add(apartment);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return apartments;
     }
 
     @Override

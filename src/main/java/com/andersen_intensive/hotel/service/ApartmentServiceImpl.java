@@ -20,7 +20,10 @@ public class ApartmentServiceImpl implements ApartmentService {
         Apartment apartment = new Apartment(apartmentId, price, apartmentType);
         return apartmentRepository.add(apartment);
     }
-
+    public Apartment create(int apartmentId, BigDecimal price, ApartmentType apartmentType, ApartmentStatus apartmentStatus) {
+        Apartment apartment = new Apartment(apartmentId, price, apartmentType, apartmentStatus);
+        return apartmentRepository.add(apartment);
+    }
     @Override
     public Apartment getById(int id) {
         return apartmentRepository.getById(id);
