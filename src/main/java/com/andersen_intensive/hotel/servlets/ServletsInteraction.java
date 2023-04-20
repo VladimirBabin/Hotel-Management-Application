@@ -82,7 +82,7 @@ public class ServletsInteraction {
                 new ServletHolder(new GetApartmentSortedByStatusServlet(apartmentService)),
                 "/apartment/sortByStatus"
         );
-                
+
         // client servlets
         servletHandler.addServletWithMapping(
                 new ServletHolder(new GetClientsServlet(clientService)),

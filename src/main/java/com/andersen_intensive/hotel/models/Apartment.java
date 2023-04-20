@@ -17,11 +17,11 @@ public class Apartment {
         this.apartmentStatus = ApartmentStatus.AVAILABLE;
     }
 
-    public Apartment(int apartmentId, BigDecimal price, String apartmentType, String apartmentStatus) {
+    public Apartment(int apartmentId, BigDecimal price, ApartmentType apartmentType, ApartmentStatus apartmentStatus) {
         this.apartmentId = apartmentId;
         this.price = price;
-        this.apartmentType = ApartmentType.valueOf(apartmentType);
-        this.apartmentStatus = ApartmentStatus.valueOf(apartmentStatus);
+        this.apartmentType = apartmentType;
+        this.apartmentStatus = apartmentStatus;
     }
 
     public int getApartmentId() {
