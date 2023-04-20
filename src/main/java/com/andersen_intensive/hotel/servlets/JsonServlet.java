@@ -6,7 +6,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-
 import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
@@ -22,14 +21,8 @@ public abstract class JsonServlet extends HttpServlet {
 
     @Override
     protected final void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        respond(
-                resp,
-                post(
-                        req.getRequestURI(),
-                        objectMapper.readValue(req.getReader(), new TypeReference<>() {
-                        })
-                )
-        );
+        respond(resp, post(req.getRequestURI(), objectMapper.readValue(req.getReader(), new TypeReference<>() {
+        })));
     }
 
     public Response get(String uri, Map<String, String[]> parameters) {
