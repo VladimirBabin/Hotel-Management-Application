@@ -5,9 +5,12 @@ import com.andersen_intensive.hotel.servlets.JsonServlet;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Map;
+
 @RequiredArgsConstructor
 public class GetApartmentsServlet extends JsonServlet {
+
     private final ApartmentService apartmentService;
+
     @Override
     public Response get(String uri, Map<String, String[]> parameters) {
         return new Response(apartmentService.showAll());

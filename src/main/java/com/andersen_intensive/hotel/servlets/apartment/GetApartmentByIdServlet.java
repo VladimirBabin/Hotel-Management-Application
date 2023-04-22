@@ -5,12 +5,15 @@ import com.andersen_intensive.hotel.servlets.JsonServlet;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Map;
+
 @RequiredArgsConstructor
 public class GetApartmentByIdServlet extends JsonServlet {
+
     private final ApartmentService apartmentService;
+
     @Override
     public Response get(String uri, Map<String, String[]> parameters) {
-        int id = Integer.parseInt(uri.substring(uri.lastIndexOf('/') + 1));
+        Long id = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
         return new Response(apartmentService.findById(id));
     }
 }

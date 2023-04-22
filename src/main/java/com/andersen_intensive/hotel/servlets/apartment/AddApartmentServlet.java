@@ -1,5 +1,6 @@
 package com.andersen_intensive.hotel.servlets.apartment;
 
+import com.andersen_intensive.hotel.models.Apartment;
 import com.andersen_intensive.hotel.models.ApartmentStatus;
 import com.andersen_intensive.hotel.models.ApartmentType;
 import com.andersen_intensive.hotel.service.ApartmentService;
@@ -14,7 +15,9 @@ public class AddApartmentServlet extends JsonServlet {
 
     @Override
     public Response post(String uri, Map<String, String> body) {
-        return new Response(apartmentService.saveApartment(Integer.parseInt(body.get("apartmentId")),
-                new BigDecimal(body.get("price")), ApartmentType.valueOf(body.get("apartmentType")), ApartmentStatus.valueOf(body.get("apartmentStatus")) ));
+        Apartment apartment = new Apartment(new BigDecimal(body.get("price")),
+                ApartmentType.valueOf(body.get("apartmentType")),
+                ApartmentStatus.valueOf(body.get("apartmentStatus")));
+        return new Response(apartmentService.saveApartment(apartment));
     }
 }

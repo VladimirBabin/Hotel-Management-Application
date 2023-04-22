@@ -7,6 +7,7 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>com.andersen_intensive.hotel.models.Utility</class>
         <class>com.andersen_intensive.hotel.models.Reservation</class>
+        <class>com.andersen_intensive.hotel.models.Apartment</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/hotel"/>

@@ -8,9 +8,12 @@ import lombok.RequiredArgsConstructor;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+
 @RequiredArgsConstructor
 public class GetApartmentSortedByStatusServlet extends JsonServlet {
+
     private final ApartmentService apartmentService;
+
     @Override
     public Response get(String uri, Map<String, String[]> parameters) {
         List<Apartment> apartments = apartmentService.showAll();

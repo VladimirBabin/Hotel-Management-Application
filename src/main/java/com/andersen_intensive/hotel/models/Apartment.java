@@ -4,8 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+
 @Entity
 @Table(name = "apartments")
 @Getter
@@ -13,23 +12,23 @@ import java.util.List;
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class Apartment {
+
     @Id
-    @Column(name = "apartmentId")
-    @NonNull
-    private int apartmentId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "price")
     @NonNull
     private BigDecimal price;
 
-    @Column(name = "type")
+    @Column(name = "apartment_type")
     @NonNull
     private ApartmentType apartmentType;
     
-    @Column(name = "status")
+    @Column(name = "apartment_status")
     @NonNull
     private ApartmentStatus apartmentStatus;
 
-    @OneToOne(mappedBy = "apartments")
-    private List<Reservation> reservations = new ArrayList<>();
+    @OneToOne(mappedBy = "apartment")
+    private Reservation reservation;
 }

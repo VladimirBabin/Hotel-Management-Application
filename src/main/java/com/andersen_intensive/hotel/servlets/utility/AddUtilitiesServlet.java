@@ -1,5 +1,6 @@
 package com.andersen_intensive.hotel.servlets.utility;
 
+import com.andersen_intensive.hotel.models.Utility;
 import com.andersen_intensive.hotel.service.UtilityService;
 import com.andersen_intensive.hotel.servlets.JsonServlet;
 import lombok.RequiredArgsConstructor;
@@ -14,9 +15,7 @@ public class AddUtilitiesServlet extends JsonServlet {
 
     @Override
     public Response post(String uri, Map<String, String> body) {
-        return new Response(utilityService.saveUtility(
-                body.get("name"),
-                new BigDecimal(body.get("price"))
-        ));
+        Utility utility = new Utility(body.get("name"), new BigDecimal(body.get("price")));
+        return new Response(utilityService.saveUtility(utility));
     }
 }

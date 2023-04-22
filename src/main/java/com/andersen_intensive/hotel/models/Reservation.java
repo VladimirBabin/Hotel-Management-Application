@@ -30,9 +30,9 @@ public class Reservation {
 //    @JoinColumn(name = "client_id")
 //    private Client client;
 //
-//    @OneToOne
-//    @JoinColumn(name = "apartment_id")
-//    private Apartment apartment;
+    @OneToOne
+    @JoinColumn(name = "apartment_id")
+    private Apartment apartment;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(

@@ -14,18 +14,18 @@ public class UtilityService {
 
     private final UtilityRepository utilityRepository;
 
-    public Utility saveUtility(String name, BigDecimal price) {
-        Utility utilityFromMemory = utilityRepository.findByName(name);
+    public Utility saveUtility(Utility utility) {
+        Utility utilityFromMemory = utilityRepository.findByName(utility.getName());
 
         if (utilityFromMemory != null) {
             throw new IllegalArgumentException("Utility with this name is already exist");
         }
 
-        if (price.compareTo(BigDecimal.ZERO) < 0) { // price >= 0
+        if (utility.getPrice().compareTo(BigDecimal.ZERO) < 0) { // price >= 0
             throw new IllegalArgumentException("Price cant be negative");
         }
 
-        Utility utility = new Utility(name, price);
+//        Utility utility = new Utility(name, price);
         utilityRepository.save(utility);
         return utility;
     }
