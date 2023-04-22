@@ -1,6 +1,6 @@
 package com.andersen_intensive.hotel.servlets.client;
 
-import com.andersen_intensive.hotel.service.ClientServiceImpl;
+import com.andersen_intensive.hotel.DEPRECATEDservice.ClientServiceImpl;
 import com.andersen_intensive.hotel.servlets.JsonServlet;
 import java.util.Map;
 

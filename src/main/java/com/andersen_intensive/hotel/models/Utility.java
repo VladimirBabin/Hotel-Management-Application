@@ -1,44 +1,32 @@
 package com.andersen_intensive.hotel.models;
 
-import java.math.BigDecimal;
+import lombok.*;
 
+import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "utilities")
+@Getter
+@Setter
+@NoArgsConstructor
+@RequiredArgsConstructor
 public class Utility {
 
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "name")
+    @NonNull
     private String name;
+
+    @Column(name = "price")
+    @NonNull
     private BigDecimal price;
 
-    public Utility(int id, String name, BigDecimal price) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    @Override
-    public String toString() {
-        return "Service: " +
-                "ID: " + id +
-                "Name: '" + name + '\'' +
-                "Price: " + price;
-    }
+    @ManyToMany(mappedBy = "utilities")
+    private List<Reservation> reservations = new ArrayList<>();
 }

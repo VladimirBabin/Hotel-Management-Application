@@ -2,7 +2,7 @@ package com.andersen_intensive.hotel.servlets.apartment;
 
 import com.andersen_intensive.hotel.models.ApartmentStatus;
 import com.andersen_intensive.hotel.models.ApartmentType;
-import com.andersen_intensive.hotel.service.ApartmentServiceImpl;
+import com.andersen_intensive.hotel.DEPRECATEDservice.ApartmentServiceImpl;
 import com.andersen_intensive.hotel.servlets.JsonServlet;
 
 import java.math.BigDecimal;

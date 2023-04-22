@@ -1,6 +1,6 @@
 package com.andersen_intensive.hotel.servlets.apartment;
 
-import com.andersen_intensive.hotel.service.ApartmentServiceImpl;
+import com.andersen_intensive.hotel.DEPRECATEDservice.ApartmentServiceImpl;
 import com.andersen_intensive.hotel.servlets.JsonServlet;
 
 import java.util.Map;

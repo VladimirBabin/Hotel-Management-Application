@@ -1,19 +1,29 @@
 package com.andersen_intensive.hotel.repository;
 
 import com.andersen_intensive.hotel.models.Utility;
+
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
-public interface UtilityRepository {
+public class UtilityRepository implements MainRepository<Utility, Long> {
 
-    Utility addUtility(Utility utility);
+    public Utility findByName(String name) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Utility> query = cb.createQuery(Utility.class);
+        Root<Utility> root = query.from(Utility.class);
 
-    Utility getUtilityById(int id);
+        query.select(root).where(cb.equal(root.get("name"), name));
 
-    Utility updateUtility(Utility utility);
+        TypedQuery<Utility> typedQuery = entityManager.createQuery(query);
 
-    List<Utility> getAllUtility();
-
-    Utility getByName(String name);
-
-    void deleteUtility(Utility utility);
+        List<Utility> utilities = typedQuery.getResultList();
+        if (utilities.isEmpty()) {
+            return null;
+        } else {
+            return utilities.get(0);
+        }
+    }
 }

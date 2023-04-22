@@ -1,40 +1,44 @@
 package com.andersen_intensive.hotel.models;
 
-import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Entity
+@Table(name = "reservations")
 @Setter
 @Getter
+@NoArgsConstructor
 public class Reservation {
 
-    private int id;
-    private int clientID;
-    private int apartmentID;
-    private List<Utility> utilities = new ArrayList<>();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "check_in")
     private LocalDate checkIn;
+
+    @Column(name = "check_out")
     private LocalDate checkOut;
 
-    public Reservation(int id, int clientID, int apartmentID, LocalDate checkIn) {
-        this.id = id;
-        this.clientID = clientID;
-        this.apartmentID = apartmentID;
-        this.checkIn = checkIn;
-    }
+//    @OneToOne
+//    @JoinColumn(name = "client_id")
+//    private Client client;
+//
+//    @OneToOne
+//    @JoinColumn(name = "apartment_id")
+//    private Apartment apartment;
 
-    @Override
-    public String toString() {
-        return "Reservation{" +
-                "id=" + id +
-                ", clientID=" + clientID +
-                ", apartmentID=" + apartmentID +
-                ", utilities=" + utilities +
-                ", checkIn=" + checkIn +
-                "Check-out: " + (checkOut == null ? "haven't checked out yet" : checkOut) +
-                '}';
-    }
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "reservation_utilities",
+            joinColumns = @JoinColumn(name = "reservation_id"),
+            inverseJoinColumns = @JoinColumn(name = "utility_id")
+    )
+    private List<Utility> utilities = new ArrayList<>();
 }
