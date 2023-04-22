@@ -13,16 +13,19 @@ import java.util.List;
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class Apartment {
-
+    @Id
     @Column(name = "apartmentId")
     @NonNull
     private int apartmentId;
+
     @Column(name = "price")
     @NonNull
     private BigDecimal price;
+
     @Column(name = "type")
     @NonNull
     private ApartmentType apartmentType;
+    
     @Column(name = "status")
     @NonNull
     private ApartmentStatus apartmentStatus;
