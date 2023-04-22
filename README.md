@@ -33,6 +33,8 @@ Implement hotel-management console application according next requirements and f
 * Try to follow ReST guidelines
 * Do not use Spring Framework yet
 
+## Task 5
+* To access database use JPA and Hibernate.
 
 ---
 ## Contributors
@@ -40,3 +42,4 @@ Implement hotel-management console application according next requirements and f
 * <a href="https://github.com/SvetlanaAntipova" style="text-decoration: none;color: white"> Antipova Svetlana  </a>
 * <a href="https://github.com/Marmariasha" style="text-decoration: none;color: white"> Arseneva Mariana </a>
 * <a href="https://github.com/VladimirBabin" style="text-decoration: none;color: white">Babin Vladimir	</a>
+

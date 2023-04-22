@@ -1,11 +1,11 @@
 package com.andersen_intensive.hotel.servlets;
 
-import com.andersen_intensive.hotel.service.UtilityService;
-import com.andersen_intensive.hotel.DEPRECATEDrepository.ApartmentRepositoryImpl;
 import com.andersen_intensive.hotel.DEPRECATEDrepository.ClientRepositoryImpl;
-import com.andersen_intensive.hotel.repository.UtilityRepository;
-import com.andersen_intensive.hotel.DEPRECATEDservice.ApartmentServiceImpl;
 import com.andersen_intensive.hotel.DEPRECATEDservice.ClientServiceImpl;
+import com.andersen_intensive.hotel.repository.ApartmentRepository;
+import com.andersen_intensive.hotel.repository.UtilityRepository;
+import com.andersen_intensive.hotel.service.ApartmentService;
+import com.andersen_intensive.hotel.service.UtilityService;
 import com.andersen_intensive.hotel.servlets.apartment.*;
 import com.andersen_intensive.hotel.servlets.client.*;
 import com.andersen_intensive.hotel.servlets.utility.AddUtilitiesServlet;
@@ -20,13 +20,8 @@ import org.eclipse.jetty.servlet.ServletHolder;
 public class ServletsInteraction {
 
     private Server server;
-
-//    public final UtilityRepositoryImpl utilityRepository = new UtilityRepositoryImpl();
     public final ClientServiceImpl clientService = new ClientServiceImpl(new ClientRepositoryImpl());
-//    public final ReservationServiceImpl reservationService = new ReservationServiceImpl(new ReservationRepositoryImpl
-//            (utilityRepository));
-    public final ApartmentServiceImpl apartmentService = new ApartmentServiceImpl(new ApartmentRepositoryImpl());
-//    public final UtilityServiceImpl utilityService = new UtilityServiceImpl(utilityRepository);
+    public final ApartmentService apartmentService = new ApartmentService(new ApartmentRepository());
     public final UtilityService utilityService = new UtilityService(new UtilityRepository());
 
     public void run() {
@@ -131,26 +126,5 @@ public class ServletsInteraction {
                 new ServletHolder(new GetUtilityByIdServlet(utilityService)),
                 "/utility/*"
         );
-
-//        // reservation servlets
-//        servletHandler.addServletWithMapping(new ServletHolder
-//                (new GetReservationsServlet(reservationService)),
-//                "/reservation/all"
-//        );
-//
-//        servletHandler.addServletWithMapping(
-//                new ServletHolder(new CreateReservationServlet(reservationService)),
-//                "/reservation/create"
-//        );
-//
-//        servletHandler.addServletWithMapping(new ServletHolder
-//                (new GetReservationByIdServlet(reservationService)),
-//                "/reservation/*"
-//        );
-//
-//        servletHandler.addServletWithMapping(new ServletHolder
-//                (new UpdateReservationServlet(reservationService)),
-//                "/reservation/update"
-//        );
     }
 }
