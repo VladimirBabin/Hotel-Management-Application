@@ -1,20 +1,44 @@
 package com.andersen_intensive.hotel.service;
 
+import com.andersen_intensive.hotel.repository.UtilityRepository;
 import com.andersen_intensive.hotel.models.Utility;
+import lombok.RequiredArgsConstructor;
+
+import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
-public interface UtilityService {
+@RequiredArgsConstructor
+public class UtilityService {
 
-    Utility saveService(int id, String name, BigDecimal price);
+    private final UtilityRepository utilityRepository;
 
-    List<Utility> sortByName();
+    public Utility saveUtility(String name, BigDecimal price) {
+        Utility utilityFromMemory = utilityRepository.findByName(name);
 
-    List<Utility> sortByPrice();
+        if (utilityFromMemory != null) {
+            throw new IllegalArgumentException("Utility with this name is already exist");
+        }
 
-    List<Utility> showAllUtilities();
+        if (price.compareTo(BigDecimal.ZERO) < 0) { // price >= 0
+            throw new IllegalArgumentException("Price cant be negative");
+        }
 
-    Utility getUtilityById(int utilityId);
+        Utility utility = new Utility(name, price);
+        utilityRepository.save(utility);
+        return utility;
+    }
 
-    void changePrice(int utilityId, BigDecimal newPrice);
+    public List<Utility> showAll() {
+        return utilityRepository.findAll();
+    }
+
+    public Utility findUtilityById(Long id) {
+        Optional<Utility> utilityFromMemory = utilityRepository.findById(id);
+        if (utilityFromMemory.isEmpty()) {
+            throw new EntityNotFoundException("Entity with this id does not exist");
+        }
+        return utilityFromMemory.get();
+    }
 }
