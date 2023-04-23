@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,5 +40,34 @@ public class UtilityService {
             throw new EntityNotFoundException("Entity with this id does not exist");
         }
         return utilityFromMemory.get();
+    }
+
+    public List<Utility> sortByName() {
+        List<Utility> sortedUtilities = utilityRepository.findAll();
+        sortedUtilities.sort((s1, s2) -> s1.getName().compareToIgnoreCase(s2.getName()));
+        return sortedUtilities;
+    }
+
+    public List<Utility> sortByPrice() {
+        List<Utility> sortedUtilities = utilityRepository.findAll();
+        sortedUtilities.sort(Comparator.comparing(Utility::getPrice));
+        return sortedUtilities;
+    }
+
+    public Utility changePrice(Long id, BigDecimal newPrice) {
+        Optional<Utility> utilityFromMemory = utilityRepository.findById(id);
+
+        if (utilityFromMemory.isEmpty()) {
+            throw new EntityNotFoundException("Utility with this id does not exist");
+        }
+
+        if (newPrice.compareTo(BigDecimal.ZERO) < 0) { // price >= 0
+            throw new IllegalArgumentException("Price cant be negative");
+        }
+
+        Utility utility = utilityFromMemory.get();
+        utility.setPrice(newPrice);
+        utilityRepository.update(utility);
+        return utility;
     }
 }

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -71,5 +72,62 @@ class UtilityServiceTest {
         when(utilityRepository.findById(id)).thenReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class, () -> utilityService.findUtilityById(id));
+    }
+
+    @Test
+    public void testSortByName() {
+        List<Utility> utilities = Arrays.asList(
+                new Utility("Water", new BigDecimal("20")),
+                new Utility("Electricity", new BigDecimal("50")),
+                new Utility("Gas", new BigDecimal("30"))
+        );
+        when(utilityRepository.findAll()).thenReturn(utilities);
+
+        List<Utility> sortedUtilities = utilityService.sortByName();
+
+        assertEquals("Electricity", sortedUtilities.get(0).getName());
+        assertEquals("Gas", sortedUtilities.get(1).getName());
+        assertEquals("Water", sortedUtilities.get(2).getName());
+    }
+
+    @Test
+    public void testSortByPrice() {
+        List<Utility> utilities = Arrays.asList(
+                new Utility("Water", new BigDecimal("20")),
+                new Utility("Electricity", new BigDecimal("50")),
+                new Utility("Gas", new BigDecimal("30"))
+        );
+        when(utilityRepository.findAll()).thenReturn(utilities);
+
+        List<Utility> sortedUtilities = utilityService.sortByPrice();
+
+        assertEquals("Water", sortedUtilities.get(0).getName());
+        assertEquals("Gas", sortedUtilities.get(1).getName());
+        assertEquals("Electricity", sortedUtilities.get(2).getName());
+    }
+
+    @Test
+    public void testChangePrice() {
+        Utility utility = new Utility("Water", new BigDecimal("20"));
+        when(utilityRepository.findById(any())).thenReturn(java.util.Optional.of(utility));
+
+        Utility updatedUtility = utilityService.changePrice(1L, new BigDecimal("30.00"));
+
+        assertEquals(new BigDecimal("30.00"), updatedUtility.getPrice());
+    }
+
+    @Test
+    public void testChangePriceWithInvalidId() {
+        when(utilityRepository.findById(any())).thenReturn(java.util.Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> utilityService.changePrice(1L, new BigDecimal("30")));
+    }
+
+    @Test
+    public void testChangePriceWithInvalidPrice() {
+        Utility utility = new Utility("Water", new BigDecimal("20"));
+        when(utilityRepository.findById(any())).thenReturn(java.util.Optional.of(utility));
+
+        assertThrows(IllegalArgumentException.class, () -> utilityService.changePrice(1L, new BigDecimal("-30")));
     }
 }

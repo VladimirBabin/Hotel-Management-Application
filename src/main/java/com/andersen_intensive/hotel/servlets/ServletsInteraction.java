@@ -8,9 +8,7 @@ import com.andersen_intensive.hotel.service.ApartmentService;
 import com.andersen_intensive.hotel.service.UtilityService;
 import com.andersen_intensive.hotel.servlets.apartment.*;
 import com.andersen_intensive.hotel.servlets.client.*;
-import com.andersen_intensive.hotel.servlets.utility.AddUtilitiesServlet;
-import com.andersen_intensive.hotel.servlets.utility.GetUtilitiesServlet;
-import com.andersen_intensive.hotel.servlets.utility.GetUtilityByIdServlet;
+import com.andersen_intensive.hotel.servlets.utility.*;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
@@ -53,6 +51,7 @@ public class ServletsInteraction {
                 new ServletHolder(new GetApartmentsServlet(apartmentService)),
                 "/apartment/all"
         );
+
         servletHandler.addServletWithMapping(
                 new ServletHolder(new AddApartmentServlet(apartmentService)),
                 "/apartment/create"
@@ -62,17 +61,20 @@ public class ServletsInteraction {
                 new ServletHolder(new GetApartmentByIdServlet(apartmentService)),
                 "/apartment/*"
         );
+
         servletHandler.addServletWithMapping(
                 new ServletHolder(new GetApartmentSortedByTypeServlet(apartmentService)),
-                "/apartment/sortByType"
+                "/apartment/sort/type"
         );
+
         servletHandler.addServletWithMapping(
                 new ServletHolder(new GetApartmentSortedByPriceServlet(apartmentService)),
-                "/apartment/sortByPrice"
+                "/apartment/sort/price"
         );
+
         servletHandler.addServletWithMapping(
                 new ServletHolder(new GetApartmentSortedByStatusServlet(apartmentService)),
-                "/apartment/sortByStatus"
+                "/apartment/sort/status"
         );
 
         // client servlets
@@ -125,6 +127,16 @@ public class ServletsInteraction {
         servletHandler.addServletWithMapping(
                 new ServletHolder(new GetUtilityByIdServlet(utilityService)),
                 "/utility/*"
+        );
+
+        servletHandler.addServletWithMapping(
+                new ServletHolder(new GetUtilitySortedByPriceServlet(utilityService)),
+                "/utility/sort/price"
+        );
+
+        servletHandler.addServletWithMapping(
+                new ServletHolder(new GetUtilitySortedByNameServlet(utilityService)),
+                "/utility/sort/name"
         );
     }
 }
