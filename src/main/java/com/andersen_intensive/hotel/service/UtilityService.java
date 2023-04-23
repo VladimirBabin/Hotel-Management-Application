@@ -25,7 +25,6 @@ public class UtilityService {
             throw new IllegalArgumentException("Price cant be negative");
         }
 
-//        Utility utility = new Utility(name, price);
         utilityRepository.save(utility);
         return utility;
     }
