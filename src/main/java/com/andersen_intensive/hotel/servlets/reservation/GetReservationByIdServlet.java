@@ -1,21 +1,20 @@
 package com.andersen_intensive.hotel.servlets.reservation;
 
 import com.andersen_intensive.hotel.DEPRECATEDservice.ReservationServiceImpl;
+import com.andersen_intensive.hotel.service.ReservationService;
 import com.andersen_intensive.hotel.servlets.JsonServlet;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Map;
 
+@RequiredArgsConstructor
 public class GetReservationByIdServlet extends JsonServlet {
 
-    private final ReservationServiceImpl reservationService;
-
-    public GetReservationByIdServlet(ReservationServiceImpl reservationService) {
-        this.reservationService = reservationService;
-    }
+    private final ReservationService reservationService;
 
     @Override
     public Response get(String uri, Map<String, String[]> parameters) {
-        int id = Integer.parseInt(uri.substring(uri.lastIndexOf('/') + 1));
+        Long id = Long.parseLong(uri.substring(uri.lastIndexOf('/') + 1));
         return new Response(reservationService.getReservationByID(id));
     }
 }

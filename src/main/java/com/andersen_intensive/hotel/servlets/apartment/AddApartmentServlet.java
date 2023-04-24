@@ -9,15 +9,17 @@ import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Map;
+
 @RequiredArgsConstructor
 public class AddApartmentServlet extends JsonServlet {
+
     private final ApartmentService apartmentService;
 
     @Override
     public Response post(String uri, Map<String, String> body) {
         Apartment apartment = new Apartment(new BigDecimal(body.get("price")),
-                ApartmentType.valueOf(body.get("apartmentType")),
-                ApartmentStatus.valueOf(body.get("apartmentStatus")));
+                ApartmentType.valueOf(body.get("apartment_type")),
+                ApartmentStatus.valueOf(body.get("apartment_status")));
         return new Response(apartmentService.saveApartment(apartment));
     }
 }
