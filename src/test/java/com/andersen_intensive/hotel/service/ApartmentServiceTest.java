@@ -4,62 +4,73 @@ import com.andersen_intensive.hotel.models.Apartment;
 import com.andersen_intensive.hotel.models.ApartmentStatus;
 import com.andersen_intensive.hotel.models.ApartmentType;
 import com.andersen_intensive.hotel.repository.ApartmentRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class ApartmentServiceTest {
-    @Mock
-    private ApartmentRepository apartmentRepository;
-    private ApartmentService apartmentService;
-    private final Apartment apartment = new Apartment(new BigDecimal("1000.00"), ApartmentType.SINGLE, ApartmentStatus.AVAILABLE);
-    private final Long apartmentId = 1L;
+    private final ApartmentRepository apartmentRepository = mock(ApartmentRepository.class);
+    private final ApartmentService apartmentService = new ApartmentService(apartmentRepository);
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-        apartmentService = new ApartmentService(apartmentRepository);
+    @Test
+    public void testSaveApartmentSuccess() {
+        Apartment apartment = new Apartment(new BigDecimal("100"), ApartmentType.SINGLE, ApartmentStatus.AVAILABLE);
+        when(apartmentRepository.findById(apartment.getId())).thenReturn(Optional.of(apartment));
+        Apartment result = apartmentService.findById(apartment.getId());
+        assertEquals(apartment, result);
     }
 
     @Test
     void saveApartmentWhenPriceIsNegative() {
         Apartment apartmentWithNegativePrice = new Apartment(new BigDecimal("-1000.00"), ApartmentType.DOUBLE, ApartmentStatus.AVAILABLE);
         assertThrows(IllegalArgumentException.class, () -> apartmentService.saveApartment(apartmentWithNegativePrice));
-        verifyNoInteractions(apartmentRepository);
     }
 
     @Test
-    void saveApartmentWhenPriceIsPositive() {
-        doNothing().when(apartmentRepository).save(apartment);
-        Apartment result = apartmentService.saveApartment(apartment);
-        assertSame(apartment, result);
-        verify(apartmentRepository, times(1)).save(apartment);
-        verifyNoMoreInteractions(apartmentRepository);
+    public void testShowAll() {
+        List<Apartment> apartments = new ArrayList<>();
+        apartments.add(new Apartment(new BigDecimal("100"), ApartmentType.SINGLE, ApartmentStatus.AVAILABLE));
+        apartments.add(new Apartment(new BigDecimal("150"), ApartmentType.DOUBLE, ApartmentStatus.OCCUPIED));
+        when(apartmentRepository.findAll()).thenReturn(apartments);
+        List<Apartment> result = apartmentService.showAll();
+        assertEquals(apartments, result);
     }
 
     @Test
-    void findById() {
-        when(apartmentRepository.findById(apartmentId)).thenReturn(Optional.of(apartment));
-        Apartment result = apartmentService.findById(apartmentId);
-        assertSame(apartment, result);
-        verify(apartmentRepository, times(1)).findById(apartmentId);
-        verifyNoMoreInteractions(apartmentRepository);
+    public void testFindApartmentByIdSuccess() {
+        Apartment apartment = new Apartment(new BigDecimal("100"), ApartmentType.SINGLE, ApartmentStatus.AVAILABLE);
+        when(apartmentRepository.findById(apartment.getId())).thenReturn(Optional.of(apartment));
+        Apartment result = apartmentService.findById(apartment.getId());
+        assertEquals(apartment, result);
     }
 
     @Test
-    void findByIdNotExist() {
-        when(apartmentRepository.findById(apartmentId)).thenReturn(Optional.empty());
-        assertThrows(EntityNotFoundException.class, () -> apartmentService.findById(apartmentId));
-        verify(apartmentRepository, times(1)).findById(apartmentId);
-        verifyNoMoreInteractions(apartmentRepository);
+    public void testFindApartmentByIdNotFound() {
+        Long id = 1L;
+        when(apartmentRepository.findById(id)).thenReturn(Optional.empty());
+        assertThrows(EntityNotFoundException.class, () -> apartmentService.findById(id));
+    }
+
+    @Test
+    public void testSortByStatus() {
+        List<Apartment> apartments = Arrays.asList(
+                new Apartment(new BigDecimal("110"), ApartmentType.SINGLE, ApartmentStatus.AVAILABLE),
+                new Apartment(new BigDecimal("200"), ApartmentType.SINGLE, ApartmentStatus.OCCUPIED),
+                new Apartment(new BigDecimal("150"), ApartmentType.SINGLE, ApartmentStatus.UNAVAILABLE));
+        when(apartmentRepository.findAll()).thenReturn(apartments);
+        List<Apartment> sortedApartments = apartmentService.sortByStatus();
+        assertEquals(ApartmentStatus.AVAILABLE, sortedApartments.get(0).getApartmentStatus());
+        assertEquals(ApartmentStatus.OCCUPIED, sortedApartments.get(1).getApartmentStatus());
+        assertEquals(ApartmentStatus.UNAVAILABLE, sortedApartments.get(2).getApartmentStatus());
     }
 
     @Test

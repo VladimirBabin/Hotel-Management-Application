@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,5 +67,11 @@ public class ApartmentService {
         apartment.setApartmentStatus(status);
         apartmentRepository.update(apartment);
         return apartment;
+    }
+
+    public List<Apartment> sortByStatus() {
+        List<Apartment> sortedApartments = apartmentRepository.findAll();
+        sortedApartments.sort(Comparator.comparing(Apartment::getApartmentStatus));
+        return sortedApartments;
     }
 }
