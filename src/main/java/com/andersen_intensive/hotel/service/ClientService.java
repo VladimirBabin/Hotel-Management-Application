@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 public class ClientService {
+
     private final ClientRepository clientRepository;
 
     public Client saveClient(Client client) {
