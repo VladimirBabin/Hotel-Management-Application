@@ -1,4 +1,4 @@
-name: Java CI
+name: Java CI Appartment Store
 
 on:
   push:
@@ -23,5 +23,14 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+        
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+      
+    - name: Check target folder
+      run : |
+        cd target
+        ls -a
+        
+    - name: Running tests
+      run: mvn --batch-mode --update-snapshots verify -f pom.xml
