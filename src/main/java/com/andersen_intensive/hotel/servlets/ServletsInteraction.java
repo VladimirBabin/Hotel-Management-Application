@@ -1,12 +1,12 @@
 package com.andersen_intensive.hotel.servlets;
 
-import com.andersen_intensive.hotel.DEPRECATEDrepository.ClientRepositoryImpl;
-import com.andersen_intensive.hotel.DEPRECATEDservice.ClientServiceImpl;
 import com.andersen_intensive.hotel.repository.ApartmentRepository;
 import com.andersen_intensive.hotel.repository.ReservationRepository;
+import com.andersen_intensive.hotel.service.ReservationService;
+import com.andersen_intensive.hotel.repository.ClientRepository;
 import com.andersen_intensive.hotel.repository.UtilityRepository;
 import com.andersen_intensive.hotel.service.ApartmentService;
-import com.andersen_intensive.hotel.service.ReservationService;
+import com.andersen_intensive.hotel.service.ClientService;
 import com.andersen_intensive.hotel.service.UtilityService;
 import com.andersen_intensive.hotel.servlets.apartment.*;
 import com.andersen_intensive.hotel.servlets.client.*;
@@ -23,7 +23,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 public class ServletsInteraction {
 
     private Server server;
-    public final ClientServiceImpl clientService = new ClientServiceImpl(new ClientRepositoryImpl());
+    public final ClientService clientService = new ClientService(new ClientRepository());
     public final ApartmentService apartmentService = new ApartmentService(new ApartmentRepository());
     public final UtilityService utilityService = new UtilityService(new UtilityRepository());
     public final ReservationService reservationService = new ReservationService(
@@ -98,8 +98,8 @@ public class ServletsInteraction {
         );
 
         servletHandler.addServletWithMapping(
-                new ServletHolder(new RemoveClientServlet(clientService)),
-                "/client/delete"
+                new ServletHolder(new ChangePhoneNumberServlet(clientService)),
+                "/client/update"
         );
 
         servletHandler.addServletWithMapping(

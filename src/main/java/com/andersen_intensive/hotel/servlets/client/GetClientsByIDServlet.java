@@ -1,20 +1,19 @@
 package com.andersen_intensive.hotel.servlets.client;
 
-import com.andersen_intensive.hotel.DEPRECATEDservice.ClientServiceImpl;
+import com.andersen_intensive.hotel.service.ClientService;
 import com.andersen_intensive.hotel.servlets.JsonServlet;
-
 import java.util.Map;
 
 public class GetClientsByIDServlet extends JsonServlet {
-    private final ClientServiceImpl clientService;
+    private final ClientService clientService;
 
-    public GetClientsByIDServlet(ClientServiceImpl clientService) {
+    public GetClientsByIDServlet(ClientService clientService) {
         this.clientService = clientService;
     }
 
     @Override
     public Response get(String uri, Map<String, String[]> parameters) {
-        int id = Integer.parseInt(uri.substring(uri.lastIndexOf('/') + 1));
-        return new Response(clientService.getClientByID(id));
+        long id = Integer.parseInt(uri.substring(uri.lastIndexOf('/') + 1));
+        return new Response(clientService.findClientById(id));
     }
 }

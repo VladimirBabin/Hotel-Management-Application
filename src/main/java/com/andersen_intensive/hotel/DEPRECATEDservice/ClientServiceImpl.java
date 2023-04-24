@@ -1,3 +1,4 @@
+/*
 package com.andersen_intensive.hotel.DEPRECATEDservice;
 
 import com.andersen_intensive.hotel.models.Client;
@@ -57,4 +58,4 @@ public class ClientServiceImpl implements ClientService {
         Client client = clientRepository.getClientByPhoneNumber(phoneNumber);
         return client != null;
     }
-}
+}*/
