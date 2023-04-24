@@ -18,12 +18,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class ApartmentServiceTest {
-
     @Mock
     private ApartmentRepository apartmentRepository;
 
     private ApartmentService apartmentService;
-
     private final Apartment apartment = new Apartment(new BigDecimal("1000.00"), ApartmentType.SINGLE, ApartmentStatus.AVAILABLE);
     private final Long apartmentId = 1L;
 
@@ -51,7 +49,6 @@ class ApartmentServiceTest {
         verify(apartmentRepository, times(1)).save(apartment);
         verifyNoMoreInteractions(apartmentRepository);
     }
-
 
     @Test
     void showAll_whenCalled_shouldCallApartmentRepositoryFindAllMethod() {
