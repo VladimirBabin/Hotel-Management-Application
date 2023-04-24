@@ -1,6 +1,7 @@
 package com.andersen_intensive.hotel.repository;
 
 import com.andersen_intensive.hotel.models.Client;
+import com.andersen_intensive.hotel.models.Utility;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -15,7 +16,7 @@ public class ClientRepository implements MainRepository<Client, Long>{
         CriteriaQuery<Client> query = cb.createQuery(Client.class);
         Root<Client> root = query.from(Client.class);
 
-        query.select(root).where(cb.equal(root.get("phoneNumber"), phoneNumber));
+        query.select(root).where(cb.equal(root.get("phone_number"), phoneNumber));
 
         TypedQuery<Client> typedQuery = entityManager.createQuery(query);
 

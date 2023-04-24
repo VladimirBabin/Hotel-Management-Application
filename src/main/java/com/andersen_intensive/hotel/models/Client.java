@@ -16,15 +16,15 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "firstName")
+    @Column(name = "first_name")
     @NonNull
     private String firstName;
 
-    @Column(name = "lastName")
+    @Column(name = "last_name")
     @NonNull
     private String lastName;
 
-    @Column(name = "phoneNumber")
+    @Column(name = "phone_number")
     @NonNull
     private String phoneNumber;
 

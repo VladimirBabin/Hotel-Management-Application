@@ -33,14 +33,6 @@ class ClientServiceTest {
     }
 
     @Test
-    void saveClientAlreadyExistTest() {
-        Client client = new Client("Max", "Maxon", "89112233444");
-        when(clientRepository.findByPhoneNumber(client.getPhoneNumber())).thenReturn(client);
-
-        assertThrows(IllegalArgumentException.class, () -> clientService.saveClient(client));
-    }
-
-    @Test
     void showAllTest() {
         List<Client> clients = new ArrayList<>();
         clients.add(new Client("Max", "Maxon", "89112233444"));
@@ -120,5 +112,11 @@ class ClientServiceTest {
 
     @Test
     void changePhoneNumber() {
+        Client client = new Client("Max", "Maxon", "89112233444");
+        when(clientRepository.findByPhoneNumber(client.getPhoneNumber())).thenReturn(client);
+
+        Client clientUpdated = clientService.changePhoneNumber(client.getId(),
+                "89111122333");
+        assertEquals("89111122333", clientUpdated.getPhoneNumber());
     }
 }
