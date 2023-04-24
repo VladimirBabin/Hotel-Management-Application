@@ -1,5 +1,3 @@
-[application]
-
 [application.apartmentStatusChange]
-apartmentStatusEnabled = false
+apartmentStatusEnabled = true
 
