@@ -7,7 +7,7 @@ public interface ClientRepository {
 
     Client addClient(Client client);
 
-    Client getClientById(int id);
+    Client getClientById(long id);
 
     Client getClientByPhoneNumber(String phoneNumber);
 
@@ -15,5 +15,5 @@ public interface ClientRepository {
 
     void updateClient(Client client);
 
-    void deleteClient(int id);
+    void deleteClient(long id);
 }

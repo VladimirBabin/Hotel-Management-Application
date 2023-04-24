@@ -1,3 +1,4 @@
+/*
 package com.andersen_intensive.hotel.DEPRECATEDrepository;
 
 import com.andersen_intensive.hotel.models.Client;
@@ -25,7 +26,7 @@ public class ClientRepositoryImpl implements ClientRepository {
             statement.setString(1, client.getFirstName());
             statement.setString(2, client.getLastName());
             statement.setString(3, client.getPhoneNumber());
-            statement.setInt(4, client.getPersonalID());
+            statement.setLong(4, client.getId());
             statement.executeUpdate();
             return client;
         } catch (SQLException e) {
@@ -34,18 +35,18 @@ public class ClientRepositoryImpl implements ClientRepository {
     }
 
     @Override
-    public Client getClientById(int personalID) {
+    public Client getClientById(long personalID) {
         String sql = "SELECT * FROM clients WHERE personalID = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(4, personalID);
+            statement.setLong(4, personalID);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    personalID = resultSet.getInt("personalID");
+                    personalID = resultSet.getLong("personalID");
                     String firstName = resultSet.getString("firstName");
                     String lastName = resultSet.getString("lastName");
                     String phoneNumber = resultSet.getString("phoneNumber");
-                    return new Client(firstName, lastName, phoneNumber, personalID);
+                    return new Client(firstName, lastName, personalID, phoneNumber);
                 } else {
                     return null;
                 }
@@ -63,11 +64,11 @@ public class ClientRepositoryImpl implements ClientRepository {
             statement.setString(3, phoneNumber);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    int personalID = resultSet.getInt("personalID");
+                    long id = resultSet.getLong("id");
                     String firstName = resultSet.getString("firstName");
                     String lastName = resultSet.getString("lastName");
                     phoneNumber = resultSet.getString("phoneNumber");
-                    return new Client(firstName, lastName, phoneNumber, personalID);
+                    return new Client(firstName, lastName, phoneNumber, id);
                 } else {
                     return null;
                 }
@@ -88,7 +89,7 @@ public class ClientRepositoryImpl implements ClientRepository {
                 String firstName = resultSet.getString("firstName");
                 String lastName = resultSet.getString("lastName");
                 String phoneNumber = resultSet.getString("phoneNumber");
-                int personalID = resultSet.getInt("personalID");
+                long personalID = resultSet.getInt("personalID");
                 Client client = new Client(firstName, lastName, phoneNumber, personalID);
                 clients.add(client);
             }
@@ -107,4 +108,4 @@ public class ClientRepositoryImpl implements ClientRepository {
     public void deleteClient(int id) {
         clients.remove(id);
     }
-}
+}*/
