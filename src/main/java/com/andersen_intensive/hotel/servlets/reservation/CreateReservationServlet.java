@@ -1,27 +1,34 @@
-//package com.andersen_intensive.hotel.servlets.reservation;
-//
-//import com.andersen_intensive.hotel.models.Reservation;
-//import com.andersen_intensive.hotel.service.ReservationServiceImpl;
-//import com.andersen_intensive.hotel.servlets.JsonServlet;
-//import jakarta.servlet.http.HttpServletResponse;
-//
-//import java.time.LocalDate;
-//import java.util.Map;
-//
-//public class CreateReservationServlet extends JsonServlet {
-//
-//    private final ReservationServiceImpl reservationService;
-//
-//    public CreateReservationServlet(ReservationServiceImpl reservationService) {
-//        this.reservationService = reservationService;
-//    }
-//
-//    @Override
-//    public Response post(String uri, Map<String, String> body) {
-//        Reservation reservation = new Reservation(Integer.parseInt(body.get("id")),
-//                Integer.parseInt(body.get("client")),
-//                Integer.parseInt(body.get("apartment")),
-//                LocalDate.parse(body.get("checkIn")));
-//        return new Response(reservationService.createReservation(reservation));
-//    }
-//}
+package com.andersen_intensive.hotel.servlets.reservation;
+
+import com.andersen_intensive.hotel.models.Reservation;
+import com.andersen_intensive.hotel.service.ReservationService;
+import com.andersen_intensive.hotel.servlets.JsonServlet;
+import lombok.RequiredArgsConstructor;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.Map;
+
+@RequiredArgsConstructor
+public class CreateReservationServlet extends JsonServlet {
+
+    private final ReservationService reservationService;
+
+    @Override
+    public Response post(String uri, Map<String, String> body) {
+        LocalDate checkIn = null;
+        LocalDate checkOut = null;
+        try {
+            checkIn = LocalDate.parse(body.get("check_in"));
+            checkOut = LocalDate.parse(body.get("check_out"));
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("Date should be in format yyyy-MM-dd");
+        }
+
+        Reservation reservation = new Reservation(checkIn, checkOut);
+        Long apartmentId = Long.parseLong(body.get("apartment_id"));
+        Long clientId = Long.parseLong(body.get("client_id"));
+
+        return new Response(reservationService.createReservation(reservation, apartmentId, clientId));
+    }
+}
