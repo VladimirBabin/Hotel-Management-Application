@@ -15,7 +15,6 @@ import static org.mockito.Mockito.times;
 class ClientServiceTest {
 
     private final ClientRepository clientRepository = mock(ClientRepository.class);
-
     private final ClientService clientService = new ClientService(clientRepository);
 
     @Test

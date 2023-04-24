@@ -1,6 +1,5 @@
 package com.andersen_intensive.hotel.servlets.reservation;
 
-import com.andersen_intensive.hotel.DEPRECATEDservice.ReservationServiceImpl;
 import com.andersen_intensive.hotel.service.ReservationService;
 import com.andersen_intensive.hotel.servlets.JsonServlet;
 import lombok.RequiredArgsConstructor;
