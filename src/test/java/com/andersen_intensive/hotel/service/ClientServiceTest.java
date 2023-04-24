@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.times;
 
 class ClientServiceTest {
 
@@ -20,15 +19,11 @@ class ClientServiceTest {
     @Test
     void saveClientTest() {
         Client client = new Client("Max", "Maxon", "89112233444");
-
-        when(clientRepository.findByPhoneNumber(client.getPhoneNumber())).thenReturn(null);
+        when(clientRepository.findById(client.getId())).thenReturn(Optional.of(client));
 
         Client savedClient = clientService.saveClient(client);
 
-        verify(clientRepository, times(1)).
-                findByPhoneNumber(client.getPhoneNumber());
-        verify(clientRepository, times(1)).save(client);
-        assertNotNull(savedClient);
+        assertEquals(client, savedClient);
     }
 
     @Test
@@ -112,10 +107,10 @@ class ClientServiceTest {
     @Test
     void changePhoneNumber() {
         Client client = new Client("Max", "Maxon", "89112233444");
-        when(clientRepository.findByPhoneNumber(client.getPhoneNumber())).thenReturn(client);
+        when(clientRepository.findById(any())).thenReturn(java.util.Optional.of(client));
 
-        Client clientUpdated = clientService.changePhoneNumber(client.getId(),
-                "89111122333");
-        assertEquals("89111122333", clientUpdated.getPhoneNumber());
+        Client updatedClient = clientService.changePhoneNumber(1L, "4444");
+
+        assertEquals(("4444"), updatedClient.getPhoneNumber());
     }
 }
