@@ -1,9 +1,8 @@
 package com.andersen_intensive.hotel.models;
 
 import lombok.*;
+
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -29,6 +28,6 @@ public class Client {
     @NonNull
     private String phoneNumber;
 
-    @OneToOne(mappedBy = "clients")
+    @OneToOne(mappedBy = "client")
     private Reservation reservation;
 }

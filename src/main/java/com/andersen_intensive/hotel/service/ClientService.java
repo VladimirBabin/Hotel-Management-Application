@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 public class ClientService {
+
     private final ClientRepository clientRepository;
 
     public Client saveClient(Client client) {
@@ -30,11 +31,11 @@ public class ClientService {
     }
 
     public Client findClientByPhoneNumber(String phoneNumber) {
-        Optional<Client> clientFromMemory = Optional.ofNullable(clientRepository.findByPhoneNumber(phoneNumber));
-        if (clientFromMemory.isEmpty()) {
+        Client clientFromMemory = clientRepository.findByPhoneNumber(phoneNumber);
+        if (clientFromMemory == null) {
             throw new EntityNotFoundException("Entity with this phone number does not exist");
         }
-        return clientFromMemory.get();
+        return clientFromMemory;
     }
 
     public List<Client> sortByLastName() {

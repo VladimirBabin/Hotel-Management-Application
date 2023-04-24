@@ -1,6 +1,5 @@
 package com.andersen_intensive.hotel.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,9 +27,9 @@ public class Reservation {
     @NonNull
     private LocalDate checkOut;
 
-//    @OneToOne
-//    @JoinColumn(name = "client_id")
-//    private Client client;
+    @OneToOne
+    @JoinColumn(name = "client_id")
+    private Client client;
 
     @OneToOne
     @JoinColumn(name = "apartment_id")
