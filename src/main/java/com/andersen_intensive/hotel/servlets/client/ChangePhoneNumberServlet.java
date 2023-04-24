@@ -13,7 +13,7 @@ public class ChangePhoneNumberServlet extends JsonServlet {
     @Override
     public Response post(String uri, Map<String, String> body) {
         return new Response(clientService.changePhoneNumber(
-                Long.parseLong(body.get("id")),
+                Long.valueOf(body.get("id")),
                 body.get("phone_number")
         ));
     }

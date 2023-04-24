@@ -53,13 +53,14 @@ public class ClientService {
     public Client changePhoneNumber(Long id, String newPhoneNumber) {
         Optional<Client> clientFromMemory = clientRepository.findById(id);
 
-        if (clientFromMemory.isEmpty()) {
-            throw new EntityNotFoundException("Utility with this phone number does not exist");
-        }
-
         Client client = clientFromMemory.get();
         client.setPhoneNumber(newPhoneNumber);
         clientRepository.update(client);
+
+        if (clientFromMemory.isEmpty()) {
+            throw new EntityNotFoundException("Client with this id does not exist");
+        }
+
         return client;
     }
 }
