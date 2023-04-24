@@ -10,9 +10,7 @@ import com.andersen_intensive.hotel.service.ClientService;
 import com.andersen_intensive.hotel.service.UtilityService;
 import com.andersen_intensive.hotel.servlets.apartment.*;
 import com.andersen_intensive.hotel.servlets.client.*;
-import com.andersen_intensive.hotel.servlets.reservation.CreateReservationServlet;
-import com.andersen_intensive.hotel.servlets.reservation.GetReservationByIdServlet;
-import com.andersen_intensive.hotel.servlets.reservation.GetReservationsServlet;
+import com.andersen_intensive.hotel.servlets.reservation.*;
 import com.andersen_intensive.hotel.servlets.utility.*;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
@@ -28,7 +26,9 @@ public class ServletsInteraction {
     public final UtilityService utilityService = new UtilityService(new UtilityRepository());
     public final ReservationService reservationService = new ReservationService(
             new ReservationRepository(),
-            new ApartmentRepository()
+            new ApartmentRepository(),
+            new ClientRepository(),
+            new UtilityRepository()
     );
 
     public void run() {
@@ -162,6 +162,16 @@ public class ServletsInteraction {
         servletHandler.addServletWithMapping(
                 new ServletHolder(new GetReservationsServlet(reservationService)),
                 "/reservation/all"
+        );
+
+        servletHandler.addServletWithMapping(
+                new ServletHolder(new CreateUtilityForReservation(reservationService)),
+                "/reservation/utility"
+        );
+
+        servletHandler.addServletWithMapping(
+                new ServletHolder(new GetCurrentPriceReservationServlet(reservationService)),
+                "/reservation/price/*"
         );
     }
 }

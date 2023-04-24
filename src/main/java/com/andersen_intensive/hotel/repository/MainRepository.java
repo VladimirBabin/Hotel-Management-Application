@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface MainRepository<T, ID> {
 
     @PersistenceContext
-    EntityManager entityManager = EntityManagerUtil.getEntityManager();
+    static EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
     default void save(T t) {
         EntityTransaction entityTransaction = entityManager.getTransaction();
