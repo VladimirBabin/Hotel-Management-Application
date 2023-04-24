@@ -1,13 +1,13 @@
 package com.andersen_intensive.hotel.service;
 
-import com.andersen_intensive.hotel.models.Apartment;
-import com.andersen_intensive.hotel.models.ApartmentStatus;
-import com.andersen_intensive.hotel.models.Reservation;
-import com.andersen_intensive.hotel.repository.ApartmentRepository;
-import com.andersen_intensive.hotel.repository.ReservationRepository;
+import com.andersen_intensive.hotel.models.*;
+import com.andersen_intensive.hotel.repository.*;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.EntityTransaction;
+import java.math.BigDecimal;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +16,8 @@ public class ReservationService {
 
     private final ReservationRepository reservationRepository;
     private final ApartmentRepository apartmentRepository;
+    private final ClientRepository clientRepository;
+    private final UtilityRepository utilityRepository;
 
     public Reservation createReservation(Reservation reservation, Long apartmentId, Long clientId) {
         if (reservation.getCheckIn().equals(reservation.getCheckOut())) {
@@ -36,8 +38,16 @@ public class ReservationService {
             throw new IllegalStateException("Apartment is not available for reservation");
         }
 
+        Optional<Client> clientOptional = clientRepository.findById(clientId);
+        if (clientOptional.isEmpty()) {
+            throw new EntityNotFoundException("Client with this id does not exist");
+        }
+        Client client = clientOptional.get();
+
+        client.setReservation(reservation);
         apartment.setReservation(reservation);
         reservation.setApartment(apartmentOptional.get());
+        reservation.setClient(client);
 
         reservationRepository.save(reservation);
         return reservation;
@@ -53,5 +63,56 @@ public class ReservationService {
 
     public List<Reservation> getAllReservations() {
         return reservationRepository.findAll();
+    }
+
+    public Reservation createUtilityForReservation(Long reservationId, Long utilityId) {
+        Optional<Reservation> reservationOptional = reservationRepository.findById(reservationId);
+        if (reservationOptional.isEmpty()) {
+            throw new EntityNotFoundException("Reservation with this id does not exist");
+        }
+        Reservation reservation = reservationOptional.get();
+
+        Optional<Utility> utilityOptional = utilityRepository.findById(utilityId);
+        if (utilityOptional.isEmpty()) {
+            throw new EntityNotFoundException("Utility with this id does not exist");
+        }
+        Utility utility = utilityOptional.get();
+
+        EntityTransaction entityTransaction = MainRepository.entityManager.getTransaction();
+        entityTransaction.begin();
+
+        List<Reservation> reservations = utility.getReservations();
+        reservations.add(reservation);
+
+        List<Utility> utilities = reservation.getUtilities();
+        utilities.add(utility);
+
+        utility.setReservations(reservations);
+        reservation.setUtilities(utilities);
+        reservationRepository.update(reservation);
+        utilityRepository.update(utility);
+
+        entityTransaction.commit();
+        return reservation;
+    }
+
+    public BigDecimal getCurrentPrice(Long id) {
+        Optional<Reservation> reservationOptional = reservationRepository.findById(id);
+        if (reservationOptional.isEmpty()) {
+            throw new EntityNotFoundException("Reservation with this id does not exist");
+        }
+        BigDecimal result = BigDecimal.ZERO;
+        Reservation reservation = reservationOptional.get();
+        BigDecimal apartmentPrice = reservation.getApartment().getPrice();
+        List<Utility> utilities = reservation.getUtilities();
+
+        BigDecimal daysBetween = new BigDecimal(ChronoUnit.DAYS.between(reservation.getCheckIn(), reservation.getCheckOut()));
+        result = apartmentPrice.multiply(daysBetween);
+
+        for (Utility utility: utilities) {
+            result.add(utility.getPrice());
+        }
+
+        return result;
     }
 }
