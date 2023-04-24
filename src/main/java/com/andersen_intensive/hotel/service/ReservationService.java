@@ -110,7 +110,7 @@ public class ReservationService {
         result = apartmentPrice.multiply(daysBetween);
 
         for (Utility utility: utilities) {
-            result.add(utility.getPrice());
+            result = result.add(utility.getPrice());
         }
 
         return result;
