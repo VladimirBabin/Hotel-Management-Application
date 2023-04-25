@@ -1,7 +1,10 @@
 package com.andersen_intensive.hotel.repository;
 
 import com.andersen_intensive.hotel.models.Apartment;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public class ApartmentRepository implements MainRepository<Apartment, Long> {
+import java.util.Optional;
 
+public interface ApartmentRepository extends JpaRepository<Apartment, Integer> {
+    Optional<Apartment> findById(Long id);
 }

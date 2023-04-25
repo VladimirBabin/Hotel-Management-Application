@@ -2,9 +2,9 @@ package com.andersen_intensive.hotel.service;
 
 import com.andersen_intensive.hotel.models.Utility;
 import com.andersen_intensive.hotel.repository.UtilityRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 
-import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -109,7 +109,7 @@ class UtilityServiceTest {
     @Test
     public void testChangePrice() {
         Utility utility = new Utility("Water", new BigDecimal("20"));
-        when(utilityRepository.findById(any())).thenReturn(java.util.Optional.of(utility));
+        when(utilityRepository.findById((Long) any())).thenReturn(java.util.Optional.of(utility));
 
         Utility updatedUtility = utilityService.changePrice(1L, new BigDecimal("30.00"));
 
@@ -118,7 +118,7 @@ class UtilityServiceTest {
 
     @Test
     public void testChangePriceWithInvalidId() {
-        when(utilityRepository.findById(any())).thenReturn(java.util.Optional.empty());
+        when(utilityRepository.findById((Long) any())).thenReturn(java.util.Optional.empty());
 
         assertThrows(EntityNotFoundException.class, () -> utilityService.changePrice(1L, new BigDecimal("30")));
     }
@@ -126,7 +126,7 @@ class UtilityServiceTest {
     @Test
     public void testChangePriceWithInvalidPrice() {
         Utility utility = new Utility("Water", new BigDecimal("20"));
-        when(utilityRepository.findById(any())).thenReturn(java.util.Optional.of(utility));
+        when(utilityRepository.findById((Long) any())).thenReturn(java.util.Optional.of(utility));
 
         assertThrows(IllegalArgumentException.class, () -> utilityService.changePrice(1L, new BigDecimal("-30")));
     }

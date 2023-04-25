@@ -2,18 +2,24 @@ package com.andersen_intensive.hotel.service;
 
 import com.andersen_intensive.hotel.repository.UtilityRepository;
 import com.andersen_intensive.hotel.models.Utility;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
+@Service
 public class UtilityService {
+    private UtilityRepository utilityRepository;
 
-    private final UtilityRepository utilityRepository;
+    public UtilityService(UtilityRepository utilityRepository) {
+        this.utilityRepository = utilityRepository;
+    }
 
     public Utility saveUtility(Utility utility) {
         Utility utilityFromMemory = utilityRepository.findByName(utility.getName());
@@ -67,7 +73,7 @@ public class UtilityService {
 
         Utility utility = utilityFromMemory.get();
         utility.setPrice(newPrice);
-        utilityRepository.update(utility);
+        utilityRepository.save(utility);
         return utility;
     }
 }

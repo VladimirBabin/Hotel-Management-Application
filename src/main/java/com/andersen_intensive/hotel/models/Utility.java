@@ -1,8 +1,8 @@
 package com.andersen_intensive.hotel.models;
 
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;

@@ -5,9 +5,9 @@ import com.andersen_intensive.hotel.repository.ApartmentRepository;
 import com.andersen_intensive.hotel.repository.ClientRepository;
 import com.andersen_intensive.hotel.repository.ReservationRepository;
 import com.andersen_intensive.hotel.repository.UtilityRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 
-import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;

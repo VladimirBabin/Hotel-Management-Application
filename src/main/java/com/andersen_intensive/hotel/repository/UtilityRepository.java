@@ -1,29 +1,11 @@
 package com.andersen_intensive.hotel.repository;
 
 import com.andersen_intensive.hotel.models.Utility;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import java.util.List;
+import java.util.Optional;
 
-public class UtilityRepository implements MainRepository<Utility, Long> {
-
-    public Utility findByName(String name) {
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Utility> query = cb.createQuery(Utility.class);
-        Root<Utility> root = query.from(Utility.class);
-
-        query.select(root).where(cb.equal(root.get("name"), name));
-
-        TypedQuery<Utility> typedQuery = entityManager.createQuery(query);
-
-        List<Utility> utilities = typedQuery.getResultList();
-        if (utilities.isEmpty()) {
-            return null;
-        } else {
-            return utilities.get(0);
-        }
-    }
+public interface UtilityRepository extends JpaRepository<Utility, Integer> {
+    Utility findByName(String name);
+    Optional<Utility> findById(Long id);
 }

@@ -2,8 +2,8 @@ package com.andersen_intensive.hotel.service;
 
 import com.andersen_intensive.hotel.models.Client;
 import com.andersen_intensive.hotel.repository.ClientRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
-import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -107,7 +107,7 @@ class ClientServiceTest {
     @Test
     void changePhoneNumber() {
         Client client = new Client("Max", "Maxon", "89112233444");
-        when(clientRepository.findById(any())).thenReturn(java.util.Optional.of(client));
+        when(clientRepository.findById((Long) any())).thenReturn(java.util.Optional.of(client));
 
         Client updatedClient = clientService.changePhoneNumber(1L, "4444");
 
