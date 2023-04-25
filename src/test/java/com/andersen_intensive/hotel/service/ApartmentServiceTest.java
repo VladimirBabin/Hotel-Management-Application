@@ -4,9 +4,9 @@ import com.andersen_intensive.hotel.models.Apartment;
 import com.andersen_intensive.hotel.models.ApartmentStatus;
 import com.andersen_intensive.hotel.models.ApartmentType;
 import com.andersen_intensive.hotel.repository.ApartmentRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 
-import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -79,7 +79,7 @@ class ApartmentServiceTest {
         when(apartmentRepository.findById(1L)).thenReturn(Optional.of(new Apartment(new BigDecimal(150), ApartmentType.SINGLE, ApartmentStatus.AVAILABLE)));
         Apartment updatedApartment = apartmentService.updateStatus(1L, ApartmentStatus.OCCUPIED);
         verify(apartmentRepository, times(1)).findById(1L);
-        verify(apartmentRepository, times(1)).update(updatedApartment);
+        verify(apartmentRepository, times(1)).save(updatedApartment);
         assertEquals(ApartmentStatus.OCCUPIED, updatedApartment.getApartmentStatus());
     }
 }

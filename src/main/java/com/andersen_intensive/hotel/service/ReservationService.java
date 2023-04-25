@@ -1,23 +1,38 @@
 package com.andersen_intensive.hotel.service;
 
 import com.andersen_intensive.hotel.models.*;
-import com.andersen_intensive.hotel.repository.*;
+import com.andersen_intensive.hotel.repository.ApartmentRepository;
+import com.andersen_intensive.hotel.repository.ClientRepository;
+import com.andersen_intensive.hotel.repository.ReservationRepository;
+import com.andersen_intensive.hotel.repository.UtilityRepository;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.EntityTransaction;
 import java.math.BigDecimal;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
+@Service
 public class ReservationService {
+    private ReservationRepository reservationRepository;
+    private ApartmentRepository apartmentRepository;
+    private ClientRepository clientRepository;
+    private UtilityRepository utilityRepository;
 
-    private final ReservationRepository reservationRepository;
-    private final ApartmentRepository apartmentRepository;
-    private final ClientRepository clientRepository;
-    private final UtilityRepository utilityRepository;
+    public ReservationService(ReservationRepository reservationRepository
+                                , ApartmentRepository apartmentRepository
+                                , ClientRepository clientRepository
+                                , UtilityRepository utilityRepository) {
+        this.reservationRepository = reservationRepository;
+        this.apartmentRepository = apartmentRepository;
+        this.clientRepository = clientRepository;
+        this.utilityRepository = utilityRepository;
+    }
 
     public Reservation createReservation(Reservation reservation, Long apartmentId, Long clientId) {
         if (reservation.getCheckIn().equals(reservation.getCheckOut())) {
@@ -65,6 +80,7 @@ public class ReservationService {
         return reservationRepository.findAll();
     }
 
+    @Transactional
     public Reservation createUtilityForReservation(Long reservationId, Long utilityId) {
         Optional<Reservation> reservationOptional = reservationRepository.findById(reservationId);
         if (reservationOptional.isEmpty()) {
@@ -78,9 +94,6 @@ public class ReservationService {
         }
         Utility utility = utilityOptional.get();
 
-        EntityTransaction entityTransaction = MainRepository.entityManager.getTransaction();
-        entityTransaction.begin();
-
         List<Reservation> reservations = utility.getReservations();
         reservations.add(reservation);
 
@@ -89,10 +102,8 @@ public class ReservationService {
 
         utility.setReservations(reservations);
         reservation.setUtilities(utilities);
-        reservationRepository.update(reservation);
-        utilityRepository.update(utility);
-
-        entityTransaction.commit();
+        reservationRepository.save(reservation);
+        utilityRepository.save(utility);
         return reservation;
     }
 
@@ -101,7 +112,7 @@ public class ReservationService {
         if (reservationOptional.isEmpty()) {
             throw new EntityNotFoundException("Reservation with this id does not exist");
         }
-        BigDecimal result = BigDecimal.ZERO;
+        BigDecimal result;
         Reservation reservation = reservationOptional.get();
         BigDecimal apartmentPrice = reservation.getApartment().getPrice();
         List<Utility> utilities = reservation.getUtilities();

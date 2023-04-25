@@ -2,7 +2,7 @@ package com.andersen_intensive.hotel.models;
 
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 @Entity

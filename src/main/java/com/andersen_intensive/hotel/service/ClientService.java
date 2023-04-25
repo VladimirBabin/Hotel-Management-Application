@@ -2,16 +2,23 @@ package com.andersen_intensive.hotel.service;
 
 import com.andersen_intensive.hotel.models.Client;
 import com.andersen_intensive.hotel.repository.ClientRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import javax.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
+@Service
 public class ClientService {
+    private ClientRepository clientRepository;
 
-    private final ClientRepository clientRepository;
+    public ClientService(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
+    }
 
     public Client saveClient(Client client) {
         clientRepository.save(client);
@@ -55,7 +62,7 @@ public class ClientService {
 
         Client client = clientFromMemory.get();
         client.setPhoneNumber(newPhoneNumber);
-        clientRepository.update(client);
+        clientRepository.save(client);
 
         if (clientFromMemory.isEmpty()) {
             throw new EntityNotFoundException("Client with this id does not exist");

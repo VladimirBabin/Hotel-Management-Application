@@ -5,17 +5,24 @@ import com.andersen_intensive.hotel.models.Apartment;
 import com.andersen_intensive.hotel.models.ApartmentStatus;
 import com.andersen_intensive.hotel.repository.ApartmentRepository;
 import com.moandjiezana.toml.Toml;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
+@Service
 public class ApartmentService {
-    private final ApartmentRepository apartmentRepository;
+    private ApartmentRepository apartmentRepository;
+
+    public ApartmentService(ApartmentRepository apartmentRepository) {
+        this.apartmentRepository = apartmentRepository;
+    }
 
     public Apartment saveApartment(Apartment apartment) {
         if (apartment.getPrice().compareTo(BigDecimal.ZERO) < 0) {
@@ -49,7 +56,7 @@ public class ApartmentService {
         }
         Apartment apartment = apartmentFromMemory.get();
         apartment.setPrice(newPrice);
-        apartmentRepository.update(apartment);
+        apartmentRepository.save(apartment);
         return apartment;
     }
 
@@ -65,7 +72,7 @@ public class ApartmentService {
         }
         Apartment apartment = apartmentFromMemory.get();
         apartment.setApartmentStatus(status);
-        apartmentRepository.update(apartment);
+        apartmentRepository.save(apartment);
         return apartment;
     }
 
