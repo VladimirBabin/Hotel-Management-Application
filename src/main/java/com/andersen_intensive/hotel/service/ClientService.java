@@ -16,6 +16,7 @@ import java.util.Optional;
 public class ClientService {
     private ClientRepository clientRepository;
 
+    @Autowired
     public ClientService(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }

@@ -2,7 +2,6 @@ package com.andersen_intensive.hotel.controller;
 
 import com.andersen_intensive.hotel.models.Apartment;
 import com.andersen_intensive.hotel.service.ApartmentService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,13 +16,14 @@ public class ApartmentController {
     }
 
     @PostMapping("/")
-    public int addApartment() {
-        return 1;
+    public long addApartment(@RequestBody Apartment apartment) {
+        Apartment newApartment = apartmentService.saveApartment(apartment);
+        return newApartment.getId();
     }
 
     @GetMapping("/{apartmentId}")
     public Apartment getApartment(@PathVariable long apartmentId) {
-        return null;
+        return apartmentService.findById(apartmentId);
     }
 
     @PutMapping("/")

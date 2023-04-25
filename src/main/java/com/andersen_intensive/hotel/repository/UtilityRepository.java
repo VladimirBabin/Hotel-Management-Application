@@ -2,10 +2,9 @@ package com.andersen_intensive.hotel.repository;
 
 import com.andersen_intensive.hotel.models.Utility;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
-public interface UtilityRepository extends JpaRepository<Utility, Integer> {
+@Repository
+public interface UtilityRepository extends JpaRepository<Utility, Long> {
     Utility findByName(String name);
-    Optional<Utility> findById(Long id);
 }

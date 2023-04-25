@@ -19,7 +19,7 @@ import java.util.Optional;
 @Service
 public class ApartmentService {
     private ApartmentRepository apartmentRepository;
-
+    @Autowired
     public ApartmentService(ApartmentRepository apartmentRepository) {
         this.apartmentRepository = apartmentRepository;
     }
