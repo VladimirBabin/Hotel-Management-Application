@@ -2,7 +2,6 @@ package com.andersen_intensive.hotel.repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -11,25 +10,24 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Optional;
 
-public interface MainRepository<T, ID> {
+public class MainRepository<T, ID> {
 
-    @PersistenceContext
-    static EntityManager entityManager = EntityManagerUtil.getEntityManager();
+    private final EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
-    default void save(T t) {
+    public void save(T t) {
         EntityTransaction entityTransaction = entityManager.getTransaction();
         entityTransaction.begin();
         entityManager.persist(t);
         entityTransaction.commit();
     }
 
-    default Optional<T> findById(ID id) {
+    public Optional<T> findById(ID id) {
         Class<T> type = (Class<T>) ((ParameterizedType) getClass().getGenericInterfaces()[0]).getActualTypeArguments()[0];
         T entity = entityManager.find(type, id);
         return Optional.ofNullable(entity);
     }
 
-    default List<T> findAll() {
+    public List<T> findAll() {
         Class<T> type = (Class<T>) ((ParameterizedType) getClass().getGenericInterfaces()[0]).getActualTypeArguments()[0];
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(type);
@@ -39,16 +37,19 @@ public interface MainRepository<T, ID> {
         return typedQuery.getResultList();
     }
 
-    default void update(T t) {
+    public void update(T t) {
         entityManager.merge(t);
     }
 
-    default void delete(T t) {
-        entityManager.remove(t);
+    public void beginTransaction() {
+        entityManager.getTransaction().begin();
     }
 
-    default boolean existById(ID id) {
-        Class<T> type = (Class<T>) ((ParameterizedType) getClass().getGenericInterfaces()[0]).getActualTypeArguments()[0];
-        return entityManager.find(type, id) != null;
+    public void commit() {
+        entityManager.getTransaction().commit();
+    }
+
+    EntityManager getEntityManager() {
+        return entityManager;
     }
 }

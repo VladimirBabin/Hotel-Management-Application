@@ -1,11 +1,13 @@
 package com.andersen_intensive.hotel.service;
 
 import com.andersen_intensive.hotel.models.*;
-import com.andersen_intensive.hotel.repository.*;
+import com.andersen_intensive.hotel.repository.ApartmentRepository;
+import com.andersen_intensive.hotel.repository.ClientRepository;
+import com.andersen_intensive.hotel.repository.ReservationRepository;
+import com.andersen_intensive.hotel.repository.UtilityRepository;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.EntityTransaction;
 import java.math.BigDecimal;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -78,8 +80,7 @@ public class ReservationService {
         }
         Utility utility = utilityOptional.get();
 
-        EntityTransaction entityTransaction = MainRepository.entityManager.getTransaction();
-        entityTransaction.begin();
+        reservationRepository.beginTransaction();
 
         List<Reservation> reservations = utility.getReservations();
         reservations.add(reservation);
@@ -92,7 +93,7 @@ public class ReservationService {
         reservationRepository.update(reservation);
         utilityRepository.update(utility);
 
-        entityTransaction.commit();
+        reservationRepository.commit();
         return reservation;
     }
 
