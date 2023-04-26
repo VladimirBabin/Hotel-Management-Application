@@ -8,7 +8,6 @@ import com.andersen_intensive.hotel.repository.UtilityRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -19,21 +18,10 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class ReservationService {
-    private ReservationRepository reservationRepository;
-    private ApartmentRepository apartmentRepository;
-    private ClientRepository clientRepository;
-    private UtilityRepository utilityRepository;
-
-    @Autowired
-    public ReservationService(ReservationRepository reservationRepository
-                                , ApartmentRepository apartmentRepository
-                                , ClientRepository clientRepository
-                                , UtilityRepository utilityRepository) {
-        this.reservationRepository = reservationRepository;
-        this.apartmentRepository = apartmentRepository;
-        this.clientRepository = clientRepository;
-        this.utilityRepository = utilityRepository;
-    }
+    private final ReservationRepository reservationRepository;
+    private final ApartmentRepository apartmentRepository;
+    private final ClientRepository clientRepository;
+    private final UtilityRepository utilityRepository;
 
     public Reservation createReservation(Reservation reservation) {
         if (reservation.getCheckIn().equals(reservation.getCheckOut())) {

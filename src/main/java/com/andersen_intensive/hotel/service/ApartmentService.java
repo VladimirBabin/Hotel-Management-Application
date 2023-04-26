@@ -7,7 +7,6 @@ import com.andersen_intensive.hotel.repository.ApartmentRepository;
 import com.moandjiezana.toml.Toml;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -18,11 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class ApartmentService {
-    private ApartmentRepository apartmentRepository;
-    @Autowired
-    public ApartmentService(ApartmentRepository apartmentRepository) {
-        this.apartmentRepository = apartmentRepository;
-    }
+    private final ApartmentRepository apartmentRepository;
 
     public Apartment saveApartment(Apartment apartment) {
         if (apartment.getPrice().compareTo(BigDecimal.ZERO) < 0) {

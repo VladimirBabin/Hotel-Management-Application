@@ -4,7 +4,6 @@ import com.andersen_intensive.hotel.models.Client;
 import com.andersen_intensive.hotel.repository.ClientRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -14,12 +13,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class ClientService {
-    private ClientRepository clientRepository;
-
-    @Autowired
-    public ClientService(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
-    }
+    private final ClientRepository clientRepository;
 
     public Client saveClient(Client client) {
         clientRepository.save(client);
