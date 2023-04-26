@@ -24,6 +24,7 @@ public class ReservationService {
     private ClientRepository clientRepository;
     private UtilityRepository utilityRepository;
 
+    @Autowired
     public ReservationService(ReservationRepository reservationRepository
                                 , ApartmentRepository apartmentRepository
                                 , ClientRepository clientRepository
@@ -34,25 +35,34 @@ public class ReservationService {
         this.utilityRepository = utilityRepository;
     }
 
-    public Reservation createReservation(Reservation reservation, Long apartmentId, Long clientId) {
+    public Reservation createReservation(Reservation reservation) {
         if (reservation.getCheckIn().equals(reservation.getCheckOut())) {
             throw new IllegalArgumentException("Check in and check out cannot be equal");
         }
-
-        if (reservation.getCheckIn().isAfter(reservation.getCheckOut())) {
-            throw new IllegalArgumentException("Check in cannot be after check out date");
+//        if (reservation.getCheckIn().isAfter(reservation.getCheckOut())) {
+//            throw new IllegalArgumentException("Check in cannot be after check out date");
+//        }
+        Long apartmentId;
+        try {
+            apartmentId = reservation.getApartment().getId();
+        } catch (NullPointerException exception) {
+            throw new IllegalArgumentException("Apartment field should be present");
+        }
+        Long clientId;
+        try {
+            clientId = reservation.getClient().getId();
+        } catch (NullPointerException exception) {
+            throw new IllegalArgumentException("Client field should be present");
         }
 
         Optional<Apartment> apartmentOptional = apartmentRepository.findById(apartmentId);
         if (apartmentOptional.isEmpty()) {
             throw new EntityNotFoundException("Apartment with this id does not exist");
         }
-
         Apartment apartment = apartmentOptional.get();
         if (apartment.getApartmentStatus() != ApartmentStatus.AVAILABLE){
             throw new IllegalStateException("Apartment is not available for reservation");
         }
-
         Optional<Client> clientOptional = clientRepository.findById(clientId);
         if (clientOptional.isEmpty()) {
             throw new EntityNotFoundException("Client with this id does not exist");

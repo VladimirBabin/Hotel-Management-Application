@@ -17,6 +17,7 @@ import java.util.Optional;
 public class UtilityService {
     private UtilityRepository utilityRepository;
 
+    @Autowired
     public UtilityService(UtilityRepository utilityRepository) {
         this.utilityRepository = utilityRepository;
     }
