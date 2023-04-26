@@ -98,18 +98,6 @@ public class ReservationService {
         return reservation;
     }
 
-    public Reservation addUtilitiesToReservation(Reservation reservation) {
-        if (reservation.getUtilities() == null) {
-            throw new IllegalArgumentException("Utilities should be present");
-        }
-        Optional<Reservation> reservationOptional = reservationRepository.findById(reservation.getId());
-        if (reservationOptional.isEmpty()) {
-            throw new EntityNotFoundException("Reservation with this id does not exist");
-        }
-        reservationRepository.save(reservation);
-        return reservation;
-    }
-
     public BigDecimal getCurrentPrice(Long id) {
         Optional<Reservation> reservationOptional = reservationRepository.findById(id);
         if (reservationOptional.isEmpty()) {

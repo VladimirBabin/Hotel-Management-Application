@@ -1,16 +1,12 @@
 package com.andersen_intensive.hotel.controller;
 
-import com.andersen_intensive.hotel.models.Apartment;
 import com.andersen_intensive.hotel.models.Reservation;
-import com.andersen_intensive.hotel.models.Utility;
 import com.andersen_intensive.hotel.service.ApartmentService;
 import com.andersen_intensive.hotel.service.ClientService;
 import com.andersen_intensive.hotel.service.ReservationService;
 import com.andersen_intensive.hotel.service.UtilityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -34,6 +30,7 @@ public class ReservationController {
 
     @PutMapping("")
     public Reservation addUtilitiesToReservation(@RequestBody Reservation reservation) {
-        return reservationService.addUtilitiesToReservation(reservation);
+
+        return null;
     }
 }
