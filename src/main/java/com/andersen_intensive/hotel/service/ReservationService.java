@@ -24,13 +24,6 @@ public class ReservationService {
     private final UtilityRepository utilityRepository;
 
     public Reservation createReservation(Reservation reservation) {
-        if (reservation.getCheckIn().equals(reservation.getCheckOut())) {
-            throw new IllegalArgumentException("Check in and check out cannot be equal");
-        }
-//        Можно не ставить эту проверку так как при создании резервейшена мы не должны передавать checkOut.
-//        if (reservation.getCheckIn().isAfter(reservation.getCheckOut())) {
-//            throw new IllegalArgumentException("Check in cannot be after check out date");
-//        }
         Long apartmentId;
         try {
             apartmentId = reservation.getApartment().getId();
@@ -62,7 +55,6 @@ public class ReservationService {
         apartment.setReservation(reservation);
         reservation.setApartment(apartmentOptional.get());
         reservation.setClient(client);
-
         reservationRepository.save(reservation);
         return reservation;
     }
@@ -106,6 +98,18 @@ public class ReservationService {
         return reservation;
     }
 
+    public Reservation addUtilitiesToReservation(Reservation reservation) {
+        if (reservation.getUtilities() == null) {
+            throw new IllegalArgumentException("Utilities should be present");
+        }
+        Optional<Reservation> reservationOptional = reservationRepository.findById(reservation.getId());
+        if (reservationOptional.isEmpty()) {
+            throw new EntityNotFoundException("Reservation with this id does not exist");
+        }
+        reservationRepository.save(reservation);
+        return reservation;
+    }
+
     public BigDecimal getCurrentPrice(Long id) {
         Optional<Reservation> reservationOptional = reservationRepository.findById(id);
         if (reservationOptional.isEmpty()) {
@@ -125,4 +129,6 @@ public class ReservationService {
 
         return result;
     }
+
+
 }
