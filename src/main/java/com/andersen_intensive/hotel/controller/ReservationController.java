@@ -23,7 +23,7 @@ public class ReservationController {
         this.reservationService = reservationService;
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public long createReservation(@RequestBody Reservation reservation) {
         Reservation newReservation = reservationService.createReservation(reservation);
         return newReservation.getId();

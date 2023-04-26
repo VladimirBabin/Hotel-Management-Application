@@ -15,7 +15,7 @@ public class ClientController {
         this.clientService = clientService;
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public long addClient(@RequestBody Client client) {
         Client newClient = clientService.saveClient(client);
         return newClient.getId();
@@ -26,7 +26,7 @@ public class ClientController {
         return clientService.findClientById(clientId);
     }
 
-    @PutMapping("/")
+    @PutMapping("")
     public int updateClient() {
         return 1;
     }

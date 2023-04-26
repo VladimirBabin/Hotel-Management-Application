@@ -6,6 +6,7 @@ import com.andersen_intensive.hotel.models.ApartmentStatus;
 import com.andersen_intensive.hotel.repository.ApartmentRepository;
 import com.moandjiezana.toml.Toml;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -75,5 +76,11 @@ public class ApartmentService {
         List<Apartment> sortedApartments = apartmentRepository.findAll();
         sortedApartments.sort(Comparator.comparing(Apartment::getApartmentStatus));
         return sortedApartments;
+    }
+
+//    We might want to check if apartment exists to return another message
+    @Transactional
+    public void deleteById(long apartmentId) {
+        apartmentRepository.deleteById(apartmentId);
     }
 }

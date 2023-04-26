@@ -27,6 +27,7 @@ public class ReservationService {
         if (reservation.getCheckIn().equals(reservation.getCheckOut())) {
             throw new IllegalArgumentException("Check in and check out cannot be equal");
         }
+//        Можно не ставить эту проверку так как при создании резервейшена мы не должны передавать checkOut.
 //        if (reservation.getCheckIn().isAfter(reservation.getCheckOut())) {
 //            throw new IllegalArgumentException("Check in cannot be after check out date");
 //        }

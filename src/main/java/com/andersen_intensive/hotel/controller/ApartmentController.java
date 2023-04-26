@@ -15,7 +15,7 @@ public class ApartmentController {
         this.apartmentService = apartmentService;
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public long addApartment(@RequestBody Apartment apartment) {
         Apartment newApartment = apartmentService.saveApartment(apartment);
         return newApartment.getId();
@@ -26,7 +26,7 @@ public class ApartmentController {
         return apartmentService.findById(apartmentId);
     }
 
-    @PutMapping("/")
+    @PutMapping("")
     public int updateApartment() {
         return 1;
     }
@@ -39,5 +39,11 @@ public class ApartmentController {
     @GetMapping("/all")
     public List<Apartment> getApartmentsWithoutSorting() {
         return null;
+    }
+
+    @DeleteMapping("/{apartmentId}")
+    public String deleteApartment(@PathVariable long apartmentId){
+        apartmentService.deleteById(apartmentId);
+        return "Apartment with id " + apartmentId + " was deleted";
     }
 }
