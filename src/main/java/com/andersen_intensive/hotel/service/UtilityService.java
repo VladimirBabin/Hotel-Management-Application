@@ -4,7 +4,6 @@ import com.andersen_intensive.hotel.repository.UtilityRepository;
 import com.andersen_intensive.hotel.models.Utility;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -15,12 +14,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class UtilityService {
-    private UtilityRepository utilityRepository;
-
-    @Autowired
-    public UtilityService(UtilityRepository utilityRepository) {
-        this.utilityRepository = utilityRepository;
-    }
+    private final UtilityRepository utilityRepository;
 
     public Utility saveUtility(Utility utility) {
         Utility utilityFromMemory = utilityRepository.findByName(utility.getName());

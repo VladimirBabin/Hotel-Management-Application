@@ -2,23 +2,21 @@ package com.andersen_intensive.hotel.controller;
 
 import com.andersen_intensive.hotel.models.Client;
 import com.andersen_intensive.hotel.service.ClientService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/client")
 public class ClientController {
     private final ClientService clientService;
 
-    public ClientController(ClientService clientService) {
-        this.clientService = clientService;
-    }
-
-    @PostMapping("/")
+    @PostMapping("")
     public long addClient(@RequestBody Client client) {
-        Client newClient = clientService.saveClient(client);
-        return newClient.getId();
+        clientService.saveClient(client);
+        return client.getId();
     }
 
     @GetMapping("/{clientId}")
@@ -26,7 +24,7 @@ public class ClientController {
         return clientService.findClientById(clientId);
     }
 
-    @PutMapping("/")
+    @PutMapping("")
     public int updateClient() {
         return 1;
     }

@@ -2,23 +2,21 @@ package com.andersen_intensive.hotel.controller;
 
 import com.andersen_intensive.hotel.models.Apartment;
 import com.andersen_intensive.hotel.service.ApartmentService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/apartment")
 public class ApartmentController {
     private final ApartmentService apartmentService;
 
-    public ApartmentController(ApartmentService apartmentService) {
-        this.apartmentService = apartmentService;
-    }
-
-    @PostMapping("/")
+    @PostMapping("")
     public long addApartment(@RequestBody Apartment apartment) {
-        Apartment newApartment = apartmentService.saveApartment(apartment);
-        return newApartment.getId();
+        apartmentService.saveApartment(apartment);
+        return apartment.getId();
     }
 
     @GetMapping("/{apartmentId}")
@@ -26,7 +24,7 @@ public class ApartmentController {
         return apartmentService.findById(apartmentId);
     }
 
-    @PutMapping("/")
+    @PutMapping("")
     public int updateApartment() {
         return 1;
     }
@@ -39,5 +37,11 @@ public class ApartmentController {
     @GetMapping("/all")
     public List<Apartment> getApartmentsWithoutSorting() {
         return null;
+    }
+
+    @DeleteMapping("/{apartmentId}")
+    public String deleteApartment(@PathVariable long apartmentId){
+        apartmentService.deleteById(apartmentId);
+        return "Apartment with id " + apartmentId + " was deleted";
     }
 }

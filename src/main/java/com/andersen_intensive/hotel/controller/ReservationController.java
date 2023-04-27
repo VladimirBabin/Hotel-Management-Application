@@ -1,13 +1,17 @@
 package com.andersen_intensive.hotel.controller;
 
-import com.andersen_intensive.hotel.models.Apartment;
+import com.andersen_intensive.hotel.dto.ReservationDto;
 import com.andersen_intensive.hotel.models.Reservation;
 import com.andersen_intensive.hotel.service.ApartmentService;
 import com.andersen_intensive.hotel.service.ClientService;
 import com.andersen_intensive.hotel.service.ReservationService;
 import com.andersen_intensive.hotel.service.UtilityService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/reservation")
 public class ReservationController {
@@ -16,17 +20,10 @@ public class ReservationController {
     private final UtilityService utilityService;
     private final ReservationService reservationService;
 
-    public ReservationController(ApartmentService apartmentService, ClientService clientService, UtilityService utilityService, ReservationService reservationService) {
-        this.apartmentService = apartmentService;
-        this.clientService = clientService;
-        this.utilityService = utilityService;
-        this.reservationService = reservationService;
-    }
-
-    @PostMapping("/")
-    public long createReservation(@RequestBody Reservation reservation) {
-        Reservation newReservation = reservationService.createReservation(reservation);
-        return newReservation.getId();
+    @PostMapping("")
+    public long createReservation(@RequestBody ReservationDto reservationDto) {
+        Reservation reservation = reservationService.createReservation(reservationDto);
+        return reservation.getId();
     }
 
     @GetMapping("/{reservationId}")
@@ -34,4 +31,13 @@ public class ReservationController {
         return reservationService.getReservationByID(reservationId);
     }
 
+    @GetMapping("/all")
+    public List<Reservation> getAllReservations() {
+        return reservationService.getAllReservations();
+    }
+
+    @PostMapping("/utility")
+    public Reservation addUtilitiesToReservation(@RequestBody ReservationDto reservationDto) {
+        return reservationService.addUtilityForReservation(reservationDto);
+    }
 }
