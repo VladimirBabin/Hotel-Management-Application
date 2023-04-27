@@ -1,5 +1,6 @@
 package com.andersen_intensive.hotel.controller;
 
+import com.andersen_intensive.hotel.dto.ReservationDto;
 import com.andersen_intensive.hotel.models.Reservation;
 import com.andersen_intensive.hotel.service.ApartmentService;
 import com.andersen_intensive.hotel.service.ClientService;
@@ -7,6 +8,8 @@ import com.andersen_intensive.hotel.service.ReservationService;
 import com.andersen_intensive.hotel.service.UtilityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -18,8 +21,8 @@ public class ReservationController {
     private final ReservationService reservationService;
 
     @PostMapping("")
-    public long createReservation(@RequestBody Reservation reservation) {
-        reservationService.createReservation(reservation);
+    public long createReservation(@RequestBody ReservationDto reservationDto) {
+        Reservation reservation = reservationService.createReservation(reservationDto);
         return reservation.getId();
     }
 
@@ -28,9 +31,13 @@ public class ReservationController {
         return reservationService.getReservationByID(reservationId);
     }
 
-    @PutMapping("")
-    public Reservation addUtilitiesToReservation(@RequestBody Reservation reservation) {
+    @GetMapping("/all")
+    public List<Reservation> getAllReservations() {
+        return reservationService.getAllReservations();
+    }
 
-        return null;
+    @PostMapping("/utility")
+    public Reservation addUtilitiesToReservation(@RequestBody ReservationDto reservationDto) {
+        return reservationService.addUtilityForReservation(reservationDto);
     }
 }

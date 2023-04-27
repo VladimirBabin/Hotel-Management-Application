@@ -1,5 +1,6 @@
 package com.andersen_intensive.hotel.service;
 
+import com.andersen_intensive.hotel.dto.ReservationDto;
 import com.andersen_intensive.hotel.models.*;
 import com.andersen_intensive.hotel.repository.ApartmentRepository;
 import com.andersen_intensive.hotel.repository.ClientRepository;
@@ -36,45 +37,31 @@ class ReservationServiceTest {
     @Test
     public void testCreateReservation() {
         Reservation reservation = new Reservation(
-                LocalDate.of(2023, 4, 25),
-                LocalDate.of(2023, 4, 26)
+                LocalDate.of(2023, 4, 25)
         );
         Apartment apartment = new Apartment();
         apartment.setApartmentStatus(ApartmentStatus.AVAILABLE);
         Client client = new Client();
+
+        ReservationDto reservationDto = new ReservationDto(1L, 1L, 1L,
+                LocalDate.of(2023, 4, 25), null, 0);
+
         when(apartmentRepository.findById(1L)).thenReturn(Optional.of(apartment));
         when(clientRepository.findById(1L)).thenReturn(Optional.of(client));
-//        assertEquals(reservation, reservationService.createReservation(reservation, 1L, 1L));
+        assertEquals(reservation.getId(), reservationService.createReservation(reservationDto).getId());
     }
 
-    @Test
-    public void testCreateReservationWhenCheckInIsAfterCheckOut() {
-        Reservation reservation = new Reservation(
-                LocalDate.of(2023, 4, 25),
-                LocalDate.of(2023, 4, 24)
-        );
-//        assertThrows(IllegalArgumentException.class,
-//                () -> reservationService.createReservation(reservation, 1L, 1L));
-    }
-
-    @Test
-    public void testCreateReservationWhenCheckInEqualsCheckOut() {
-        Reservation reservation = new Reservation(LocalDate.now(), LocalDate.now());
-//        assertThrows(IllegalArgumentException.class,
-//                () -> reservationService.createReservation(reservation, 1L, 1L));
-    }
 
     @Test
     public void testCreateReservationWhenApartmentIsNotAvailable() {
-        Reservation reservation = new Reservation(
-                LocalDate.of(2023, 4, 25),
-                LocalDate.of(2023, 4, 26)
-        );
         Apartment apartment = new Apartment();
         apartment.setApartmentStatus(ApartmentStatus.UNAVAILABLE);
+        ReservationDto reservationDto = new ReservationDto(1L, 1L, 1L,
+                LocalDate.of(2023, 4, 25), null, 0L);
+
         when(apartmentRepository.findById(1L)).thenReturn(Optional.of(apartment));
-//        assertThrows(IllegalStateException.class,
-//                () -> reservationService.createReservation(reservation, 1L, 1L));
+        assertThrows(IllegalStateException.class,
+                () -> reservationService.createReservation(reservationDto));
     }
 
     @Test
@@ -108,7 +95,7 @@ class ReservationServiceTest {
     }
 
     @Test
-    public void testCreateUtilityForReservation() {
+    public void testAddUtilityForReservation() {
         Reservation reservation = new Reservation();
         reservation.setId(1L);
         Utility utility = new Utility();
@@ -116,29 +103,36 @@ class ReservationServiceTest {
         when(reservationRepository.findById(1L)).thenReturn(Optional.of(reservation));
         when(utilityRepository.findById(2L)).thenReturn(Optional.of(utility));
 
-        Reservation result = reservationService.createUtilityForReservation(1L, 2L);
+        ReservationDto reservationDto = new ReservationDto(1L, 1L, 1L,
+                LocalDate.of(2023, 4, 25), null, 2L);
+
+        Reservation result = reservationService.addUtilityForReservation(reservationDto);
         assertEquals(reservation, result);
         assertTrue(reservation.getUtilities().contains(utility));
-        assertTrue(utility.getReservations().contains(reservation));
     }
 
     @Test
-    public void testCreateUtilityForReservationReservationNotFound() {
+    public void testAddUtilityForReservationReservationNotFound() {
         when(reservationRepository.findById(1L)).thenReturn(Optional.empty());
+        ReservationDto reservationDto = new ReservationDto(1L, 1L, 1L,
+                LocalDate.of(2023, 4, 25), null, 0L);
 
         assertThrows(EntityNotFoundException.class,
-                () -> reservationService.createUtilityForReservation(1L, 2L));
+                () -> reservationService.addUtilityForReservation(reservationDto));
     }
 
     @Test
-    public void testCreateUtilityForReservationUtilityNotFound() {
+    public void testAddUtilityForReservationUtilityNotFound() {
         Reservation reservation = new Reservation();
         reservation.setId(1L);
         when(reservationRepository.findById(1L)).thenReturn(Optional.of(reservation));
         when(utilityRepository.findById(2L)).thenReturn(Optional.empty());
 
+        ReservationDto reservationDto = new ReservationDto(1L, 1L, 1L,
+                LocalDate.of(2023, 4, 25), null, 2L);
+
         assertThrows(EntityNotFoundException.class,
-                () -> reservationService.createUtilityForReservation(1L, 2L));
+                () -> reservationService.addUtilityForReservation(reservationDto));
     }
 
     @Test
