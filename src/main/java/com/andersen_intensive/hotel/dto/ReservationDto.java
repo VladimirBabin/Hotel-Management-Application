@@ -6,6 +6,5 @@ public record ReservationDto(long id,
                              long clientId,
                              long apartmentId,
                              LocalDate checkIn,
-                             LocalDate checkOut,
                              long utilityId) {
 }

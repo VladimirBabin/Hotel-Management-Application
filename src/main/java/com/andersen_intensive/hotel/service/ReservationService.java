@@ -100,25 +100,30 @@ public class ReservationService {
     }
 
 
-    public BigDecimal getCurrentPrice(Long id) {
-        Optional<Reservation> reservationOptional = reservationRepository.findById(id);
+    public BigDecimal getCurrentPrice(long reservationId) {
+        Optional<Reservation> reservationOptional = reservationRepository.findById(reservationId);
         if (reservationOptional.isEmpty()) {
             throw new EntityNotFoundException("Reservation with this id does not exist");
         }
-        BigDecimal result;
         Reservation reservation = reservationOptional.get();
+        reservation.setCheckOut(LocalDate.now());
+
+        BigDecimal result;
         BigDecimal apartmentPrice = reservation.getApartment().getPrice();
         List<Utility> utilities = reservation.getUtilities();
 
-        BigDecimal daysBetween = new BigDecimal(ChronoUnit.DAYS.between(reservation.getCheckIn(), reservation.getCheckOut()));
+        BigDecimal daysBetween = new BigDecimal(ChronoUnit.DAYS.between(reservation.getCheckIn(),
+                                                reservation.getCheckOut()));
         result = apartmentPrice.multiply(daysBetween);
 
         for (Utility utility: utilities) {
             result = result.add(utility.getPrice());
         }
 
+        Apartment apartment = reservation.getApartment();
+        apartment.setApartmentStatus(ApartmentStatus.AVAILABLE);
+        apartmentRepository.save(apartment);
+        reservationRepository.save(reservation);
         return result;
     }
-
-
 }

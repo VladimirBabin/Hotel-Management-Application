@@ -9,6 +9,7 @@ import com.andersen_intensive.hotel.service.UtilityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -39,5 +40,10 @@ public class ReservationController {
     @PostMapping("/utility")
     public Reservation addUtilitiesToReservation(@RequestBody ReservationDto reservationDto) {
         return reservationService.addUtilityForReservation(reservationDto);
+    }
+
+    @GetMapping("/check-out/{reservationId}")
+    public BigDecimal checkOutAndGetCurrentPrice(@PathVariable long reservationId) {
+        return reservationService.getCurrentPrice(reservationId);
     }
 }

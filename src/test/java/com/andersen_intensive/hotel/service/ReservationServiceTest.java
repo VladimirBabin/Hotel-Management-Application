@@ -44,7 +44,7 @@ class ReservationServiceTest {
         Client client = new Client();
 
         ReservationDto reservationDto = new ReservationDto(1L, 1L, 1L,
-                LocalDate.of(2023, 4, 25), null, 0);
+                LocalDate.of(2023, 4, 25),  0L);
 
         when(apartmentRepository.findById(1L)).thenReturn(Optional.of(apartment));
         when(clientRepository.findById(1L)).thenReturn(Optional.of(client));
@@ -57,7 +57,7 @@ class ReservationServiceTest {
         Apartment apartment = new Apartment();
         apartment.setApartmentStatus(ApartmentStatus.UNAVAILABLE);
         ReservationDto reservationDto = new ReservationDto(1L, 1L, 1L,
-                LocalDate.of(2023, 4, 25), null, 0L);
+                LocalDate.of(2023, 4, 25),  0L);
 
         when(apartmentRepository.findById(1L)).thenReturn(Optional.of(apartment));
         assertThrows(IllegalStateException.class,
@@ -104,7 +104,7 @@ class ReservationServiceTest {
         when(utilityRepository.findById(2L)).thenReturn(Optional.of(utility));
 
         ReservationDto reservationDto = new ReservationDto(1L, 1L, 1L,
-                LocalDate.of(2023, 4, 25), null, 2L);
+                LocalDate.of(2023, 4, 25),  2L);
 
         Reservation result = reservationService.addUtilityForReservation(reservationDto);
         assertEquals(reservation, result);
@@ -115,7 +115,7 @@ class ReservationServiceTest {
     public void testAddUtilityForReservationReservationNotFound() {
         when(reservationRepository.findById(1L)).thenReturn(Optional.empty());
         ReservationDto reservationDto = new ReservationDto(1L, 1L, 1L,
-                LocalDate.of(2023, 4, 25), null, 0L);
+                LocalDate.of(2023, 4, 25),  0L);
 
         assertThrows(EntityNotFoundException.class,
                 () -> reservationService.addUtilityForReservation(reservationDto));
@@ -129,14 +129,14 @@ class ReservationServiceTest {
         when(utilityRepository.findById(2L)).thenReturn(Optional.empty());
 
         ReservationDto reservationDto = new ReservationDto(1L, 1L, 1L,
-                LocalDate.of(2023, 4, 25), null, 2L);
+                LocalDate.of(2023, 4, 25),  2L);
 
         assertThrows(EntityNotFoundException.class,
                 () -> reservationService.addUtilityForReservation(reservationDto));
     }
 
     @Test
-    public void testGetCurrentPrice() {
+    public void testCheckOutAndGetCurrentPrice() {
         Reservation reservation = new Reservation();
         reservation.setId(1L);
 
@@ -153,8 +153,8 @@ class ReservationServiceTest {
         utility2.setPrice(utilityPrice2);
 
         reservation.setApartment(apartment);
-        reservation.setCheckIn(LocalDate.now());
-        reservation.setCheckOut(LocalDate.now().plusDays(2));
+        reservation.setCheckIn(LocalDate.now().minusDays(2));
+        reservation.setCheckOut(LocalDate.now());
         reservation.setUtilities(Arrays.asList(utility1, utility2));
 
         when(reservationRepository.findById(1L)).thenReturn(Optional.of(reservation));
